@@ -1,0 +1,5 @@
+Correção aplicada:
+- Pedagogia exige senha PEDAGOGIA2026.
+- Supervisão exige senha PEDAGOGIA2026.
+- Removido desbloqueio automático por localStorage para acesso às áreas.
+- Progresso das aulas foi mantido.
