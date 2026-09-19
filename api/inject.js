@@ -15,31 +15,26 @@ module.exports = async function handler(req, res) {
     }
 
     let html = await response.text();
-    const { css: chemistryCss, card: chemistryCard, area: chemistryArea } = JSON.parse(gunzipSync(Buffer.from(PAYLOAD, 'base64')).toString('utf8'));
+    const { css: chemistryCss, card: chemistryCard, area: chemistryArea } =
+      JSON.parse(gunzipSync(Buffer.from(PAYLOAD, 'base64')).toString('utf8'));
 
     if (!html.includes('#area-quimica .chem-coverage')) {
-      html = html.replace('</style>', '
-' + chemistryCss + '
-</style>');
+      html = html.replace('</style>', '\n' + chemistryCss + '\n</style>');
     }
 
     if (!html.includes("openGate('quimica')")) {
-      const clinCardStart = html.indexOf('<article class="card" onclick="openGate('clinico')">');
+      const clinCardStart = html.indexOf("<article class=\"card\" onclick=\"openGate('clinico')\">");
       if (clinCardStart < 0) throw new Error('Card Clínico Geral não encontrado');
       const clinCardEnd = html.indexOf('</article>', clinCardStart);
       if (clinCardEnd < 0) throw new Error('Fim do card Clínico Geral não encontrado');
       const insertAt = clinCardEnd + '</article>'.length;
-      html = html.slice(0, insertAt) + '
-
-' + chemistryCard + html.slice(insertAt);
+      html = html.slice(0, insertAt) + '\n\n' + chemistryCard + html.slice(insertAt);
     }
 
     if (!html.includes('id="area-quimica"')) {
       const footerAt = html.indexOf('<footer class="footer">');
       if (footerAt < 0) throw new Error('Rodapé não encontrado para inserir Química');
-      html = html.slice(0, footerAt) + '
-' + chemistryArea + '
-' + html.slice(footerAt);
+      html = html.slice(0, footerAt) + '\n' + chemistryArea + '\n' + html.slice(footerAt);
     }
 
     if (!html.includes('quimica: { title: "Seduc PA • Professor de Química"')) {
@@ -47,8 +42,7 @@ module.exports = async function handler(req, res) {
       if (cfgStart < 0) throw new Error('Configuração das áreas não encontrada');
       const cfgEnd = html.indexOf('};', cfgStart);
       if (cfgEnd < 0) throw new Error('Fim da configuração das áreas não encontrado');
-      const entry = '  quimica: { title: "Seduc PA • Professor de Química", password: "QUIMICA2026", sectionId: "area-quimica", storageKey: "jr_especifica_quimica" },
-';
+      const entry = '  quimica: { title: "Seduc PA • Professor de Química", password: "QUIMICA2026", sectionId: "area-quimica", storageKey: "jr_especifica_quimica" },\n';
       html = html.slice(0, cfgEnd) + entry + html.slice(cfgEnd);
     }
 
