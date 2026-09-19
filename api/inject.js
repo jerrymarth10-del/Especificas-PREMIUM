@@ -18,6 +18,14 @@ module.exports = async function handler(req, res) {
     const { css: chemistryCss, card: chemistryCard, area: chemistryArea } =
       JSON.parse(gunzipSync(Buffer.from(PAYLOAD, 'base64')).toString('utf8'));
 
+    const cardAssetResponse = await fetch('https://' + productionHost + '/quimica-card.b64', {
+      headers: { 'user-agent': 'JR-Apostilas-Quimica-Card/1.0' }
+    });
+    const chemistryCardImage = cardAssetResponse.ok ? (await cardAssetResponse.text()).trim() : '';
+    const chemistryCardFinal = chemistryCardImage
+      ? '<article class="card chem-poster-card" onclick="openGate(\'quimica\')" aria-label="Acessar SEDUC PA Professor de Química" style="aspect-ratio:2/3;min-height:355px;background:#05070b"><img src="data:image/jpeg;base64,' + chemistryCardImage + '" alt="SEDUC PA Professor de Química" style="object-fit:cover;object-position:center center"></article>'
+      : chemistryCard;
+
     if (!html.includes('#area-quimica .chem-coverage')) {
       html = html.replace('</style>', '\n' + chemistryCss + '\n</style>');
     }
@@ -28,7 +36,7 @@ module.exports = async function handler(req, res) {
       const clinCardEnd = html.indexOf('</article>', clinCardStart);
       if (clinCardEnd < 0) throw new Error('Fim do card Clínico Geral não encontrado');
       const insertAt = clinCardEnd + '</article>'.length;
-      html = html.slice(0, insertAt) + '\n\n' + chemistryCard + html.slice(insertAt);
+      html = html.slice(0, insertAt) + '\n\n' + chemistryCardFinal + html.slice(insertAt);
     }
 
     if (!html.includes('id="area-quimica"')) {
