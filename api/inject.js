@@ -31,7 +31,7 @@ module.exports = async function handler(req, res) {
     const chemistryCardFinal = chemistryCardImage
       ? chemistryCard.replace(
           /<img src="[^"]*" alt="Seduc PA Professor de Química">/,
-          '<img src="data:image/jpeg;base64,' + chemistryCardImage + '" alt="Seduc PA Professor de Química">'
+          '<img src="data:image/jpeg;base64,' + chemistryCardImage + '" alt="Seduc PA Professor de Química" width="320" height="480" decoding="async" loading="lazy">'
         )
       : chemistryCard;
 
@@ -163,7 +163,7 @@ module.exports = async function handler(req, res) {
 
     res.statusCode = 200;
     res.setHeader('content-type', 'text/html; charset=utf-8');
-    res.setHeader('cache-control', 'public, s-maxage=60, stale-while-revalidate=300');
+    res.setHeader('cache-control', 'public, s-maxage=300, stale-while-revalidate=3600');
     res.end(html);
   } catch (error) {
     res.statusCode = 500;
