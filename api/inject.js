@@ -146,6 +146,11 @@ module.exports = async function handler(req, res) {
       html = html.slice(0, cfgEnd) + entry + html.slice(cfgEnd);
     }
 
+    if (!html.includes('id="jr-install-close-v1"')) {
+      const closeInstallScript = '<script id="jr-install-close-v1">(function(){function a(){var e=[].slice.call(document.querySelectorAll("body *")).find(function(n){var t=(n.innerText||"").trim();if(!/instalar/i.test(t)||t.length>100)return false;var s=getComputedStyle(n);return s.position==="fixed"||s.position==="sticky"});if(!e)return;if(e.querySelector(".jr-install-x"))return;var b=document.createElement("button");b.type="button";b.className="jr-install-x";b.textContent="×";b.setAttribute("aria-label","Fechar");b.style.cssText="position:absolute;top:5px;right:6px;width:26px;height:26px;border:0;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:20px;line-height:24px;z-index:99999";b.onclick=function(o){o.preventDefault();o.stopPropagation();e.style.display="none"};e.appendChild(b)}setTimeout(a,700);setTimeout(a,1800);new MutationObserver(a).observe(document.body,{childList:true,subtree:true})})();<\/script>';
+      html = html.replace('</body>', closeInstallScript + '</body>');
+    }
+
     if (!html.includes('id="jr-direct-area"')) {
       html = html.replace('</body>', '<script id="jr-direct-area">window.addEventListener("load",function(){try{var a=new URLSearchParams(window.location.search).get("area");if(a==="quimica"&&typeof openGate==="function"){setTimeout(function(){openGate("quimica");},250);}}catch(e){}});<\/script></body>');
     }
