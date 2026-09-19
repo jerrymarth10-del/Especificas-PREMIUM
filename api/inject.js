@@ -23,7 +23,10 @@ module.exports = async function handler(req, res) {
     });
     const chemistryCardImage = cardAssetResponse.ok ? (await cardAssetResponse.text()).trim() : '';
     const chemistryCardFinal = chemistryCardImage
-      ? '<article class="card chem-poster-card" onclick="openGate(\'quimica\')" aria-label="Acessar SEDUC PA Professor de Química" style="aspect-ratio:2/3;min-height:355px;background:#05070b"><img src="data:image/jpeg;base64,' + chemistryCardImage + '" alt="SEDUC PA Professor de Química" style="object-fit:cover;object-position:center center"></article>'
+      ? chemistryCard.replace(
+          /<img src="[^"]*" alt="Seduc PA Professor de Química">/,
+          '<img src="data:image/jpeg;base64,' + chemistryCardImage + '" alt="Seduc PA Professor de Química">'
+        )
       : chemistryCard;
 
     // Mantém o bloco de Química no mesmo padrão visual/estrutural dos demais:
