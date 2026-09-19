@@ -18,8 +18,8 @@ module.exports = async function handler(req, res) {
     const { css: chemistryCss, card: chemistryCard, area: chemistryArea } =
       JSON.parse(gunzipSync(Buffer.from(PAYLOAD, 'base64')).toString('utf8'));
 
-    const cardAssetResponse = await fetch('https://' + productionHost + '/quimica-card.b64', {
-      headers: { 'user-agent': 'JR-Apostilas-Quimica-Card/1.0' }
+    const cardAssetResponse = await fetch('https://raw.githubusercontent.com/jerrymarth10-del/Especificas-PREMIUM/main/quimica-card.b64?card=v3', {
+      headers: { 'user-agent': 'JR-Apostilas-Quimica-Card/3.0' }
     });
     const chemistryCardImage = cardAssetResponse.ok ? (await cardAssetResponse.text()).trim() : '';
     const chemistryCardFinal = chemistryCardImage
