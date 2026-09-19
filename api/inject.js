@@ -54,6 +54,10 @@ module.exports = async function handler(req, res) {
       html = html.slice(0, cfgEnd) + entry + html.slice(cfgEnd);
     }
 
+    if (!html.includes('id="jr-direct-area"')) {
+      html = html.replace('</body>', '<script id="jr-direct-area">window.addEventListener("load",function(){try{var a=new URLSearchParams(window.location.search).get("area");if(a==="quimica"&&typeof openGate==="function"){setTimeout(function(){openGate("quimica");},250);}}catch(e){}});<\/script></body>');
+    }
+
     res.statusCode = 200;
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.setHeader('cache-control', 'public, s-maxage=60, stale-while-revalidate=300');
