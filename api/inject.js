@@ -26,8 +26,97 @@ module.exports = async function handler(req, res) {
       ? '<article class="card chem-poster-card" onclick="openGate(\'quimica\')" aria-label="Acessar SEDUC PA Professor de Química" style="aspect-ratio:2/3;min-height:355px;background:#05070b"><img src="data:image/jpeg;base64,' + chemistryCardImage + '" alt="SEDUC PA Professor de Química" style="object-fit:cover;object-position:center center"></article>'
       : chemistryCard;
 
+    // Mantém o bloco de Química no mesmo padrão visual/estrutural dos demais:
+    // player + aulas na primeira linha; PDFs/provas + questões online na linha seguinte.
+    const chemistryPdfItems = [
+      ['PDF','Edital oficial SEDUC PA 2026','FGV • edital usado como referência para a trilha','https://conhecimento.fgv.br/sites/default/files/concursos/edital-no-001-de-28.08.2026-doe-no-36.749-de-31.08.2026-abertura-seduc.pdf'],
+      ['PROVA','FGV 2026 • Professor de Química • SEDUC-SP','Prova oficial recente da banca','https://conhecimento.fgv.br/sites/default/files/concursos/professor-de-ensino-fundamental-e-ensino-medio-quimica-cns205-tipo-1.pdf'],
+      ['GAB','Gabarito definitivo • SEDUC-SP 2026','Gabarito oficial da prova','https://conhecimento.fgv.br/sites/default/files/concursos/gabarito-defintivo-seduc-sp-educacao-basica.pdf'],
+      ['PROVA','FGV • Professor de Química • SEEC-RN','Caderno oficial com questões objetivas e discursivas','https://conhecimento.fgv.br/sites/default/files/concursos/professor-de-quimicacns116-tipo-1.pdf'],
+      ['GAB','Gabarito definitivo • SEEC-RN','Gabarito oficial para correção','https://conhecimento.fgv.br/sites/default/files/concursos/gabarito_definitivo_seadrn_v3.pdf'],
+      ['PROVA','FGV • Professor de Química • SEE-PE','Prova anterior da banca','https://conhecimento.fgv.br/sites/default/files/concursos/seepe/201602_%28Magisterio%29_Professor_de_Quimica_%28ED02-NS003%29_Tipo_1.pdf'],
+      ['PROVA','2025 • SEEC-RN • Professor de Química','PCI Concursos • prova FGV','https://www.pciconcursos.com.br/provas/download/professor-de-quimica-seec-rn-fgv-2025/professor-de-quimica.pdf'],
+      ['GAB','Gabarito • 2025 • SEEC-RN','PCI Concursos','https://www.pciconcursos.com.br/provas/download/professor-de-quimica-seec-rn-fgv-2025/gabarito-oficial.pdf'],
+      ['PROVA','2023 • SME São Paulo • Professor de Química','PCI Concursos • prova FGV','https://www.pciconcursos.com.br/provas/download/professor-de-ensino-fundamental-ii-e-medio-quimica-sme-prefeitura-sao-paulo-sp-fgv-2023/professor-de-ensino-fundamental-ii-e-medio-quimica.pdf'],
+      ['GAB','Gabarito • 2023 • SME São Paulo','PCI Concursos','https://www.pciconcursos.com.br/provas/download/professor-de-ensino-fundamental-ii-e-medio-quimica-sme-prefeitura-sao-paulo-sp-fgv-2023/gabarito-oficial.pdf'],
+      ['PROVA','2023 • SEDUC-TO • Professor Regente – Química','PCI Concursos • prova FGV','https://www.pciconcursos.com.br/provas/download/professor-da-educacao-basica-professor-regente-quimica-seduc-to-fgv-2023/professor-da-educacao-basica-professor-regente-quimica.pdf'],
+      ['GAB','Gabarito • 2023 • SEDUC-TO','PCI Concursos','https://www.pciconcursos.com.br/provas/download/professor-da-educacao-basica-professor-regente-quimica-seduc-to-fgv-2023/gabaritos-preliminares.pdf'],
+      ['PROVA','2021 • Paulínia-SP • PEB II – Química','PCI Concursos • prova FGV','https://www.pciconcursos.com.br/provas/download/professor-educacao-basica-ii-quimica-prefeitura-paulinia-sp-fgv-2021/professor-educacao-basica-ii-quimica.pdf'],
+      ['GAB','Gabarito • 2021 • Paulínia-SP','PCI Concursos','https://www.pciconcursos.com.br/provas/download/professor-educacao-basica-ii-quimica-prefeitura-paulinia-sp-fgv-2021/gabarito-preliminar.pdf'],
+      ['PROVA','2016 • SME São Paulo • Professor de Química','PCI Concursos • prova FGV','https://www.pciconcursos.com.br/provas/download/professor-de-quimica-sme-prefeitura-sao-paulo-sp-fgv-2016/prof-quimica-tipo-1.pdf'],
+      ['GAB','Gabarito • 2016 • SME São Paulo','PCI Concursos','https://www.pciconcursos.com.br/provas/download/professor-de-quimica-sme-prefeitura-sao-paulo-sp-fgv-2016/gab-preliminar-todos-cargos.pdf'],
+      ['PROVA','2016 • SEE-PE • Professor de Química','PCI Concursos • prova FGV','https://www.pciconcursos.com.br/provas/download/professor-de-quimica-see-pe-fgv-2016/prof-quimica-tipo-1.pdf'],
+      ['GAB','Gabarito • 2016 • SEE-PE','PCI Concursos','https://www.pciconcursos.com.br/provas/download/professor-de-quimica-see-pe-fgv-2016/gab-preliminar-todos-cargos.pdf'],
+      ['PROVA','2014 • SEDUC-AM • Professor de Química','PCI Concursos • prova FGV','https://www.pciconcursos.com.br/provas/download/professor-de-quimica-seduc-am-fgv-2014/nivel-superior-completo-professor-20-e-40h-quimica-tipo01.pdf'],
+      ['GAB','Gabarito • 2014 • SEDUC-AM','PCI Concursos','https://www.pciconcursos.com.br/provas/download/professor-de-quimica-seduc-am-fgv-2014/gabarito-definitivo-superior-retificado.pdf'],
+      ['PROVA','2013 • SEE-SP • PEB II – Química','PCI Concursos • prova FGV','https://www.pciconcursos.com.br/provas/download/peb-ii-quimica-see-sp-fgv-2013/nsce13-000-quimica-tipo-01.pdf'],
+      ['GAB','Gabarito • 2013 • SEE-SP','PCI Concursos','https://www.pciconcursos.com.br/provas/download/peb-ii-quimica-see-sp-fgv-2013/pebsp13-gabarito-definitivo-todos.pdf']
+    ];
+
+    const chemistryOnlineItems = [
+      ['Q','WQD Questões','Filtre por Química, banca, nível, ano e assunto','https://wqd.com.br/#!/home'],
+      ['FGV','QConcursos • Química FGV comentada','Filtro de Química + FGV com comentários quando disponíveis','https://www.qconcursos.com/questoes-de-concursos/questoes?discipline_ids%5B%5D=208&examining_board_ids%5B%5D=63&has_professor_commentaries=true'],
+      ['TEC','Tec Concursos • Química','Banco de questões por assunto','https://www.tecconcursos.com.br/materias/quimica-e-engenharia-quimica'],
+      ['PCI','PCI Concursos • Provas FGV','Índice para localizar outras provas da banca','https://www.pciconcursos.com.br/provas/fgv'],
+      ['PDF','UNICAMP • Provas de Química','Página pública com provas, gabaritos e materiais','https://sites.google.com/unicamp.br/torneio-virtual-de-quimica/provas'],
+      ['▶','Playlist • Questões de Química FGV','Questões por assunto para treino rápido','https://www.youtube.com/playlist?list=PLfBm2NSi7-cjGdbLl8xA4lH_JRfe6vG2p']
+    ];
+
+    const makeResourceItem = (item) =>
+      '<a class="pdf-item" href="' + item[3] + '" target="_blank" rel="noopener">' +
+      '<span class="pdf-mark">' + item[0] + '</span>' +
+      '<span class="lesson-text"><strong>' + item[1] + '</strong><small>' + item[2] + '</small></span>' +
+      '<span class="lesson-open">Abrir</span></a>';
+
+    const chemistryPdfBox =
+      '<div class="list-box chem-pdfs-box">' +
+      '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>' + chemistryPdfItems.length + ' materiais • FGV e PCI</span></div>' +
+      '<div class="scroll-list">' + chemistryPdfItems.map(makeResourceItem).join('') + '</div></div>';
+
+    const chemistryOnlineBox =
+      '<div class="list-box chem-tools-box">' +
+      '<div class="box-head"><strong>Questões e apoio online</strong><span>WQD • FGV • bancos de questões</span></div>' +
+      '<div class="scroll-list">' + chemistryOnlineItems.map(makeResourceItem).join('') + '</div></div>';
+
+    let chemistryAreaFinal = chemistryArea;
+
+    if (chemistryCardImage) {
+      chemistryAreaFinal = chemistryAreaFinal.replace(
+        /<img src="[^"]*" alt="Professor de Química">/,
+        '<img src="data:image/jpeg;base64,' + chemistryCardImage + '" alt="Professor de Química">'
+      );
+    }
+
+    // Remove os elementos extras que deixavam a área diferente dos outros blocos.
+    chemistryAreaFinal = chemistryAreaFinal.replace(/<div class="chem-coverage">[\s\S]*?<\/div>/, '');
+
+    // Mantém player + aulas intactos e substitui somente a parte inferior bagunçada.
+    const supportStart = chemistryAreaFinal.indexOf('<div class="list-box chem-support-box">');
+    if (supportStart >= 0) {
+      chemistryAreaFinal =
+        chemistryAreaFinal.slice(0, supportStart) +
+        chemistryPdfBox + chemistryOnlineBox +
+        '</div></section>';
+    }
+
+    const chemistryCssFinal = chemistryCss + `
+#area-quimica .area-head img{width:84px!important;height:84px!important;max-width:84px!important;aspect-ratio:1/1!important;object-fit:cover!important;border-radius:22px!important}
+#area-quimica .chem-coverage,#area-quimica .chem-next-box{display:none!important}
+#area-quimica .chem-lessons-box,#area-quimica .chem-pdfs-box,#area-quimica .chem-tools-box{align-self:start;max-height:620px;overflow:hidden;display:flex;flex-direction:column;min-height:0}
+#area-quimica .chem-lessons-box .scroll-list,#area-quimica .chem-pdfs-box .scroll-list,#area-quimica .chem-tools-box .scroll-list{max-height:562px!important;overflow-y:auto!important;overflow-x:hidden!important}
+#area-quimica .chem-pdfs-box{grid-column:1/2}
+#area-quimica .chem-tools-box{grid-column:2/3}
+#area-quimica .chem-pdfs-box .pdf-mark{background:rgba(239,68,68,.13);border-color:rgba(248,113,113,.22);color:#fee2e2}
+#area-quimica .chem-tools-box .pdf-mark{background:rgba(56,189,248,.13);border-color:rgba(56,189,248,.22);color:#dff7ff}
+@media(max-width:720px){
+  #area-quimica .area-head img{width:84px!important;height:84px!important;max-width:84px!important}
+  #area-quimica .chem-lessons-box,#area-quimica .chem-pdfs-box,#area-quimica .chem-tools-box{grid-column:1/-1!important;max-height:none!important}
+  #area-quimica .chem-lessons-box .scroll-list,#area-quimica .chem-pdfs-box .scroll-list,#area-quimica .chem-tools-box .scroll-list{max-height:520px!important}
+}
+`;
+
     if (!html.includes('#area-quimica .chem-coverage')) {
-      html = html.replace('</style>', '\n' + chemistryCss + '\n</style>');
+      html = html.replace('</style>', '\n' + chemistryCssFinal + '\n</style>');
     }
 
     if (!html.includes("openGate('quimica')")) {
@@ -42,7 +131,7 @@ module.exports = async function handler(req, res) {
     if (!html.includes('id="area-quimica"')) {
       const footerAt = html.indexOf('<footer class="footer">');
       if (footerAt < 0) throw new Error('Rodapé não encontrado para inserir Química');
-      html = html.slice(0, footerAt) + '\n' + chemistryArea + '\n' + html.slice(footerAt);
+      html = html.slice(0, footerAt) + '\n' + chemistryAreaFinal + '\n' + html.slice(footerAt);
     }
 
     if (!html.includes('quimica: { title: "Seduc PA • Professor de Química"')) {
