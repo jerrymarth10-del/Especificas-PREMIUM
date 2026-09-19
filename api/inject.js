@@ -20,9 +20,11 @@ module.exports = async function handler(req, res) {
 
     let chemistryCardImage = '';
     try {
-      const cardAssetResponse = await fetch('https://' + productionHost + '/quimica-card.jpg?card=v4');
+      const cardAssetResponse = await fetch('https://' + productionHost + '/quimica-card.b64?card=v5', {
+        headers: { 'user-agent': 'JR-Apostilas-Quimica-Card/5.0' }
+      });
       if (cardAssetResponse.ok) {
-        chemistryCardImage = Buffer.from(await cardAssetResponse.arrayBuffer()).toString('base64');
+        chemistryCardImage = (await cardAssetResponse.text()).trim();
       }
     } catch (e) {}
 
