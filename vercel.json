@@ -1,8 +1,11 @@
 {
-  "rewrites": [
+  "routes": [
     {
-      "source": "/",
-      "destination": "/api/inject"
+      "src": "^/$",
+      "dest": "/api/inject"
+    },
+    {
+      "handle": "filesystem"
     }
   ]
 }
