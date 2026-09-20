@@ -177,6 +177,34 @@ module.exports = async function handler(req, res) {
       }
     }
 
+
+    // JR: adiciona provas anteriores de Técnico em Enfermagem sem duplicar itens.
+    if (!html.includes('jr-tecnico-provas-v1')) {
+      const tecnicoStart = html.indexOf('id="area-tecnico"');
+      const tecnicoEnd = tecnicoStart >= 0 ? html.indexOf('<section class="area"', tecnicoStart + 40) : -1;
+      if (tecnicoStart >= 0) {
+        const end = tecnicoEnd >= 0 ? tecnicoEnd : html.indexOf('<footer class="footer">', tecnicoStart);
+        let tecnico = html.slice(tecnicoStart, end);
+        const provas =
+          '<a id="jr-tecnico-provas-v1" class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-dores-do-indaia-mg-ibgp-2021" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IBGP</strong><small>Prefeitura de Dores do Indaiá/MG • 2021 • visualizar prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-sao-joao-del-rei-mg-ibgp-2021" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IBGP</strong><small>Prefeitura de São João del-Rei/MG • 2021 • foco de treino para banca da SEMUSA</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-sao-geraldo-mg-idecan-2010" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IDECAN</strong><small>Prefeitura de São Geraldo/MG • 2010 • treino direcionado ao estilo IDECAN</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-saude-do-trabalhador-ebserh-hupaa-ufal-idecan-2014" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IDECAN</strong><small>EBSERH/HUPAA-UFAL • 2014 • prova e gabarito para visualização</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-rolim-de-moura-ro-frcv-2010" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • Rondônia</strong><small>Prefeitura de Rolim de Moura/RO • 2010 • treino complementar regional</small></span><span class="lesson-open">Visualizar</span></a>';
+        const closeList = '\n</div>\n    </div>\n  </div>\n</section>';
+        if (tecnico.includes(closeList)) {
+          tecnico = tecnico.replace(closeList, '\n' + provas + closeList);
+          tecnico = tecnico.replace('<div class="box-head"><strong>PDFs</strong><span>2 arquivo(s)</span></div>', '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>9 itens</span></div>');
+          html = html.slice(0, tecnicoStart) + tecnico + html.slice(end);
+        }
+      }
+    }
+
     if (!html.includes('id="jr-install-close-v2"')) {
       const closeInstallScript = '<script id="jr-install-close-v2">(function(){var k="jr_install_closed";function f(){var a=[].slice.call(document.querySelectorAll("body *")).find(function(e){var t=(e.innerText||"").trim();if(!/instalar/i.test(t)||t.length>120)return false;var s=getComputedStyle(e);return s.position==="fixed"||s.position==="sticky"});if(!a)return;try{if(localStorage.getItem(k)==="1"){a.style.display="none";return}}catch(e){}if(a.querySelector(".jr-install-x"))return;var x=document.createElement("button");x.type="button";x.className="jr-install-x";x.textContent="×";x.setAttribute("aria-label","Fechar");x.style.cssText="position:absolute;top:6px;right:6px;width:28px;height:28px;border:0;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:22px;line-height:26px;z-index:99999;padding:0";x.onclick=function(ev){ev.preventDefault();ev.stopPropagation();try{localStorage.setItem(k,"1")}catch(e){}a.style.display="none"};a.appendChild(x)}setTimeout(f,500);setTimeout(f,1500)})();<\/script>';
       html = html.replace('</body>', closeInstallScript + '</body>');
