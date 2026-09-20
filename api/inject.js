@@ -162,8 +162,8 @@ module.exports = async function handler(req, res) {
         let fisio = html.slice(fisioStart, end);
         const provas = '<a id="jr-fisio-provas-v1" class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/fisioterapeuta-prefeitura-porto-velho-ro-consulplan-2012" target="_blank" rel="noopener">' +
           '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Fisioterapeuta • Porto Velho/RO</strong><small>CONSULPLAN • 2012 • visualizar prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
-          '<a class="pdf-item" href="https://arq.pciconcursos.com.br/provas/25102384/2f9dd1a8c312/tecnico_de_nivel_superior_fisioterapeuta.pdf" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Fisioterapeuta • IDECAN</strong><small>Prefeitura de Leopoldina/MG • 2016 • PDF para visualização</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-de-nivel-superior-fisioterapeuta-prefeitura-leopoldina-mg-idecan-2016" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Fisioterapeuta • IDECAN</strong><small>Prefeitura de Leopoldina/MG • 2016 • visualizar prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
           '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/fisioterapeuta-prefeitura-astolfo-dutra-mg-idecan-2015" target="_blank" rel="noopener">' +
           '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Fisioterapeuta • IDECAN</strong><small>Prefeitura de Astolfo Dutra/MG • 2015 • visualizar prova e gabarito</small></span><span class="lesson-open">Visualizar</span></a>' +
           '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/fisioterapeuta-prefeitura-cacoal-ro-funcab-2013" target="_blank" rel="noopener">' +
