@@ -166,12 +166,14 @@ module.exports = async function handler(req, res) {
           '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Fisioterapeuta • IDECAN</strong><small>Prefeitura de Leopoldina/MG • 2016 • visualizar prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
           '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/fisioterapeuta-prefeitura-astolfo-dutra-mg-idecan-2015" target="_blank" rel="noopener">' +
           '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Fisioterapeuta • IDECAN</strong><small>Prefeitura de Astolfo Dutra/MG • 2015 • visualizar prova e gabarito</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/fisioterapeuta-prefeitura-andrelandia-mg-ibgp-2019" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Fisioterapeuta • IBGP</strong><small>Prefeitura de Andrelândia/MG • 2019 • visualizar prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
           '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/fisioterapeuta-prefeitura-cacoal-ro-funcab-2013" target="_blank" rel="noopener">' +
           '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Fisioterapeuta • Cacoal/RO</strong><small>FUNCAB • 2013 • prova de Rondônia para treino complementar</small></span><span class="lesson-open">Visualizar</span></a>';
         const closeList = '</a></div>\n    </div>\n  </div>\n</section>';
         if (fisio.includes(closeList)) {
           fisio = fisio.replace(closeList, '</a>' + provas + '</div>\n    </div>\n  </div>\n</section>');
-          fisio = fisio.replace('<div class="box-head"><strong>PDFs</strong><span>2 arquivo(s)</span></div>', '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>7 itens</span></div>');
+          fisio = fisio.replace('<div class="box-head"><strong>PDFs</strong><span>2 arquivo(s)</span></div>', '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>8 itens</span></div>');
           html = html.slice(0, fisioStart) + fisio + html.slice(end);
         }
       }
@@ -187,11 +189,11 @@ module.exports = async function handler(req, res) {
         let tecnico = html.slice(tecnicoStart, end);
         const provas =
           '<a id="jr-tecnico-provas-v1" class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-dores-do-indaia-mg-ibgp-2021" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IBGP</strong><small>Prefeitura de Dores do Indaiá/MG • 2021 • visualizar prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IBGP</strong><small>Prefeitura de Dores do Indaiá/MG • 2021 • IBGP • prioridade de treino SEMUSA</small></span><span class="lesson-open">Visualizar</span></a>' +
           '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-sao-joao-del-rei-mg-ibgp-2021" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IBGP</strong><small>Prefeitura de São João del-Rei/MG • 2021 • foco de treino para banca da SEMUSA</small></span><span class="lesson-open">Visualizar</span></a>' +
-          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-sao-geraldo-mg-idecan-2010" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IDECAN</strong><small>Prefeitura de São Geraldo/MG • 2010 • treino direcionado ao estilo IDECAN</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IBGP</strong><small>Prefeitura de São João del-Rei/MG • 2021 • IBGP • prioridade de treino SEMUSA</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-araponga-mg-idecan-2015" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IDECAN</strong><small>Prefeitura de Araponga/MG • 2015 • visualizar prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
           '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-saude-do-trabalhador-ebserh-hupaa-ufal-idecan-2014" target="_blank" rel="noopener">' +
           '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IDECAN</strong><small>EBSERH/HUPAA-UFAL • 2014 • prova e gabarito para visualização</small></span><span class="lesson-open">Visualizar</span></a>' +
           '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-rolim-de-moura-ro-frcv-2010" target="_blank" rel="noopener">' +
