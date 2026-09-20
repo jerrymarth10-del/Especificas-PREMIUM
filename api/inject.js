@@ -152,6 +152,31 @@ module.exports = async function handler(req, res) {
       html = html.slice(0, cfgEnd) + entry + html.slice(cfgEnd);
     }
 
+
+    // JR: adiciona provas anteriores de Fisioterapia sem duplicar itens.
+    if (!html.includes('jr-fisio-provas-v1')) {
+      const fisioStart = html.indexOf('id="area-fisioterapia"');
+      const fisioEnd = fisioStart >= 0 ? html.indexOf('<section class="area"', fisioStart + 40) : -1;
+      if (fisioStart >= 0) {
+        const end = fisioEnd >= 0 ? fisioEnd : html.indexOf('<footer class="footer">', fisioStart);
+        let fisio = html.slice(fisioStart, end);
+        const provas = '<a id="jr-fisio-provas-v1" class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/fisioterapeuta-prefeitura-porto-velho-ro-consulplan-2012" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Fisioterapeuta • Porto Velho/RO</strong><small>CONSULPLAN • 2012 • visualizar prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-de-nivel-superior-fisioterapeuta-prefeitura-leopoldina-mg-idecan-2016" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Fisioterapeuta • IDECAN</strong><small>Prefeitura de Leopoldina/MG • 2016 • visualizar prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/fisioterapeuta-prefeitura-astolfo-dutra-mg-idecan-2015" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Fisioterapeuta • IDECAN</strong><small>Prefeitura de Astolfo Dutra/MG • 2015 • visualizar prova e gabarito</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/fisioterapeuta-prefeitura-cacoal-ro-funcab-2013" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Fisioterapeuta • Cacoal/RO</strong><small>FUNCAB • 2013 • prova de Rondônia para treino complementar</small></span><span class="lesson-open">Visualizar</span></a>';
+        const closeList = '</a></div>\n    </div>\n  </div>\n</section>';
+        if (fisio.includes(closeList)) {
+          fisio = fisio.replace(closeList, '</a>' + provas + '</div>\n    </div>\n  </div>\n</section>');
+          fisio = fisio.replace('<div class="box-head"><strong>PDFs</strong><span>2 arquivo(s)</span></div>', '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>7 itens</span></div>');
+          html = html.slice(0, fisioStart) + fisio + html.slice(end);
+        }
+      }
+    }
+
     if (!html.includes('id="jr-install-close-v2"')) {
       const closeInstallScript = '<script id="jr-install-close-v2">(function(){var k="jr_install_closed";function f(){var a=[].slice.call(document.querySelectorAll("body *")).find(function(e){var t=(e.innerText||"").trim();if(!/instalar/i.test(t)||t.length>120)return false;var s=getComputedStyle(e);return s.position==="fixed"||s.position==="sticky"});if(!a)return;try{if(localStorage.getItem(k)==="1"){a.style.display="none";return}}catch(e){}if(a.querySelector(".jr-install-x"))return;var x=document.createElement("button");x.type="button";x.className="jr-install-x";x.textContent="×";x.setAttribute("aria-label","Fechar");x.style.cssText="position:absolute;top:6px;right:6px;width:28px;height:28px;border:0;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:22px;line-height:26px;z-index:99999;padding:0";x.onclick=function(ev){ev.preventDefault();ev.stopPropagation();try{localStorage.setItem(k,"1")}catch(e){}a.style.display="none"};a.appendChild(x)}setTimeout(f,500);setTimeout(f,1500)})();<\/script>';
       html = html.replace('</body>', closeInstallScript + '</body>');
