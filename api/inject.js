@@ -18,7 +18,7 @@ module.exports = async function handler(req, res) {
     let html = await response.text();
     const { css: chemistryCss, card: chemistryCard, area: chemistryArea } =
       JSON.parse(gunzipSync(Buffer.from(PAYLOAD, 'base64')).toString('utf8'));
-    const chemistryCardSrc = '/api/quimica-card?v=11';
+    const chemistryCardSrc = 'data:image/jpeg;base64,' + CHEMISTRY_CARD_BASE64;
 
     const chemistryCardFinal = chemistryCard.replace(
       /<img\b[^>]*alt="Seduc PA Professor de Química"[^>]*>/,
