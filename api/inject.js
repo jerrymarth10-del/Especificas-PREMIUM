@@ -19,10 +19,10 @@ module.exports = async function handler(req, res) {
     let html = await response.text();
     const { css: chemistryCss, card: chemistryCard, area: chemistryArea } =
       JSON.parse(gunzipSync(Buffer.from(PAYLOAD, 'base64')).toString('utf8'));
-    const chemistryCardSrc = 'data:image/jpeg;base64,' + CHEMISTRY_CARD_BASE64;
+    const chemistryCardSrc = '/api/quimica-card?v=10';base64,' + CHEMISTRY_CARD_BASE64;
 
     const chemistryCardFinal = chemistryCard.replace(
-      /<img src="[^"]*" alt="Seduc PA Professor de Química">/,
+      /<img\b[^>]*alt="Seduc PA Professor de Química"[^>]*>/,
       '<img src="' + chemistryCardSrc + '" alt="Seduc PA Professor de Química" width="320" height="480" decoding="async" loading="eager">'
     );
 
