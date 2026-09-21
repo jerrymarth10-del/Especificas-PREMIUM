@@ -288,6 +288,13 @@ module.exports = async function handler(req, res) {
       html = html.replace('</body>', '<script id="jr-direct-area">window.addEventListener("load",function(){try{var a=new URLSearchParams(window.location.search).get("area");if((a==="quimica"||a==="prf"||a==="endemias"||a==="sefin")&&typeof openGate==="function"){setTimeout(function(){openGate(a);},250);}}catch(e){}});<\/script></body>');
     }
 
+    // JR: catálogo limpo. A biblioteca específica só aparece depois que uma área é realmente liberada.
+    if (!html.includes('id="jr-catalog-cleanup-v1"')) {
+      html = html.replace('</style>', '\n#conteudo.jr-catalog-idle{display:none!important}\n</style>');
+      const cleanup = '<script id="jr-catalog-cleanup-v1">(function(){function install(){var c=document.getElementById("conteudo");if(!c)return;c.classList.add("jr-catalog-idle");c.querySelectorAll(".area.active").forEach(function(a){a.classList.remove("active")});var original=window.showArea;if(typeof original==="function"&&!original.__jrClean){var wrapped=function(id){c.classList.remove("jr-catalog-idle");return original(id)};wrapped.__jrClean=true;window.showArea=wrapped}}if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",install)}else{install()}})();<\/script>';
+      html = html.replace('</body>', cleanup + '</body>');
+    }
+
     res.statusCode = 200;
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.setHeader('cache-control', 'no-store, max-age=0, must-revalidate');
