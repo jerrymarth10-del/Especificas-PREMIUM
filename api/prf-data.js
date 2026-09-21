@@ -54,8 +54,8 @@ function buildPrf(){
     '<a class="pdf-item" href="https://area-de-menbros-da-prf.vercel.app/?fbclid=PAVERFWAQo369leHRuA2FlbQEwAGFkaWQAAAZOmT7ax3NydGMGYXBwX2lkDzEyNDAyNDU3NDI4NzQxNAABp0ECwBgul8rGz3DtXaKp-wXm0ZAggyhLb5jkftTdZFuNw7LiP1WlU59kVGGW_aem_nw1le-8hmp68gEUrZkoXVw" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Material completo PRF</strong><small>Área de PDFs e materiais de apoio</small></span><span class="lesson-open">Abrir</span></a>'+
     '<div class="prf-reference"><strong>Referência da trilha</strong><small>Conteúdo organizado pelo último edital oficial de Agente Administrativo da PRF (2014), complementado com aulas públicas de preparação 2025/2026.</small></div>'+
     '</div></div>'+
-    '<div class="list-box prf-questions-box"><div class="box-head"><strong>Questões comentadas e revisão</strong><span>Questões + Shorts</span></div><div class="scroll-list">'+questions.map(lesson).join('')+
-    '<div class="prf-section-label">Revisão rápida • Shorts</div>'+shorts.map(lesson).join('')+'</div></div></div></section>';
+    '<div class="list-box prf-questions-box"><div class="box-head"><strong>Questões comentadas e orientações</strong><span>Questões + Shorts</span></div><div class="scroll-list">'+questions.map(lesson).join('')+
+    '<div class="prf-section-label">Orientações e notícias • Shorts</div>'+'<p class="prf-note">Informações da época da publicação; consulte os canais oficiais para novidades sobre o edital.</p>'+shorts.map(lesson).join('')+'</div></div></div></section>';
 
   const css = `
 .jr-card-prf .jr-card-visual{background:radial-gradient(circle at 78% 16%,rgba(59,130,246,.26),transparent 30%),linear-gradient(145deg,#09111b,#111827 48%,#26080b)}

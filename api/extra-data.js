@@ -82,9 +82,6 @@ function buildExtra(){
     ['EDITAL','Edital oficial Vilhena/RO • 02/2026','IBGP • ACS e Agente de Combate às Endemias','https://novo.ibgpconcursos.com.br/rest/concurso/download/edital/23962/?file=site/anexos/749/00+-+EDITAL+N%EF%BF%BD+02-2026+PSP_VILHENA-RO.pdf'],
     ['PROVA','ACE • Andradas/MG • IBGP 2017','PCI Concursos • prova e gabarito da mesma banca','https://www.pciconcursos.com.br/provas/download/agente-de-combate-a-endemias-prefeitura-andradas-mg-ibgp-2017'],
     ['PROVA','ACE • Lagoa Santa/MG • IBGP 2015','PCI Concursos • prova e gabarito da mesma banca','https://www.pciconcursos.com.br/provas/download/agente-de-combate-as-endemias-prefeitura-lagoa-santa-mg-ibgp-2015'],
-    ['PROVA','Agente Comunitário de Saúde • Andradas/MG • IBGP 2017','Treino da mesma banca e área de saúde pública','https://www.pciconcursos.com.br/provas/download/agente-comunitario-de-saude-prefeitura-andradas-mg-ibgp-2017'],
-    ['PROVA','Técnico em Enfermagem • Dores do Indaiá/MG • IBGP 2021','Treino complementar da banca IBGP • área da saúde','https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-dores-do-indaia-mg-ibgp-2021'],
-    ['PROVA','Técnico em Enfermagem • São João del-Rei/MG • IBGP 2021','Treino complementar da banca IBGP • área da saúde','https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-sao-joao-del-rei-mg-ibgp-2021'],
     ['BANCA','Banco de provas IBGP','PCI Concursos • outras provas da organizadora','https://www.pciconcursos.com.br/provas/ibgp'],
     ['PROVAS','Banco completo • Agente de Endemias','PCI Concursos • provas de vários anos e bancas','https://www.pciconcursos.com.br/provas/agente-de-combate-as-endemias'],
     ['LEI','Lei Federal 11.350/2006','Base legal nacional dos ACS e ACE','https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2006/lei/l11350.htm'],
@@ -92,6 +89,10 @@ function buildExtra(){
     ['SUS','Lei Federal 8.142/1990','Participação da comunidade e transferências no SUS','https://www.planalto.gov.br/ccivil_03/leis/l8142.htm']
   ];
   const endSupport=[
+    ['TREINO','Agente Comunitário de Saúde • Andradas/MG • IBGP 2017','Complementar: outro cargo • praticar apenas temas comuns de SUS','https://www.pciconcursos.com.br/provas/download/agente-comunitario-de-saude-prefeitura-andradas-mg-ibgp-2017'],
+    ['TREINO','Técnico em Enfermagem • Dores do Indaiá/MG • IBGP 2021','Complementar: outro cargo • praticar apenas temas comuns de SUS','https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-dores-do-indaia-mg-ibgp-2021'],
+    ['TREINO','Técnico em Enfermagem • São João del-Rei/MG • IBGP 2021','Complementar: outro cargo • praticar apenas temas comuns de SUS','https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-sao-joao-del-rei-mg-ibgp-2021'],
+
     ['PLAY','Playlist completa • Agente de Combate às Endemias','Curso em sequência no YouTube','https://www.youtube.com/playlist?list=PLN3dXL6Ew5sVfOOBnlWU83V9dOpDAfZOQ'],
     ['PLAY','ACS + Agente de Endemias','Playlist complementar de saúde e legislação','https://www.youtube.com/playlist?list=PLbj48mFxzZs6_LGWn6DBPgySTJp1YwTdk'],
     ['OFICIAL','Página do processo seletivo • IBGP','Acompanhar publicações, retificações e comunicados','https://novo.ibgpconcursos.com.br/concurso.jsp?cod=749'],
