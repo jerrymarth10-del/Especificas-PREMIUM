@@ -19,7 +19,7 @@ module.exports = async function handler(req, res) {
     let html = await response.text();
     const { css: chemistryCss, card: chemistryCard, area: chemistryArea } =
       JSON.parse(gunzipSync(Buffer.from(PAYLOAD, 'base64')).toString('utf8'));
-    const chemistryCardSrc = 'data:image/jpeg;base64,' + CHEMISTRY_CARD_BASE64;
+    const chemistryCardSrc = '/quimica-card.jpg?v=20260921-3';
 
     const chemistryCardFinal = chemistryCard.replace(
       /<img\b[^>]*alt="Seduc PA Professor de Química"[^>]*>/,
@@ -245,7 +245,7 @@ module.exports = async function handler(req, res) {
     }
 
     if (!html.includes('id="jr-direct-area"')) {
-      html = html.replace('</body>', '<script id="jr-direct-area">window.addEventListener("load",function(){try{var a=new URLSearchParams(window.location.search).get("area");if(a==="quimica"&&typeof openGate==="function"){setTimeout(function(){openGate("quimica");},250);}}catch(e){}});<\/script></body>');
+      html = html.replace('</body>', '<script id="jr-direct-area">window.addEventListener("load",function(){try{var a=new URLSearchParams(window.location.search).get("area");if((a==="quimica"||a==="prf")&&typeof openGate==="function"){setTimeout(function(){openGate(a);},250);}}catch(e){}});<\/script></body>');
     }
 
     res.statusCode = 200;
