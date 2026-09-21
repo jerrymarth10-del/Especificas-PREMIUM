@@ -21,23 +21,32 @@ function buildExtra(){
   const sefinImg='/api/card-sefin?v=20260921-1';
   const endLessons=[
     ['Agente de Combate às Endemias • visão geral','Introdução ao cargo e estratégia de estudo','https://www.youtube.com/embed/QaPnT9PCf7A','https://www.youtube.com/watch?v=QaPnT9PCf7A'],
+    ['O que faz um Agente de Combate às Endemias?','Visão oficial do trabalho de campo','https://www.youtube.com/embed/_WZ1thR-GPo','https://www.youtube.com/watch?v=_WZ1thR-GPo'],
     ['O que cai na prova de Agente de Endemias','Mapa dos assuntos mais cobrados','https://www.youtube.com/embed/Lpeszi_CIVA','https://www.youtube.com/watch?v=Lpeszi_CIVA'],
     ['Lei 11.350/2006 • atribuições do ACE','Lei atualizada aplicada ao cargo','https://www.youtube.com/embed/ti-NQ3tn46g','https://www.youtube.com/watch?v=ti-NQ3tn46g'],
-    ['Simulado ACE • questões específicas','Treino de conhecimentos específicos','https://www.youtube.com/embed/MNH9MmB3rys','https://www.youtube.com/watch?v=MNH9MmB3rys'],
-    ['Agente de Endemias • simulado e revisão','Revisão final por questões','https://www.youtube.com/embed/_rrFOBdC0EA','https://www.youtube.com/watch?v=_rrFOBdC0EA'],
-    ['Conhecimentos Específicos • ACE','Aula direcionada para concurso','https://www.youtube.com/embed/jl4ZaH4PCWc','https://www.youtube.com/watch?v=jl4ZaH4PCWc']
+    ['Lei 11.350/2006 • resumo para ACS e ACE','Revisão da legislação específica','https://www.youtube.com/embed/I6JjR27o5aM','https://www.youtube.com/watch?v=I6JjR27o5aM'],
+    ['Lei 8.080/1990 • aula completa','Organização, princípios e funcionamento do SUS','https://www.youtube.com/embed/pT-Vz2sxdDc','https://www.youtube.com/watch?v=pT-Vz2sxdDc'],
+    ['Lei 8.142/1990 • questões e pontos cobrados','Controle social e financiamento do SUS','https://www.youtube.com/embed/qefeAQTJaSs','https://www.youtube.com/watch?v=qefeAQTJaSs'],
+    ['Decreto 7.508/2011 • organização do SUS','Regiões de Saúde, RENAME, RENASES e COAP','https://www.youtube.com/embed/n8kjt0nMJH8','https://www.youtube.com/watch?v=n8kjt0nMJH8'],
+    ['Aedes aegypti • aula completa','Vetor, ciclo e controle para ACE','https://www.youtube.com/embed/aiBdmiiNb-4','https://www.youtube.com/watch?v=aiBdmiiNb-4'],
+    ['Conhecimentos Específicos • ACE','Aula direcionada para concurso','https://www.youtube.com/embed/jl4ZaH4PCWc','https://www.youtube.com/watch?v=jl4ZaH4PCWc'],
+    ['Agente de Endemias • simulado e revisão','Revisão final por questões','https://www.youtube.com/embed/_rrFOBdC0EA','https://www.youtube.com/watch?v=_rrFOBdC0EA']
   ];
   const endResources=[
     ['EDITAL','Edital oficial Vilhena/RO • 02/2026','IBGP • ACS e Agente de Combate às Endemias','https://novo.ibgpconcursos.com.br/rest/concurso/download/edital/23962/?file=site/anexos/749/00+-+EDITAL+N%EF%BF%BD+02-2026+PSP_VILHENA-RO.pdf'],
-    ['PROVA','ACE • Andradas/MG • IBGP 2017','PCI Concursos • prova e gabarito para visualização','https://www.pciconcursos.com.br/provas/download/agente-de-combate-a-endemias-prefeitura-andradas-mg-ibgp-2017'],
-    ['PROVA','ACE • Lagoa Santa/MG • IBGP 2015','PCI Concursos • prova da mesma banca','https://www.pciconcursos.com.br/provas/download/agente-de-combate-as-endemias-prefeitura-lagoa-santa-mg-ibgp-2015'],
+    ['PROVA','ACE • Andradas/MG • IBGP 2017','PCI Concursos • visualizar prova e gabarito da mesma banca','https://www.pciconcursos.com.br/provas/download/agente-de-combate-a-endemias-prefeitura-andradas-mg-ibgp-2017'],
+    ['PROVA','ACE • Lagoa Santa/MG • IBGP 2015','PCI Concursos • visualizar prova e gabarito da mesma banca','https://www.pciconcursos.com.br/provas/download/agente-de-combate-as-endemias-prefeitura-lagoa-santa-mg-ibgp-2015'],
     ['BANCA','Banco de provas IBGP','PCI Concursos • outras provas da organizadora','https://www.pciconcursos.com.br/provas/ibgp'],
-    ['PROVAS','Banco de provas • Agente de Endemias','PCI Concursos • provas de vários anos e bancas','https://www.pciconcursos.com.br/provas/agente-de-combate-as-endemias']
+    ['PROVAS','Banco completo • Agente de Endemias','PCI Concursos • provas de vários anos e bancas','https://www.pciconcursos.com.br/provas/agente-de-combate-as-endemias'],
+    ['LEI','Lei Federal 11.350/2006','Base legal nacional dos ACS e ACE','https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2006/lei/l11350.htm'],
+    ['SUS','Lei Federal 8.080/1990','Lei Orgânica da Saúde','https://www.planalto.gov.br/ccivil_03/leis/l8080.htm'],
+    ['SUS','Lei Federal 8.142/1990','Participação da comunidade e transferências no SUS','https://www.planalto.gov.br/ccivil_03/leis/l8142.htm']
   ];
   const endSupport=[
     ['PLAY','Playlist completa • Agente de Combate às Endemias','Curso em sequência no YouTube','https://www.youtube.com/playlist?list=PLN3dXL6Ew5sVfOOBnlWU83V9dOpDAfZOQ'],
     ['PLAY','ACS + Agente de Endemias','Playlist complementar de saúde e legislação','https://www.youtube.com/playlist?list=PLbj48mFxzZs6_LGWn6DBPgySTJp1YwTdk'],
-    ['OFICIAL','Página do processo seletivo • IBGP','Acompanhar publicações, retificações e comunicados','https://novo.ibgpconcursos.com.br/concurso.jsp?cod=749']
+    ['OFICIAL','Página do processo seletivo • IBGP','Acompanhar publicações, retificações e comunicados','https://novo.ibgpconcursos.com.br/concurso.jsp?cod=749'],
+    ['TREINO','Questões e provas • Agente de Endemias','Banco de treino do PCI Concursos','https://www.pciconcursos.com.br/provas/agente-de-combate-as-endemias']
   ];
   const sefinLessons=[
     ['Finanças Públicas para concursos','Teoria simplificada e questões','https://www.youtube.com/embed/T6y3TOr9i_4','https://www.youtube.com/watch?v=T6y3TOr9i_4'],
@@ -52,12 +61,17 @@ function buildExtra(){
     ['FGV','Página oficial SEFIN/RO • FGV','Provas objetivas e gabaritos oficiais do concurso','https://conhecimento.fgv.br/concursos/sefin-ro'],
     ['PROVAS','Banco de provas SEFIN/RO','PCI Concursos • Auditor, Técnico e Contador','https://www.pciconcursos.com.br/provas/sefin-ro'],
     ['PROVA','Técnico Tributário • SEFIN/RO • FGV 2018','PCI Concursos • prova e gabarito definitivo','https://www.pciconcursos.com.br/provas/download/tecnico-tributario-sefin-ro-fgv-2018'],
-    ['FGV','Provas fiscais da FGV','PCI Concursos • treino complementar da banca','https://www.pciconcursos.com.br/provas/fgv-sefaz']
+    ['PROVA','Auditor Fiscal • SEFIN/RO • FJP 2006','PCI Concursos • prova e gabarito','https://www.pciconcursos.com.br/provas/download/auditor-fiscal-de-tributos-sefin-ro-fjp-2006'],
+    ['PROVA','Contador • SEFIN/SUPEL-RO • FUNCAB 2014','PCI Concursos • prova e gabaritos','https://www.pciconcursos.com.br/provas/download/contador-sefin-e-supel-ro-funcab-2014'],
+    ['FGV','Provas fiscais da FGV','PCI Concursos • treino complementar da banca','https://www.pciconcursos.com.br/provas/fgv-sefaz'],
+    ['QUESTÕES','Direito Tributário • FGV','QConcursos • banco de questões da banca','https://www.qconcursos.com/questoes-de-concursos/questoes?discipline_ids%5B%5D=18&examining_board_ids%5B%5D=63'],
+    ['QUESTÕES','Contabilidade Pública • FGV','QConcursos • banco de questões da banca','https://www.qconcursos.com/questoes-de-concursos/questoes?discipline_ids%5B%5D=36&examining_board_ids%5B%5D=63']
   ];
   const sefinSupport=[
     ['PLAY','Finanças e Orçamento Público','Playlist completa de teoria e questões','https://www.youtube.com/playlist?list=PLfKSN2uryaFd4zqRblOnPLYnnzxyucSMi'],
     ['PLAY','Questões de Contabilidade','Playlist de Contabilidade Pública e área fiscal','https://www.youtube.com/playlist?list=PL3lGQF-iYzoq9rwcnxvB4Dan14ecL8X6-'],
-    ['PLAY','Concursos Públicos • Finanças/Contabilidade','Playlist complementar','https://www.youtube.com/playlist?list=PLrQC3RUXPZvmakDGEQa5s9stptWuOvbU3']
+    ['PLAY','Concursos Públicos • Finanças/Contabilidade','Playlist complementar','https://www.youtube.com/playlist?list=PLrQC3RUXPZvmakDGEQa5s9stptWuOvbU3'],
+    ['FGV','Provas oficiais do último concurso SEFIN/RO','Página oficial com cadernos e gabaritos','https://conhecimento.fgv.br/concursos/sefin-ro']
   ];
   const end={id:'endemias',img:endImg,tag:'Vilhena/RO • IBGP',title:'Agente de Combate às Endemias',description:'Preparação organizada para o Processo Seletivo de Vilhena/RO, com legislação, conhecimentos específicos, videoaulas, provas da banca IBGP e revisão por questões.',lessons:endLessons,resources:endResources,support:endSupport};
   const sefin={id:'sefin',img:sefinImg,tag:'SEFIN/RO • Material Geral',title:'SEFIN/RO • Material Geral',description:'Base geral para preparação da SEFIN/RO, reunindo Finanças Públicas, Orçamento, Contabilidade Pública, Direito Tributário, provas oficiais e questões da FGV.',lessons:sefinLessons,resources:sefinResources,support:sefinSupport};
