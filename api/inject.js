@@ -76,14 +76,10 @@ module.exports = async function handler(req, res) {
       '<div class="box-head"><strong>Questões e apoio online</strong><span>WQD • FGV • bancos de questões</span></div>' +
       '<div class="scroll-list">' + chemistryOnlineItems.map(makeResourceItem).join('') + '</div></div>';
 
-    let chemistryAreaFinal = chemistryArea;
-
-    if (chemistryCardImage) {
-      chemistryAreaFinal = chemistryAreaFinal.replace(
-        /<img src="[^"]*" alt="Professor de Química">/,
-        '<img src="data:image/jpeg;base64,' + chemistryCardImage + '" alt="Professor de Química">'
-      );
-    }
+    let chemistryAreaFinal = chemistryArea.replace(
+      /<img src="[^"]*" alt="Professor de Química">/,
+      '<img src="/quimica-card.jpg?v=7" alt="Professor de Química">'
+    );
 
     // Remove os elementos extras que deixavam a área diferente dos outros blocos.
     chemistryAreaFinal = chemistryAreaFinal.replace(/<div class="chem-coverage">[\s\S]*?<\/div>/, '');
