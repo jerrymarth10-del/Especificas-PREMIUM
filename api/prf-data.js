@@ -38,14 +38,13 @@ function lesson(item){
 }
 
 function buildPrf(){
-  const img = 'data:image/jpeg;base64,' + PRF_CARD_BASE64;
-  const card = '<article class="card prf-card" onclick="openGate(\'prf\')" aria-label="Acessar PRF Agente Administrativo">'+
-    '<img src="'+img+'" alt="PRF Agente Administrativo" width="320" height="480" decoding="async" loading="eager">'+
+  const card = '<article class="card prf-card jr-standard-card jr-card-prf" onclick="openGate(\'prf\')" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openGate(\'prf\')}" aria-label="Acessar PRF Agente Administrativo">'+
+    '<div class="jr-card-visual" aria-hidden="true"><span class="jr-card-icon">🚔</span><span class="jr-card-lines"></span></div>'+
     '<div class="card-shade"></div><div class="card-body"><span class="tag">🚔 PRF • Área Administrativa</span><h3>Agente Administrativo</h3>'+
-    '<p>Trilha completa pré-edital com aulas, revisões, questões comentadas e materiais em PDF.</p><button class="card-btn" type="button">Acessar</button></div></article>';
+    '<p>Trilha completa pré-edital com aulas, revisões, questões comentadas e materiais em PDF.</p><button class="card-btn" type="button" tabindex="-1">Acessar</button></div></article>';
 
   const area = '<section class="area" id="area-prf"><div class="area-top"><div class="area-head">'+
-    '<img src="'+img+'" alt="PRF Agente Administrativo"><div><span class="mini-tag">PRF • Agente Administrativo</span><h2>Área Administrativa da PRF</h2>'+
+    '<div class="jr-area-icon jr-area-icon-prf" aria-hidden="true">🚔</div><div><span class="mini-tag">PRF • Agente Administrativo</span><h2>Área Administrativa da PRF</h2>'+
     '<p>Trilha baseada no último edital oficial do cargo, com reforços pré-edital 2026. Estude na ordem: base completa, matérias específicas, questões e revisão.</p></div></div></div>'+
     '<div class="area-grid"><div class="player-box prf-player-box"><div class="box-head"><strong id="prf-player-title">Português do Zero • curso completo</strong><span>Player integrado</span></div>'+
     '<div class="prf-video"><iframe id="prf-player" src="https://www.youtube.com/embed/videoseries?list=PLbuo_BUvjP3Mds367iGHTGjGRz5VIfMmc" title="Aulas PRF Agente Administrativo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>'+
@@ -59,6 +58,8 @@ function buildPrf(){
     '<div class="prf-section-label">Revisão rápida • Shorts</div>'+shorts.map(lesson).join('')+'</div></div></div></section>';
 
   const css = `
+.jr-card-prf .jr-card-visual{background:radial-gradient(circle at 78% 16%,rgba(59,130,246,.26),transparent 30%),linear-gradient(145deg,#09111b,#111827 48%,#26080b)}
+.jr-area-icon-prf{background:linear-gradient(145deg,#0b1726,#27070b)}
 #area-prf .area-head img{width:84px!important;height:84px!important;max-width:84px!important;aspect-ratio:1/1!important;object-fit:cover!important;border-radius:22px!important}
 #area-prf .prf-video{position:relative;aspect-ratio:16/9;background:#05070b}
 #area-prf .prf-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
