@@ -9,6 +9,8 @@ function resource(mark,title,note,url){
 function card(opts){
   return '<article class="card jr-approved-art-card jr-card-'+opts.id+'" onclick="openGate(\''+opts.id+'\')" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openGate(\''+opts.id+'\')}" aria-label="Acessar '+esc(opts.title)+'">'+
     '<img src="'+opts.img+'" alt="'+esc(opts.title)+'" width="640" height="960" decoding="async" loading="eager" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;display:block;background:#05070b;transform:none;transition:none">'+
+    '<div class="card-shade"></div>'+
+    '<div class="card-body"><span class="tag">'+esc(opts.tag)+'</span><h3>'+esc(opts.title)+'</h3><p>'+esc(opts.description)+'</p><button class="card-btn" type="button" tabindex="-1">Acessar</button></div>'+
     '</article>';
 }
 function area(opts){
