@@ -20,16 +20,16 @@ function buildExtra(){
   const endImg='/api/card-endemias?v=20260921-1';
   const sefinImg='/api/card-sefin?v=20260921-1';
   const endLessons=[
-    ['Agente de Combate às Endemias • visão geral','Introdução ao cargo e estratégia de estudo','https://www.youtube.com/embed/QaPnT9PCf7A','https://www.youtube.com/watch?v=QaPnT9PCf7A'],
-    ['O que faz um Agente de Combate às Endemias?','Visão oficial do trabalho de campo','https://www.youtube.com/embed/_WZ1thR-GPo','https://www.youtube.com/watch?v=_WZ1thR-GPo'],
+    ['Concurso ACE • visão geral para iniciantes','Panorama do cargo e estratégia inicial de preparação','https://www.youtube.com/embed/QaPnT9PCf7A','https://www.youtube.com/watch?v=QaPnT9PCf7A'],
+    ['O que faz um Agente de Endemias?','Funções e atuação prática do cargo','https://www.youtube.com/embed/UwOOPw_Kzhs','https://www.youtube.com/watch?v=UwOOPw_Kzhs'],
     ['O que cai na prova de Agente de Endemias','Mapa dos assuntos mais cobrados','https://www.youtube.com/embed/Lpeszi_CIVA','https://www.youtube.com/watch?v=Lpeszi_CIVA'],
     ['Lei 11.350/2006 • atribuições do ACE','Lei atualizada aplicada ao cargo','https://www.youtube.com/embed/ti-NQ3tn46g','https://www.youtube.com/watch?v=ti-NQ3tn46g'],
     ['Lei 11.350/2006 • resumo para ACS e ACE','Revisão da legislação específica','https://www.youtube.com/embed/I6JjR27o5aM','https://www.youtube.com/watch?v=I6JjR27o5aM'],
     ['Lei 8.080/1990 • aula completa','Organização, princípios e funcionamento do SUS','https://www.youtube.com/embed/pT-Vz2sxdDc','https://www.youtube.com/watch?v=pT-Vz2sxdDc'],
     ['Lei 8.142/1990 • questões e pontos cobrados','Controle social e financiamento do SUS','https://www.youtube.com/embed/qefeAQTJaSs','https://www.youtube.com/watch?v=qefeAQTJaSs'],
     ['Decreto 7.508/2011 • organização do SUS','Regiões de Saúde, RENAME, RENASES e COAP','https://www.youtube.com/embed/n8kjt0nMJH8','https://www.youtube.com/watch?v=n8kjt0nMJH8'],
-    ['Aedes aegypti • aula completa','Vetor, ciclo e controle para ACE','https://www.youtube.com/embed/aiBdmiiNb-4','https://www.youtube.com/watch?v=aiBdmiiNb-4'],
-    ['Conhecimentos Específicos • ACE','Aula direcionada para concurso','https://www.youtube.com/embed/jl4ZaH4PCWc','https://www.youtube.com/watch?v=jl4ZaH4PCWc'],
+    ['Aedes aegypti • revisão para prova','Vetor, ciclo e controle cobrados em concursos de saúde','https://www.youtube.com/embed/aiBdmiiNb-4','https://www.youtube.com/watch?v=aiBdmiiNb-4'],
+    ['Conhecimentos Específicos • ACE • Prefeitura de Santos','Aula de conhecimentos específicos aplicada ao cargo','https://www.youtube.com/embed/jl4ZaH4PCWc','https://www.youtube.com/watch?v=jl4ZaH4PCWc'],
     ['Agente de Endemias • simulado e revisão','Revisão final por questões','https://www.youtube.com/embed/_rrFOBdC0EA','https://www.youtube.com/watch?v=_rrFOBdC0EA']
   ];
   const endResources=[
@@ -51,16 +51,17 @@ function buildExtra(){
   const sefinLessons=[
     ['Finanças Públicas para concursos','Teoria simplificada e questões','https://www.youtube.com/embed/T6y3TOr9i_4','https://www.youtube.com/watch?v=T6y3TOr9i_4'],
     ['Contabilidade Pública em questões','Revisão para área fiscal','https://www.youtube.com/embed/nB0DDOOC9YM','https://www.youtube.com/watch?v=nB0DDOOC9YM'],
-    ['Contabilidade Pública • questões','Treino direcionado para concursos','https://www.youtube.com/embed/KFhrc96zpyk','https://www.youtube.com/watch?v=KFhrc96zpyk'],
+    ['Contabilidade Pública • princípios contábeis em questões','Treino de princípios contábeis para concursos','https://www.youtube.com/embed/KFhrc96zpyk','https://www.youtube.com/watch?v=KFhrc96zpyk'],
     ['Super revisão Contabilidade Pública • FGV','Questões da banca FGV','https://www.youtube.com/embed/vUnlxS_mTTg','https://www.youtube.com/watch?v=vUnlxS_mTTg'],
-    ['Direito Tributário • questões FGV','Treino específico da banca','https://www.youtube.com/embed/gctbR32Hoco','https://www.youtube.com/watch?v=gctbR32Hoco'],
-    ['Direito Tributário do zero • questões','Base tributária para área fiscal','https://www.youtube.com/embed/NI6XZZ65rlo','https://www.youtube.com/watch?v=NI6XZZ65rlo']
+    ['Questões FGV de Direito Tributário','Treino específico da banca FGV','https://www.youtube.com/embed/gctbR32Hoco','https://www.youtube.com/watch?v=gctbR32Hoco'],
+    ['Direito Tributário do zero • Aula 1 em questões','Base tributária para área fiscal','https://www.youtube.com/embed/NI6XZZ65rlo','https://www.youtube.com/watch?v=NI6XZZ65rlo']
   ];
   const sefinResources=[
     ['EDITAL','Edital oficial SEFIN/RO • 2017','FGV • Auditor Fiscal, Técnico Tributário e Contador','https://rondonia.ro.gov.br/wp-content/uploads/2017/10/Edital-n.-242-Abertura-Concurso-Publico-SEFIN-RO..pdf'],
     ['FGV','Página oficial SEFIN/RO • FGV','Provas objetivas e gabaritos oficiais do concurso','https://conhecimento.fgv.br/concursos/sefin-ro'],
     ['PROVAS','Banco de provas SEFIN/RO','PCI Concursos • Auditor, Técnico e Contador','https://www.pciconcursos.com.br/provas/sefin-ro'],
     ['PROVA','Técnico Tributário • SEFIN/RO • FGV 2018','PCI Concursos • prova e gabarito definitivo','https://www.pciconcursos.com.br/provas/download/tecnico-tributario-sefin-ro-fgv-2018'],
+    ['PROVA','Auditor Fiscal de Tributos Estaduais • SEFIN/RO • FGV 2018','PCI Concursos • prova e gabarito definitivo','https://www.pciconcursos.com.br/provas/download/auditor-fiscal-de-tributos-estaduais-sefin-ro-fgv-2018'],
     ['PROVA','Auditor Fiscal • SEFIN/RO • FJP 2006','PCI Concursos • prova e gabarito','https://www.pciconcursos.com.br/provas/download/auditor-fiscal-de-tributos-sefin-ro-fjp-2006'],
     ['PROVA','Contador • SEFIN/SUPEL-RO • FUNCAB 2014','PCI Concursos • prova e gabaritos','https://www.pciconcursos.com.br/provas/download/contador-sefin-e-supel-ro-funcab-2014'],
     ['FGV','Provas fiscais da FGV','PCI Concursos • treino complementar da banca','https://www.pciconcursos.com.br/provas/fgv-sefaz'],
