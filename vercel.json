@@ -2,7 +2,7 @@
   "routes": [
     {
       "src": "^/$",
-      "dest": "/api/inject"
+      "dest": "/api/fix-images"
     },
     {
       "handle": "filesystem"
