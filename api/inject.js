@@ -273,8 +273,8 @@ module.exports = async function handler(req, res) {
       const cfgEnd = html.indexOf('};', cfgStart);
       if (cfgEnd < 0) throw new Error('Fim da configuração das áreas não encontrado');
       const entries =
-        '  endemias: { title: "Agente de Combate às Endemias", password: "ENDEMIAS2026", sectionId: "area-endemias", storageKey: "jr_especifica_endemias" },\\n' +
-        '  sefin: { title: "SEFIN/RO • Material Geral", password: "SEFIN2026", sectionId: "area-sefin", storageKey: "jr_especifica_sefin" },\\n';
+        '  endemias: { title: "Agente de Combate às Endemias", password: "ENDEMIAS2026", sectionId: "area-endemias", storageKey: "jr_especifica_endemias" },\n' +
+        '  sefin: { title: "SEFIN/RO • Material Geral", password: "SEFIN2026", sectionId: "area-sefin", storageKey: "jr_especifica_sefin" },\n';
       html = html.slice(0, cfgEnd) + entries + html.slice(cfgEnd);
     }
 
