@@ -19,22 +19,10 @@ module.exports = async function handler(req, res) {
     const { css: chemistryCss, card: chemistryCard, area: chemistryArea } =
       JSON.parse(gunzipSync(Buffer.from(PAYLOAD, 'base64')).toString('utf8'));
 
-    let chemistryCardImage = '';
-    try {
-      const cardAssetResponse = await fetch('https://' + productionHost + '/quimica-card.b64?card=v5', {
-        headers: { 'user-agent': 'JR-Apostilas-Quimica-Card/5.0' }
-      });
-      if (cardAssetResponse.ok) {
-        chemistryCardImage = (await cardAssetResponse.text()).trim();
-      }
-    } catch (e) {}
-
-    const chemistryCardFinal = chemistryCardImage
-      ? chemistryCard.replace(
-          /<img src="[^"]*" alt="Seduc PA Professor de Química">/,
-          '<img src="data:image/jpeg;base64,' + chemistryCardImage + '" alt="Seduc PA Professor de Química" width="320" height="480" decoding="async" loading="lazy">'
-        )
-      : chemistryCard;
+    const chemistryCardFinal = chemistryCard.replace(
+      /<img src="[^"]*" alt="Seduc PA Professor de Química">/,
+      '<img src="/quimica-card.jpg?v=7" alt="Seduc PA Professor de Química" width="320" height="480" decoding="async" loading="eager">'
+    );
 
     // Mantém o bloco de Química no mesmo padrão visual/estrutural dos demais:
     // player + aulas na primeira linha; PDFs/provas + questões online na linha seguinte.
@@ -208,16 +196,7 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    let prfCardImage = '';
-    try {
-      const prfAssetHost = (req && req.headers && req.headers.host) ? req.headers.host : productionHost;
-      const prfCardResponse = await fetch('https://' + prfAssetHost + '/prf-card.b64?card=v1', {
-        headers: { 'user-agent': 'JR-Apostilas-PRF-Card/1.0' }
-      });
-      if (prfCardResponse.ok) prfCardImage = (await prfCardResponse.text()).trim();
-    } catch (e) {}
-
-    const prfBundle = buildPrf(prfCardImage);
+    const prfBundle = buildPrf();
 
     if (!html.includes('#area-prf .prf-video')) {
       html = html.replace('</style>', '\n' + prfBundle.css + '\n</style>');
@@ -273,7 +252,7 @@ module.exports = async function handler(req, res) {
 
     res.statusCode = 200;
     res.setHeader('content-type', 'text/html; charset=utf-8');
-    res.setHeader('cache-control', 'public, s-maxage=300, stale-while-revalidate=3600');
+    res.setHeader('cache-control', 'no-store, max-age=0, must-revalidate');
     res.end(html);
   } catch (error) {
     res.statusCode = 500;

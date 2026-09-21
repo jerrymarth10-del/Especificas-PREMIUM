@@ -35,8 +35,8 @@ function lesson(item){
     '<span class="lesson-mark">'+esc(item[0])+'</span><span class="lesson-text"><strong>'+esc(item[1])+'</strong><small>'+esc(item[2])+'</small></span><span class="lesson-open">Assistir</span></div>';
 }
 
-function buildPrf(cardImage){
-  const img = cardImage ? 'data:image/jpeg;base64,'+cardImage : '';
+function buildPrf(){
+  const img = '/prf-card.jpg?v=2';
   const card = '<article class="card prf-card" onclick="openGate(\'prf\')" aria-label="Acessar PRF Agente Administrativo">'+
     '<img src="'+img+'" alt="PRF Agente Administrativo" width="320" height="480" decoding="async" loading="lazy">'+
     '<div class="card-shade"></div><div class="card-body"><span class="tag">🚔 PRF • Área Administrativa</span><h3>Agente Administrativo</h3>'+
