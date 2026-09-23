@@ -5,6 +5,10 @@
       "dest": "/api/inject"
     },
     {
+      "src": "^/index\\.html$",
+      "dest": "/api/inject"
+    },
+    {
       "handle": "filesystem"
     }
   ],
