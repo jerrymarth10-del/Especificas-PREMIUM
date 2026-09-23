@@ -109,7 +109,7 @@ module.exports = async function handler(req, res) {
       html = html.replace('</style>', '\n' + chemistryCssFinal + '\n</style>');
     }
 
-    if (!html.includes('jr-card-quimica') && !html.includes('data-jr-art="quimica"')) {
+    if (!html.includes("openGate('quimica')")) {
       const clinCardStart = html.indexOf("<article class=\"card\" onclick=\"openGate('clinico')\">");
       if (clinCardStart < 0) throw new Error('Card Clínico Geral não encontrado');
       const clinCardEnd = html.indexOf('</article>', clinCardStart);
@@ -194,7 +194,7 @@ module.exports = async function handler(req, res) {
       html = html.replace('</style>', '\n' + prfBundle.css + '\n</style>');
     }
 
-    if (!html.includes('jr-prf-art-card') && !html.includes('data-jr-art="prf"')) {
+    if (!html.includes("openGate('prf')")) {
       const chemPos = html.indexOf("openGate('quimica')");
       let insertAt = -1;
       if (chemPos >= 0) {
@@ -239,34 +239,19 @@ module.exports = async function handler(req, res) {
       html = html.replace('</style>', '\n' + extraBundle.css + '\n</style>');
     }
 
-    {
-      let missingExtraCards = '';
-      if (!html.includes('jr-card-endemias')) {
-        const m = extraBundle.cards.match(/<article\\b[^>]*jr-card-endemias[^>]*>[\\s\\S]*?<\\/article>/);
-        if (m) missingExtraCards += m[0];
+    if (!html.includes("openGate('endemias')")) {
+      const prfPos = html.indexOf("openGate('prf')");
+      let insertAt = -1;
+      if (prfPos >= 0) {
+        const end = html.indexOf('</article>', prfPos);
+        if (end >= 0) insertAt = end + '</article>'.length;
       }
-      if (!html.includes('jr-card-sefin')) {
-        const m = extraBundle.cards.match(/<article\\b[^>]*jr-card-sefin[^>]*>[\\s\\S]*?<\\/article>/);
-        if (m) missingExtraCards += (missingExtraCards ? '\n' : '') + m[0];
+      if (insertAt < 0) {
+        const cardsEnd = html.indexOf('</div>', html.indexOf('class="cards"'));
+        if (cardsEnd >= 0) insertAt = cardsEnd;
       }
-      if (missingExtraCards) {
-        const prfPos = html.indexOf("openGate('prf')");
-        let insertAt = -1;
-        if (prfPos >= 0) {
-          const end = html.indexOf('</article>', prfPos);
-          if (end >= 0) insertAt = end + '</article>'.length;
-        }
-        if (insertAt < 0) {
-          const cardsStart = html.indexOf('<div class="cards">');
-          const contentStart = html.indexOf('<section class="section" id="conteudo">', cardsStart);
-          if (cardsStart >= 0 && contentStart > cardsStart) {
-            const close = html.lastIndexOf('</div>', contentStart);
-            if (close >= cardsStart) insertAt = close;
-          }
-        }
-        if (insertAt < 0) throw new Error('Ponto de inserção dos cards Endemias/SEFIN não encontrado');
-        html = html.slice(0, insertAt) + '\n' + missingExtraCards + '\n' + html.slice(insertAt);
-      }
+      if (insertAt < 0) throw new Error('Ponto de inserção dos cards Endemias/SEFIN não encontrado');
+      html = html.slice(0, insertAt) + '\n' + extraBundle.cards + '\n' + html.slice(insertAt);
     }
 
     if (!html.includes('id="area-endemias"')) {
@@ -293,7 +278,7 @@ module.exports = async function handler(req, res) {
       html = html.replace('</style>', '\n' + penalBundle.css + '\n</style>');
     }
 
-    if (!html.includes('jr-card-penal')) {
+    if (!html.includes("openGate('penal')")) {
       const sefinPos = html.indexOf("openGate('sefin')");
       let insertAt = -1;
       if (sefinPos >= 0) {
