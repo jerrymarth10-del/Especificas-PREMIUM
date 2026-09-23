@@ -311,7 +311,7 @@ module.exports = async function handler(req, res) {
       if (cfgStart < 0) throw new Error('Configuração das áreas não encontrada para Polícia Penal');
       const cfgEnd = html.indexOf('};', cfgStart);
       if (cfgEnd < 0) throw new Error('Fim da configuração das áreas não encontrado para Polícia Penal');
-      const entry = '  penal: { title: "Polícia Penal • Rondônia", password: "PENAL2026", sectionId: "area-penal", storageKey: "jr_especifica_penal" },\n';
+      const entry = '  penal: { title: "Polícia Penal • Rondônia", password: "PENAL1998", sectionId: "area-penal", storageKey: "jr_especifica_penal" },\n';
       html = html.slice(0, cfgEnd) + entry + html.slice(cfgEnd);
     }
 
