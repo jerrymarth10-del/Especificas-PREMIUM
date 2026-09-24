@@ -180,9 +180,9 @@ module.exports = async function handler(req, res) {
           '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-assistencial-ebserh-hupaa-ufal-idecan-2014" target="_blank" rel="noopener">' +
           '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro Assistencial • IDECAN</strong><small>EBSERH/HUPAA-UFAL • 2014 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>';
 
-        const closeList = '\n</div>\n    </div>\n  </div>\n</section>';
+        const closeList = '</a></div>\n    </div>\n  </div>\n</section>';
         if (enfermagem.includes(closeList)) {
-          enfermagem = enfermagem.replace(closeList, '\n' + provas + closeList);
+          enfermagem = enfermagem.replace(closeList, '</a>' + provas + '</div>\n    </div>\n  </div>\n</section>');
           enfermagem = enfermagem.replace(
             '<div class="box-head"><strong>PDFs</strong><span>3 arquivo(s)</span></div>',
             '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>8 materiais</span></div>'
