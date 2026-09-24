@@ -201,20 +201,20 @@ module.exports = async function handler(req, res) {
         const end = tecnicoEnd >= 0 ? tecnicoEnd : html.indexOf('<footer class="footer">', tecnicoStart);
         let tecnico = html.slice(tecnicoStart, end);
         const provas =
-          '<a id="jr-tecnico-provas-v1" class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-dores-do-indaia-mg-ibgp-2021" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IBGP</strong><small>Prefeitura de Dores do Indaiá/MG • 2021 • IBGP • prioridade de treino SEMUSA</small></span><span class="lesson-open">Visualizar</span></a>' +
-          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-sao-joao-del-rei-mg-ibgp-2021" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IBGP</strong><small>Prefeitura de São João del-Rei/MG • 2021 • IBGP • prioridade de treino SEMUSA</small></span><span class="lesson-open">Visualizar</span></a>' +
-          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-araponga-mg-idecan-2015" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IDECAN</strong><small>Prefeitura de Araponga/MG • 2015 • visualizar prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a id="jr-tecnico-provas-v1" class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-araponga-mg-idecan-2015" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IDECAN</strong><small>Prefeitura de Araponga/MG • 2015 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
           '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-saude-do-trabalhador-ebserh-hupaa-ufal-idecan-2014" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IDECAN</strong><small>EBSERH/HUPAA-UFAL • 2014 • prova e gabarito para visualização</small></span><span class="lesson-open">Visualizar</span></a>' +
-          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-rolim-de-moura-ro-frcv-2010" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • Rondônia</strong><small>Prefeitura de Rolim de Moura/RO • 2010 • treino complementar regional</small></span><span class="lesson-open">Visualizar</span></a>';
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IDECAN</strong><small>EBSERH/HUPAA-UFAL • Saúde do Trabalhador • 2014 • prova e gabarito no PCI</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-de-enfermagem-prefeitura-carangola-mg-idecan-2014" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico de Enfermagem • IDECAN</strong><small>Prefeitura de Carangola/MG • 2014 • prova e gabaritos no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-caps-ad-prefeitura-carangola-mg-idecan-2012" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem CAPS AD • IDECAN</strong><small>Prefeitura de Carangola/MG • 2012 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-esf-prefeitura-carangola-mg-idecan-2012" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem ESF • IDECAN</strong><small>Prefeitura de Carangola/MG • 2012 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>';
         const closeList = '\n</div>\n    </div>\n  </div>\n</section>';
         if (tecnico.includes(closeList)) {
           tecnico = tecnico.replace(closeList, '\n' + provas + closeList);
-          tecnico = tecnico.replace('<div class="box-head"><strong>PDFs</strong><span>2 arquivo(s)</span></div>', '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>9 itens</span></div>');
+          tecnico = tecnico.replace('<div class="box-head"><strong>PDFs</strong><span>2 arquivo(s)</span></div>', '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>7 itens</span></div>');
           html = html.slice(0, tecnicoStart) + tecnico + html.slice(end);
         }
       }
@@ -232,8 +232,8 @@ module.exports = async function handler(req, res) {
         const provas =
           '<a id="jr-biomed-provas-idecan-v1" class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/biomedico-hospital-ophir-loyola-idecan-2010" target="_blank" rel="noopener">' +
           '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Biomédico • IDECAN</strong><small>Hospital Ophir Loyola • 2010 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
-          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/bioquimico-prefeitura-vilhena-ro-idecan-2013" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Treino IDECAN • Bioquímico • Rondônia</strong><small>Prefeitura de Vilhena/RO • 2013 • Bioquímica e Análises Clínicas</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/bioquimico-prefeitura-matias-cardoso-mg-idecan-2012" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Treino IDECAN • Bioquímico</strong><small>Prefeitura de Matias Cardoso/MG • 2012 • Bioquímica e Análises Clínicas</small></span><span class="lesson-open">Visualizar</span></a>' +
           '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/bioquimico-prefeitura-manhumirim-mg-idecan-2017" target="_blank" rel="noopener">' +
           '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Treino IDECAN • Bioquímico</strong><small>Prefeitura de Manhumirim/MG • 2017 • treino complementar para Biomedicina</small></span><span class="lesson-open">Visualizar</span></a>' +
           '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/bioquimico-prefeitura-baependi-mg-idecan-2015" target="_blank" rel="noopener">' +
@@ -246,7 +246,7 @@ module.exports = async function handler(req, res) {
           biomed = biomed.slice(0, closeAt) + provas + biomed.slice(closeAt);
           biomed = biomed.replace(
             '<div class="box-head"><strong>PDFs</strong><span>3 arquivo(s)</span></div>',
-            '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>9 materiais</span></div>'
+            '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>8 materiais</span></div>'
           );
           html = html.slice(0, biomedStart) + biomed + html.slice(end);
         }
