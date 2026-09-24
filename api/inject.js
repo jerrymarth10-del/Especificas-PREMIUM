@@ -161,6 +161,38 @@ module.exports = async function handler(req, res) {
     }
 
 
+    // JR: adiciona provas anteriores IDECAN no bloco de Enfermagem sem duplicar itens.
+    if (!html.includes('jr-enfermagem-provas-idecan-v1')) {
+      const enfermagemStart = html.indexOf('id="area-enfermagem"');
+      const enfermagemEnd = enfermagemStart >= 0 ? html.indexOf('<section class="area"', enfermagemStart + 40) : -1;
+      if (enfermagemStart >= 0) {
+        const end = enfermagemEnd >= 0 ? enfermagemEnd : html.indexOf('<footer class="footer">', enfermagemStart);
+        let enfermagem = html.slice(enfermagemStart, end);
+        const provas =
+          '<a id="jr-enfermagem-provas-idecan-v1" class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-vilhena-ro-idecan-2013" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro • IDECAN • Rondônia</strong><small>Prefeitura de Vilhena/RO • 2013 • prova e gabaritos no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-ubatuba-sp-idecan-2015" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro • IDECAN</strong><small>Prefeitura de Ubatuba/SP • 2015 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-sao-francisco-do-gloria-mg-idecan-2015" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro • IDECAN</strong><small>Prefeitura de São Francisco do Glória/MG • 2015 • treino direcionado à banca</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-rio-pomba-mg-idecan-2015" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro • IDECAN</strong><small>Prefeitura de Rio Pomba/MG • 2015 • prova anterior para treino</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-assistencial-ebserh-hupaa-ufal-idecan-2014" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro Assistencial • IDECAN</strong><small>EBSERH/HUPAA-UFAL • 2014 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>';
+
+        const closeList = '\n</div>\n    </div>\n  </div>\n</section>';
+        if (enfermagem.includes(closeList)) {
+          enfermagem = enfermagem.replace(closeList, '\n' + provas + closeList);
+          enfermagem = enfermagem.replace(
+            '<div class="box-head"><strong>PDFs</strong><span>3 arquivo(s)</span></div>',
+            '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>8 materiais</span></div>'
+          );
+          html = html.slice(0, enfermagemStart) + enfermagem + html.slice(end);
+        }
+      }
+    }
+
+
     // JR: adiciona provas anteriores de Técnico em Enfermagem sem duplicar itens.
     if (!html.includes('jr-tecnico-provas-v1')) {
       const tecnicoStart = html.indexOf('id="area-tecnico"');
