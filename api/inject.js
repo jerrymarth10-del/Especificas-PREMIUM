@@ -188,6 +188,39 @@ module.exports = async function handler(req, res) {
       }
     }
 
+
+    // JR: adiciona provas anteriores IDECAN no bloco de Biomedicina sem duplicar itens.
+    if (!html.includes('jr-biomed-provas-idecan-v1')) {
+      const biomedStart = html.indexOf('id="area-biomedicina"');
+      const biomedEnd = biomedStart >= 0 ? html.indexOf('<section class="area"', biomedStart + 40) : -1;
+      if (biomedStart >= 0) {
+        const end = biomedEnd >= 0 ? biomedEnd : html.indexOf('<footer class="footer">', biomedStart);
+        let biomed = html.slice(biomedStart, end);
+
+        const provas =
+          '<a id="jr-biomed-provas-idecan-v1" class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/biomedico-hospital-ophir-loyola-idecan-2010" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Biomédico • IDECAN</strong><small>Hospital Ophir Loyola • 2010 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/bioquimico-prefeitura-vilhena-ro-idecan-2013" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Treino IDECAN • Bioquímico • Rondônia</strong><small>Prefeitura de Vilhena/RO • 2013 • Bioquímica e Análises Clínicas</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/bioquimico-prefeitura-manhumirim-mg-idecan-2017" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Treino IDECAN • Bioquímico</strong><small>Prefeitura de Manhumirim/MG • 2017 • treino complementar para Biomedicina</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/bioquimico-prefeitura-baependi-mg-idecan-2015" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Treino IDECAN • Bioquímico</strong><small>Prefeitura de Baependi/MG • 2015 • Bioquímica e rotina laboratorial</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/bioquimico-prefeitura-apiaca-es-idecan-2014" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Treino IDECAN • Bioquímico</strong><small>Prefeitura de Apiacá/ES • 2014 • treino complementar para Biomedicina</small></span><span class="lesson-open">Visualizar</span></a>';
+
+        const closeAt = biomed.lastIndexOf('</div></div></div>');
+        if (closeAt >= 0) {
+          biomed = biomed.slice(0, closeAt) + provas + biomed.slice(closeAt);
+          biomed = biomed.replace(
+            '<div class="box-head"><strong>PDFs</strong><span>3 arquivo(s)</span></div>',
+            '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>9 materiais</span></div>'
+          );
+          html = html.slice(0, biomedStart) + biomed + html.slice(end);
+        }
+      }
+    }
+
     const prfBundle = buildPrf();
 
     if (!html.includes('#area-prf .prf-video')) {
