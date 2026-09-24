@@ -178,11 +178,15 @@ module.exports = async function handler(req, res) {
           '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-saude-do-trabalhador-ebserh-hupaa-ufal-idecan-2014" target="_blank" rel="noopener">' +
           '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • IDECAN</strong><small>EBSERH/HUPAA-UFAL • 2014 • prova e gabarito para visualização</small></span><span class="lesson-open">Visualizar</span></a>' +
           '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-rolim-de-moura-ro-frcv-2010" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • Rondônia</strong><small>Prefeitura de Rolim de Moura/RO • 2010 • treino complementar regional</small></span><span class="lesson-open">Visualizar</span></a>';
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • Rondônia</strong><small>Prefeitura de Rolim de Moura/RO • 2010 • treino complementar regional</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/profissional-de-enfermagem-penf-tecnico-de-enfermagem-30h-nivel-ii-fhemig-fgv-2023" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • FGV</strong><small>FHEMIG • 2023 • 30h • visualizar prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/profissional-de-enfermagem-penf-tecnico-de-enfermagem-40h-nivel-ii-fhemig-fgv-2023" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Técnico em Enfermagem • FGV</strong><small>FHEMIG • 2023 • 40h • visualizar prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>';
         const closeList = '\n</div>\n    </div>\n  </div>\n</section>';
         if (tecnico.includes(closeList)) {
           tecnico = tecnico.replace(closeList, '\n' + provas + closeList);
-          tecnico = tecnico.replace('<div class="box-head"><strong>PDFs</strong><span>2 arquivo(s)</span></div>', '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>9 itens</span></div>');
+          tecnico = tecnico.replace('<div class="box-head"><strong>PDFs</strong><span>2 arquivo(s)</span></div>', '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>11 itens</span></div>');
           html = html.slice(0, tecnicoStart) + tecnico + html.slice(end);
         }
       }
