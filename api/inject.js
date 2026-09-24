@@ -169,17 +169,16 @@ module.exports = async function handler(req, res) {
         const end = enfermagemEnd >= 0 ? enfermagemEnd : html.indexOf('<footer class="footer">', enfermagemStart);
         let enfermagem = html.slice(enfermagemStart, end);
         const provas =
-          '<a id="jr-enfermagem-provas-idecan-v1" class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-vilhena-ro-idecan-2013" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro • IDECAN • Rondônia</strong><small>Prefeitura de Vilhena/RO • 2013 • prova e gabaritos no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
-          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-ubatuba-sp-idecan-2015" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro • IDECAN</strong><small>Prefeitura de Ubatuba/SP • 2015 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
-          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-sao-francisco-do-gloria-mg-idecan-2015" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro • IDECAN</strong><small>Prefeitura de São Francisco do Glória/MG • 2015 • treino direcionado à banca</small></span><span class="lesson-open">Visualizar</span></a>' +
-          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-rio-pomba-mg-idecan-2015" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro • IDECAN</strong><small>Prefeitura de Rio Pomba/MG • 2015 • prova anterior para treino</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a id="jr-enfermagem-provas-idecan-v1" class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-baependi-mg-idecan-2015" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro • IDECAN</strong><small>Prefeitura de Baependi/MG • 2015 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-carangola-mg-idecan-2014" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro • IDECAN</strong><small>Prefeitura de Carangola/MG • 2014 • prova e gabaritos no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
           '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-assistencial-ebserh-hupaa-ufal-idecan-2014" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro Assistencial • IDECAN</strong><small>EBSERH/HUPAA-UFAL • 2014 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>';
-
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro Assistencial • IDECAN</strong><small>EBSERH/HUPAA-UFAL • 2014 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-terapia-intensiva-ebserh-hupaa-ufal-idecan-2014" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro • Terapia Intensiva • IDECAN</strong><small>EBSERH/HUPAA-UFAL • 2014 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-oncologia-ebserh-hupaa-ufal-idecan-2014" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Enfermeiro • Oncologia • IDECAN</strong><small>EBSERH/HUPAA-UFAL • 2014 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>';
         const closeList = '</a></div>\n    </div>\n  </div>\n</section>';
         if (enfermagem.includes(closeList)) {
           enfermagem = enfermagem.replace(closeList, '</a>' + provas + '</div>\n    </div>\n  </div>\n</section>');
