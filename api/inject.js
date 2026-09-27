@@ -220,7 +220,7 @@ module.exports = async function handler(req, res) {
     }
 
 
-    // JR: adiciona provas anteriores IDECAN no bloco de Odontologia sem duplicar itens.
+    // JR: adiciona 5 provas IDECAN + gabaritos no bloco de Odontologia, abrindo os PDFs diretamente.
     if (!html.includes('jr-odontologia-provas-idecan-v1')) {
       const odontStart = html.indexOf('id="area-odontologia"');
       const odontEnd = odontStart >= 0 ? html.indexOf('<section class="area"', odontStart + 40) : -1;
@@ -229,23 +229,37 @@ module.exports = async function handler(req, res) {
         let odont = html.slice(odontStart, end);
 
         const provas =
-          '<a id="jr-odontologia-provas-idecan-v1" class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/cirurgiao-dentista-prefeitura-baependi-mg-idecan-2015" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Cirurgião-Dentista • IDECAN</strong><small>Prefeitura de Baependi/MG • 2015 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
-          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/cirurgiao-dentista-prefeitura-sao-goncalo-do-rio-abaixo-mg-idecan-2014" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Cirurgião-Dentista • IDECAN</strong><small>Prefeitura de São Gonçalo do Rio Abaixo/MG • 2014 • prova e gabaritos no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
-          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/cirurgiao-dentista-psf-prefeitura-ouro-branco-mg-idecan-2014" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Cirurgião-Dentista PSF • IDECAN</strong><small>Prefeitura de Ouro Branco/MG • 2014 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
-          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/odontologo-prefeitura-luisburgo-mg-idecan-2014" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Odontólogo • IDECAN</strong><small>Prefeitura de Luisburgo/MG • 2014 • prova e gabarito no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>' +
-          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/cirurgiao-dentista-endodontista-prefeitura-vilhena-ro-idecan-2013" target="_blank" rel="noopener">' +
-          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Prova anterior • Cirurgião-Dentista Endodontista • IDECAN • Rondônia</strong><small>Prefeitura de Vilhena/RO • 2013 • prova e gabaritos no PCI Concursos</small></span><span class="lesson-open">Visualizar</span></a>';
+          '<a id="jr-odontologia-provas-idecan-v1" class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/odontologo-prefeitura-luisburgo-mg-idecan-2014/odontlogo.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Odontólogo • IDECAN • Luisburgo/MG</strong><small>2014 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/odontologo-prefeitura-luisburgo-mg-idecan-2014/gab-preliminar.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Odontólogo • Luisburgo/MG</strong><small>IDECAN • 2014 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/cirurgiao-dentista-prefeitura-baependi-mg-idecan-2015/cirurgiao-dentista.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Cirurgião Dentista • IDECAN • Baependi/MG</strong><small>2015 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/cirurgiao-dentista-prefeitura-baependi-mg-idecan-2015/gab-preliminar.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Cirurgião Dentista • Baependi/MG</strong><small>IDECAN • 2015 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/cirurgiao-dentista-prefeitura-sao-goncalo-do-rio-abaixo-mg-idecan-2014/cirurgiao-dentista-esf.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Cirurgião Dentista ESF • IDECAN • São Gonçalo do Rio Abaixo/MG</strong><small>2014 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/cirurgiao-dentista-prefeitura-sao-goncalo-do-rio-abaixo-mg-idecan-2014/gabarito-oficial.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito oficial • Cirurgião Dentista ESF</strong><small>IDECAN • São Gonçalo do Rio Abaixo/MG • 2014</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/cirurgiao-dentista-psf-prefeitura-ouro-branco-mg-idecan-2014/cirurgiao-dentista-psf.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Cirurgião-Dentista PSF • IDECAN • Ouro Branco/MG</strong><small>2014 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/cirurgiao-dentista-psf-prefeitura-ouro-branco-mg-idecan-2014/gabarito-oficial.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito oficial • Cirurgião-Dentista PSF</strong><small>IDECAN • Ouro Branco/MG • 2014</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/cirurgiao-dentista-endodontista-prefeitura-vilhena-ro-idecan-2013/40.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Cirurgião Dentista – Endodontista • IDECAN • Vilhena/RO</strong><small>2013 • prova de Rondônia • PDF direto no PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/cirurgiao-dentista-endodontista-prefeitura-vilhena-ro-idecan-2013/gab-definitivo.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito definitivo • Endodontista • Vilhena/RO</strong><small>IDECAN • 2013 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>';
 
         const closeAt = odont.lastIndexOf('</div></div></div>');
         if (closeAt >= 0) {
           odont = odont.slice(0, closeAt) + provas + odont.slice(closeAt);
           odont = odont.replace(
             '<div class="box-head"><strong>PDFs</strong><span>1 arquivo(s)</span></div>',
-            '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>7 materiais</span></div>'
+            '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>12 materiais</span></div>'
           );
           html = html.slice(0, odontStart) + odont + html.slice(end);
         }
