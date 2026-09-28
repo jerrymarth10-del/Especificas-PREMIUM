@@ -192,6 +192,54 @@ module.exports = async function handler(req, res) {
     }
 
 
+    // JR: adiciona 5 provas UFMT/CEV + 5 gabaritos no bloco de Enfermagem, sem alterar os materiais IDECAN.
+    if (!html.includes('jr-enfermagem-provas-ufmt-v1')) {
+      const enfermagemStart = html.indexOf('id="area-enfermagem"');
+      const enfermagemEnd = enfermagemStart >= 0 ? html.indexOf('<section class="area"', enfermagemStart + 40) : -1;
+      if (enfermagemStart >= 0) {
+        const end = enfermagemEnd >= 0 ? enfermagemEnd : html.indexOf('<footer class="footer">', enfermagemStart);
+        let enfermagem = html.slice(enfermagemStart, end);
+        const provasUfmt =
+          '<div id="jr-enfermagem-provas-ufmt-v1" style="padding:14px 4px 8px;margin-top:10px;border-top:1px solid rgba(148,163,184,.24);font-weight:800;font-size:14px;">UFMT / CEV • Provas anteriores de Enfermagem</div>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-nobres-mt-ufmt-2025/enfermeiro.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Enfermeiro • UFMT/CEV • Nobres/MT</strong><small>2025 • prova direta em PDF • treino de banca</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-nobres-mt-ufmt-2025/gabarito.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Enfermeiro • Nobres/MT</strong><small>UFMT/CEV • 2025 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-enfermagem-do-trabalho-ufmt-ufmt-2024/enfermeiro-enfermagem-do-trabalho.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Enfermeiro - Enfermagem do Trabalho • UFMT</strong><small>2024 • prova direta em PDF • banca UFMT</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-enfermagem-do-trabalho-ufmt-ufmt-2024/gabarito.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Enfermagem do Trabalho • UFMT</strong><small>2024 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/26357618/3c7d48d1b9cf/profissional_de_nivel_superior_do_sus_enfermeiro.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Enfermeiro • UFMT • Várzea Grande/MT</strong><small>2018 • Profissional de Nível Superior do SUS • PDF direto</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/26357618/fe3a33e92ee0/gabarito.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Enfermeiro • Várzea Grande/MT</strong><small>UFMT • 2018 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-ufmt-ufmt-2013/enfermeiro.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Enfermeiro • UFMT</strong><small>2013 • prova direta em PDF • banca UFMT</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-ufmt-ufmt-2013/gab-superior.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Enfermeiro • UFMT</strong><small>2013 • gabarito de nível superior em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-camara-de-cuiaba-mt-ufmt-2011/enfermeiro.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Enfermeiro • UFMT • Câmara de Cuiabá/MT</strong><small>2011 • prova anterior da banca UFMT</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-camara-de-cuiaba-mt-ufmt-2011/gabarito.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Enfermeiro • Câmara de Cuiabá/MT</strong><small>UFMT • 2011 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>';
+
+        const closeList = '</a></div>\n    </div>\n  </div>\n</section>';
+        if (enfermagem.includes(closeList)) {
+          enfermagem = enfermagem.replace(closeList, '</a>' + provasUfmt + '</div>\n    </div>\n  </div>\n</section>');
+          enfermagem = enfermagem.replace(
+            '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>8 materiais</span></div>',
+            '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>18 materiais</span></div>'
+          );
+          html = html.slice(0, enfermagemStart) + enfermagem + html.slice(end);
+        }
+      }
+    }
+
+
     // JR: adiciona provas anteriores de Técnico em Enfermagem sem duplicar itens.
     if (!html.includes('jr-tecnico-provas-v1')) {
       const tecnicoStart = html.indexOf('id="area-tecnico"');
