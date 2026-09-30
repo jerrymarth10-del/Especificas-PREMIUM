@@ -762,14 +762,21 @@ module.exports = async function handler(req, res) {
           'var health=["radiologia","enfermagem","tecnico","fisioterapia","farmaceutico","laboratorio","nutricao","biomedicina","odontologia","psicologia","acsfiscal","educacaofisica","clinico"];' +
           'var allowed=Array.isArray(window.__JR_PURCHASED_AREAS)?window.__JR_PURCHASED_AREAS:[];' +
           'var original=window.openGate;' +
+          'function openLegacy(areaId){return typeof original==="function"?original.apply(this,arguments):undefined;}' +
+          'function askServer(areaId){' +
+            'if(health.indexOf(areaId)<0)return openLegacy(areaId);' +
+            'return fetch("/api/access?area="+encodeURIComponent(areaId),{cache:"no-store",credentials:"same-origin"})' +
+              '.then(function(r){if(!r.ok)throw new Error("access");return r.json();})' +
+              '.then(function(data){if(data&&data.allowed&&data.area===areaId&&typeof window.showArea==="function"){window.showArea(areaId);return;}openLegacy(areaId);})' +
+              '.catch(function(){openLegacy(areaId);});' +
+          '}' +
           'if(typeof original==="function"&&!original.__jrPurchase){' +
-            'var wrapped=function(areaId){if(allowed.indexOf(areaId)>=0&&typeof window.showArea==="function"){window.showArea(areaId);return;}return original.apply(this,arguments);};' +
+            'var wrapped=function(areaId){return askServer(areaId);};' +
             'wrapped.__jrPurchase=true;window.openGate=wrapped;' +
           '}' +
           'function openRequested(){' +
             'var area="";try{area=new URLSearchParams(location.search).get("area")||"";}catch(e){}' +
             'if(health.indexOf(area)<0)return;' +
-            'if(allowed.indexOf(area)>=0&&typeof window.showArea==="function"){window.showArea(area);return;}' +
             'if(typeof window.openGate==="function")window.openGate(area);' +
           '}' +
           'function claimTicket(){' +
