@@ -134,6 +134,55 @@ module.exports = async function handler(req, res) {
     }
 
 
+        // JR: adiciona 5 provas UFMT + gabaritos no bloco de Nutrição, mantendo os materiais existentes.
+    if (!html.includes('jr-nutricao-provas-ufmt-v1')) {
+      const nutricaoStart = html.indexOf('id="area-nutricao"');
+      const nutricaoEnd = nutricaoStart >= 0 ? html.indexOf('<section class="area"', nutricaoStart + 40) : -1;
+      if (nutricaoStart >= 0) {
+        const end = nutricaoEnd >= 0 ? nutricaoEnd : html.indexOf('<footer class="footer">', nutricaoStart);
+        let nutricao = html.slice(nutricaoStart, end);
+
+        const provasUfmt =
+          '<div id="jr-nutricao-provas-ufmt-v1" style="padding:14px 4px 8px;margin-top:10px;border-top:1px solid rgba(148,163,184,.24);font-weight:800;font-size:14px;">UFMT / CEV • Provas anteriores de Nutrição</div>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/nutricionista-ufmt-ufmt-2021/nutricionista.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Nutricionista • UFMT</strong><small>2021 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/nutricionista-ufmt-ufmt-2021/gabarito-preliminar.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito preliminar • Nutricionista • UFMT</strong><small>2021 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-de-desenvolvimento-economico-e-social-nutricionista-prefeitura-varzea-grande-mt-ufmt-2018/tecnico-de-desenvolvimento-economico-e-social-nutricionista.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Nutricionista • UFMT • Várzea Grande/MT</strong><small>2018 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-de-desenvolvimento-economico-e-social-nutricionista-prefeitura-varzea-grande-mt-ufmt-2018/gabarito.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Nutricionista • Várzea Grande/MT</strong><small>UFMT • 2018 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/nutricionista-prefeitura-rondonopolis-mt-ufmt-2016/nutricionista.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Nutricionista • UFMT • Rondonópolis/MT</strong><small>2016 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/nutricionista-prefeitura-rondonopolis-mt-ufmt-2016/gab-preliminar-todos-cargos.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito preliminar • Nutricionista • Rondonópolis/MT</strong><small>UFMT • 2016 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/nutricionista-ifmt-ufmt-2013/nutricionista-no-gab.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Nutricionista • UFMT • IFMT</strong><small>2013 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/nutricionista-ifmt-ufmt-2013/gabaritos.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabaritos • Nutricionista • IFMT</strong><small>UFMT • 2013 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/nutricionista-prefeitura-chapada-dos-guimaraes-mt-ufmt-2009/nutricionista.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Nutricionista • UFMT • Chapada dos Guimarães/MT</strong><small>2009 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/nutricionista-prefeitura-chapada-dos-guimaraes-mt-ufmt-2009/gabaritos-chapada-dos-guimaraes.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabaritos • Nutricionista • Chapada dos Guimarães/MT</strong><small>UFMT • 2009 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>';
+
+        const closeList = '</a></div>\n    </div>\n  </div>\n</section>';
+        if (nutricao.includes(closeList)) {
+          nutricao = nutricao.replace(closeList, '</a>' + provasUfmt + '</div>\n    </div>\n  </div>\n</section>');
+          nutricao = nutricao.replace(
+            '<div class="box-head"><strong>PDFs</strong><span>3 arquivo(s)</span></div>',
+            '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>14 materiais</span></div>'
+          );
+          html = html.slice(0, nutricaoStart) + nutricao + html.slice(end);
+        }
+      }
+    }
+
+
     // JR: adiciona provas anteriores de Fisioterapia sem duplicar itens.
     if (!html.includes('jr-fisio-provas-v1')) {
       const fisioStart = html.indexOf('id="area-fisioterapia"');
