@@ -491,6 +491,98 @@ module.exports = async function handler(req, res) {
       html = html.replace('</body>', cleanup + '</body>');
     }
 
+    // JR: permite salvar a senha por área neste aparelho, sem abrir o conteúdo automaticamente.
+    // A senha lembrada só é preenchida quando o aluno toca/clica no campo de senha.
+    if (!html.includes('id="jr-save-area-password-v1"')) {
+      const savePasswordEnhancement = `
+<style id="jr-save-area-password-style-v1">
+.jr-remember-row{display:flex;align-items:center;gap:10px;color:#dce8ef;font-size:14px;font-weight:800;cursor:pointer;user-select:none;padding:2px 2px 0}
+.jr-remember-row input{width:18px;height:18px;accent-color:#22c55e;cursor:pointer;flex:0 0 auto}
+.jr-remember-note{margin-top:-6px;color:#8fa9b8;font-size:12px;line-height:1.45;padding:0 2px}
+</style>
+<script id="jr-save-area-password-v1">
+(function(){
+  var input=document.getElementById("areaPassword");
+  var gate=document.getElementById("gate");
+  if(!input||!gate)return;
+  var field=input.closest(".field");
+  if(!field||document.getElementById("jrRememberAreaPassword"))return;
+  var row=document.createElement("label");
+  row.className="jr-remember-row";
+  row.innerHTML=\'<input type="checkbox" id="jrRememberAreaPassword"><span>Salvar senha neste aparelho</span>\';
+  field.insertAdjacentElement("afterend",row);
+  var note=document.createElement("div");
+  note.className="jr-remember-note";
+  note.textContent="A senha salva só aparece quando você tocar no campo.";
+  row.insertAdjacentElement("afterend",note);
+  var check=document.getElementById("jrRememberAreaPassword");
+  var activeArea=null;
+  var prefix="jr_saved_area_password_";
+  function storageKey(areaId){return prefix+areaId;}
+  function getSaved(areaId){try{return localStorage.getItem(storageKey(areaId))||"";}catch(e){return "";}}
+  function save(areaId,value){try{localStorage.setItem(storageKey(areaId),value);}catch(e){}}
+  function clear(areaId){try{localStorage.removeItem(storageKey(areaId));}catch(e){}}
+  var originalOpen=window.openGate;
+  if(typeof originalOpen==="function"){
+    window.openGate=function(areaId){
+      activeArea=areaId;
+      var saved=getSaved(areaId);
+      check.checked=!!saved;
+      var result=originalOpen.apply(this,arguments);
+      input.value="";
+      input.placeholder=saved?"Toque aqui para usar a senha salva":"Digite a senha";
+      return result;
+    };
+  }
+  function fillSaved(){
+    if(!activeArea||!check.checked||input.value)return;
+    var saved=getSaved(activeArea);
+    if(saved){
+      input.value=saved;
+      try{input.dispatchEvent(new Event("input",{bubbles:true}));}catch(e){}
+    }
+  }
+  input.addEventListener("pointerdown",fillSaved);
+  input.addEventListener("click",fillSaved);
+  input.addEventListener("touchstart",fillSaved,{passive:true});
+  check.addEventListener("change",function(){
+    if(!check.checked&&activeArea){
+      clear(activeArea);
+      input.value="";
+      input.placeholder="Digite a senha";
+    }
+  });
+  var originalSubmit=window.submitGate;
+  if(typeof originalSubmit==="function"){
+    window.submitGate=function(){
+      var area=activeArea;
+      var value=(input.value||"").trim();
+      var cfg=null;
+      try{if(typeof areaConfig!=="undefined"&&area)cfg=areaConfig[area];}catch(e){}
+      var valid=!!(cfg&&value&&value===cfg.password);
+      var shouldSave=check.checked;
+      var result=originalSubmit.apply(this,arguments);
+      if(valid&&area){
+        if(shouldSave)save(area,value);else clear(area);
+      }
+      return result;
+    };
+  }
+  var originalClose=window.closeGate;
+  if(typeof originalClose==="function"){
+    window.closeGate=function(){
+      var result=originalClose.apply(this,arguments);
+      activeArea=null;
+      check.checked=false;
+      input.placeholder="Digite a senha";
+      return result;
+    };
+  }
+})();
+</script>`;
+      html = html.replace('</body>', savePasswordEnhancement + '</body>');
+    }
+
     res.statusCode = 200;
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.setHeader('cache-control', 'no-store, max-age=0, must-revalidate');
