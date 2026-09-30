@@ -240,6 +240,54 @@ module.exports = async function handler(req, res) {
     }
 
 
+        // JR: adiciona 5 provas IBGP + gabaritos no bloco de Enfermagem, mantendo os materiais já existentes.
+    if (!html.includes('jr-enfermagem-provas-ibgp-v1')) {
+      const enfermagemStart = html.indexOf('id="area-enfermagem"');
+      const enfermagemEnd = enfermagemStart >= 0 ? html.indexOf('<section class="area"', enfermagemStart + 40) : -1;
+      if (enfermagemStart >= 0) {
+        const end = enfermagemEnd >= 0 ? enfermagemEnd : html.indexOf('<footer class="footer">', enfermagemStart);
+        let enfermagem = html.slice(enfermagemStart, end);
+        const provasIbgp =
+          '<div id="jr-enfermagem-provas-ibgp-v1" style="padding:14px 4px 8px;margin-top:10px;border-top:1px solid rgba(148,163,184,.24);font-weight:800;font-size:14px;">IBGP • Provas anteriores de Enfermagem</div>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-dores-do-indaia-mg-ibgp-2021/enfermeiro.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Enfermeiro • IBGP • Dores do Indaiá/MG</strong><small>2021 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-dores-do-indaia-mg-ibgp-2021/gabarito-definitivo.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito definitivo • Enfermeiro • Dores do Indaiá/MG</strong><small>IBGP • 2021 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-hospital-prefeitura-andrelandia-mg-ibgp-2019/enfermeiro-hospital.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Enfermeiro Hospital • IBGP • Andrelândia/MG</strong><small>2019 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-hospital-prefeitura-andrelandia-mg-ibgp-2019/gabarito.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Enfermeiro Hospital • Andrelândia/MG</strong><small>IBGP • 2019 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-andradas-mg-ibgp-2017/enfermeiro.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Enfermeiro • IBGP • Andradas/MG</strong><small>2017 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-andradas-mg-ibgp-2017/gabarito.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Enfermeiro • Andradas/MG</strong><small>IBGP • 2017 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-cissul-mg-ibgp-2016/enfermeiro.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Enfermeiro • IBGP • CISSUL/MG</strong><small>2016 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-cissul-mg-ibgp-2016/gabarito.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Enfermeiro • CISSUL/MG</strong><small>IBGP • 2016 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-lagoa-santa-mg-ibgp-2015/4-ibgp-enfermeiro.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Enfermeiro • IBGP • Lagoa Santa/MG</strong><small>2015 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/enfermeiro-prefeitura-lagoa-santa-mg-ibgp-2015/gab-preliminar.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito preliminar • Enfermeiro • Lagoa Santa/MG</strong><small>IBGP • 2015 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>';
+
+        const closeList = '</a></div>\n    </div>\n  </div>\n</section>';
+        if (enfermagem.includes(closeList)) {
+          enfermagem = enfermagem.replace(closeList, '</a>' + provasIbgp + '</div>\n    </div>\n  </div>\n</section>');
+          enfermagem = enfermagem.replace(
+            '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>18 materiais</span></div>',
+            '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>28 materiais</span></div>'
+          );
+          html = html.slice(0, enfermagemStart) + enfermagem + html.slice(end);
+        }
+      }
+    }
+
+
     // JR: adiciona provas anteriores de Técnico em Enfermagem sem duplicar itens.
     if (!html.includes('jr-tecnico-provas-v1')) {
       const tecnicoStart = html.indexOf('id="area-tecnico"');
@@ -262,6 +310,54 @@ module.exports = async function handler(req, res) {
         if (tecnico.includes(closeList)) {
           tecnico = tecnico.replace(closeList, '\n' + provas + closeList);
           tecnico = tecnico.replace('<div class="box-head"><strong>PDFs</strong><span>2 arquivo(s)</span></div>', '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>7 itens</span></div>');
+          html = html.slice(0, tecnicoStart) + tecnico + html.slice(end);
+        }
+      }
+    }
+
+
+        // JR: adiciona 5 provas IBGP + gabaritos no bloco de Técnico em Enfermagem, mantendo os materiais já existentes.
+    if (!html.includes('jr-tecnico-provas-ibgp-v1')) {
+      const tecnicoStart = html.indexOf('id="area-tecnico"');
+      const tecnicoEnd = tecnicoStart >= 0 ? html.indexOf('<section class="area"', tecnicoStart + 40) : -1;
+      if (tecnicoStart >= 0) {
+        const end = tecnicoEnd >= 0 ? tecnicoEnd : html.indexOf('<footer class="footer">', tecnicoStart);
+        let tecnico = html.slice(tecnicoStart, end);
+        const provasIbgp =
+          '<div id="jr-tecnico-provas-ibgp-v1" style="padding:14px 4px 8px;margin-top:10px;border-top:1px solid rgba(148,163,184,.24);font-weight:800;font-size:14px;">IBGP • Provas anteriores de Técnico em Enfermagem</div>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-sao-joao-del-rei-mg-ibgp-2021/tecnico-em-enfermagem.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Técnico em Enfermagem • IBGP • São João del-Rei/MG</strong><small>2021 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-sao-joao-del-rei-mg-ibgp-2021/gabariots-pos-recursos.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito pós-recursos • Técnico em Enfermagem • São João del-Rei/MG</strong><small>IBGP • 2021 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-dores-do-indaia-mg-ibgp-2021/tecnico-em-enfermagem.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Técnico em Enfermagem • IBGP • Dores do Indaiá/MG</strong><small>2021 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-dores-do-indaia-mg-ibgp-2021/gabarito-definitivo.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito definitivo • Técnico em Enfermagem • Dores do Indaiá/MG</strong><small>IBGP • 2021 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-de-enfermagem-prefeitura-andrelandia-mg-ibgp-2019/tecnico-de-enfermagem.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Técnico de Enfermagem • IBGP • Andrelândia/MG</strong><small>2019 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-de-enfermagem-prefeitura-andrelandia-mg-ibgp-2019/gabarito.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Técnico de Enfermagem • Andrelândia/MG</strong><small>IBGP • 2019 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-de-enfermagem-prefeitura-andradas-mg-ibgp-2017/tecnico-de-enfermagem.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Técnico de Enfermagem • IBGP • Andradas/MG</strong><small>2017 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-de-enfermagem-prefeitura-andradas-mg-ibgp-2017/gabarito.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Técnico de Enfermagem • Andradas/MG</strong><small>IBGP • 2017 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-de-enfermagem-cissul-mg-ibgp-2016/tecnico-de-enfermagem.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Técnico de Enfermagem • IBGP • CISSUL/MG</strong><small>2016 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-de-enfermagem-cissul-mg-ibgp-2016/gabarito.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Técnico de Enfermagem • CISSUL/MG</strong><small>IBGP • 2016 • gabarito direto em PDF</small></span><span class="lesson-open">Abrir gabarito</span></a>';
+
+        const closeList = '\n</div>\n    </div>\n  </div>\n</section>';
+        if (tecnico.includes(closeList)) {
+          tecnico = tecnico.replace(closeList, '\n' + provasIbgp + closeList);
+          tecnico = tecnico.replace(
+            '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>7 itens</span></div>',
+            '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>17 itens</span></div>'
+          );
           html = html.slice(0, tecnicoStart) + tecnico + html.slice(end);
         }
       }
