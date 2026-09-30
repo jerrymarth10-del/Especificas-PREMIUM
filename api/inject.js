@@ -583,6 +583,68 @@ module.exports = async function handler(req, res) {
       html = html.replace('</body>', savePasswordEnhancement + '</body>');
     }
 
+
+    // JR: opção de salvar a senha de cada bloco somente neste dispositivo.
+    // Não libera área automaticamente: a senha salva apenas preenche o campo e continua passando pela validação atual.
+    if (!html.includes('id="jr-saved-password-v1"')) {
+      const savedPasswordMarkup =
+        '<div id="jr-saved-password-v1" class="jr-save-password">' +
+          '<label class="jr-save-password-row">' +
+            '<input id="jrRememberPassword" type="checkbox">' +
+            '<span>Salvar senha neste dispositivo</span>' +
+          '</label>' +
+          '<div class="jr-save-password-meta">' +
+            '<small>Salva somente neste aparelho.</small>' +
+            '<button id="jrForgetPassword" type="button" hidden>Esquecer senha salva</button>' +
+          '</div>' +
+        '</div>';
+
+      html = html.replace(
+        '<div class="error" id="gateError">Senha incorreta.</div>',
+        savedPasswordMarkup + '<div class="error" id="gateError">Senha incorreta.</div>'
+      );
+
+      const savedPasswordStyle = '<style id="jr-saved-password-style-v1">' +
+        '.jr-save-password{margin:2px 0 12px;padding:11px 12px;border:1px solid rgba(255,255,255,.10);border-radius:12px;background:rgba(255,255,255,.035)}' +
+        '.jr-save-password-row{display:flex;align-items:center;gap:9px;cursor:pointer;color:#eef6fb;font-size:13px;font-weight:750;line-height:1.35;user-select:none}' +
+        '.jr-save-password-row input{width:18px;height:18px;margin:0;accent-color:#22c55e;cursor:pointer;flex:0 0 auto}' +
+        '.jr-save-password-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:7px;padding-left:27px}' +
+        '.jr-save-password-meta small{color:#94a3b8;font-size:11px;line-height:1.35}' +
+        '#jrForgetPassword{border:0;background:transparent;color:#93c5fd;padding:0;font:inherit;font-size:11px;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:2px}' +
+        '#jrForgetPassword[hidden]{display:none!important}' +
+        '@media(max-width:520px){.jr-save-password-meta{align-items:flex-start;flex-direction:column;gap:5px}}' +
+      '</style>';
+      html = html.replace('</head>', savedPasswordStyle + '</head>');
+
+      const savedPasswordScript = '<script id="jr-saved-password-script-v1">(function(){' +
+        'var STORE_KEY="jr_saved_area_passwords";' +
+        'var remember=document.getElementById("jrRememberPassword");' +
+        'var forget=document.getElementById("jrForgetPassword");' +
+        'if(!remember||!forget||typeof openGate!=="function"||typeof submitGate!=="function")return;' +
+        'var originalOpenGate=openGate;' +
+        'var originalCloseGate=closeGate;' +
+        'var originalSubmitGate=submitGate;' +
+        'var openedAt=0;' +
+        'function readSaved(){try{var raw=localStorage.getItem(STORE_KEY);var obj=raw?JSON.parse(raw):{};return obj&&typeof obj==="object"&&!Array.isArray(obj)?obj:{}}catch(e){return {}}}' +
+        'function writeSaved(obj){try{var keys=Object.keys(obj);if(keys.length)localStorage.setItem(STORE_KEY,JSON.stringify(obj));else localStorage.removeItem(STORE_KEY)}catch(e){}}' +
+        'function hasSaved(areaId){var obj=readSaved();return typeof obj[areaId]==="string"&&obj[areaId].length>0}' +
+        'function saveFor(areaId,value){var obj=readSaved();obj[areaId]=value;writeSaved(obj)}' +
+        'function removeFor(areaId){var obj=readSaved();if(Object.prototype.hasOwnProperty.call(obj,areaId)){delete obj[areaId];writeSaved(obj)}}' +
+        'function syncRemember(areaId){var yes=!!areaId&&hasSaved(areaId);remember.checked=yes;forget.hidden=!yes}' +
+        'function fillSaved(force){if(!currentArea)return;if(!force&&Date.now()-openedAt<350)return;var obj=readSaved();var saved=obj[currentArea];if(typeof saved==="string"&&saved.length&&areaPassword.value===""){areaPassword.value=saved}}' +
+        'window.openGate=function(areaId){originalOpenGate(areaId);openedAt=Date.now();if(areaConfig[areaId]&&areaConfig[areaId].password){syncRemember(areaId)}};' +
+        'window.closeGate=function(){originalCloseGate();remember.checked=false;forget.hidden=true;};' +
+        'window.submitGate=function(){if(currentArea){var cfg=areaConfig[currentArea];var value=(areaPassword.value||"").trim();if(cfg&&value&&value===cfg.password){if(remember.checked){saveFor(currentArea,value)}else{removeFor(currentArea)}}}originalSubmitGate();};' +
+        'remember.addEventListener("change",function(){if(!currentArea)return;if(!remember.checked){removeFor(currentArea);forget.hidden=true}});' +
+        'forget.addEventListener("click",function(){if(!currentArea)return;removeFor(currentArea);remember.checked=false;forget.hidden=true;areaPassword.value="";areaPassword.focus()});' +
+        'areaPassword.addEventListener("pointerdown",function(){fillSaved(true)});' +
+        'areaPassword.addEventListener("touchstart",function(){fillSaved(true)},{passive:true});' +
+        'areaPassword.addEventListener("focus",function(){fillSaved(false)});' +
+      '})();<\/script>';
+
+      html = html.replace('</body>', savedPasswordScript + '</body>');
+    }
+
     res.statusCode = 200;
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.setHeader('cache-control', 'no-store, max-age=0, must-revalidate');
