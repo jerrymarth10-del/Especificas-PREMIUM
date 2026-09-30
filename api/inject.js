@@ -523,6 +523,9 @@ module.exports = async function handler(req, res) {
       '</style>';
       html = html.replace('</head>', savedPasswordStyle + '</head>');
 
+      // O foco deve partir do aluno, sem temporizadores que possam preencher ao abrir.
+      html = html.replace('  setTimeout(() => areaPassword.focus(), 60);', '');
+
       const savedPasswordScript = '<script id="jr-saved-password-script-v1">(function(){' +
         'var STORE_KEY="jr_saved_area_passwords";' +
         'var remember=document.getElementById("jrRememberPassword");' +
@@ -531,22 +534,21 @@ module.exports = async function handler(req, res) {
         'var originalOpenGate=openGate;' +
         'var originalCloseGate=closeGate;' +
         'var originalSubmitGate=submitGate;' +
-        'var openedAt=0;' +
         'function readSaved(){try{var raw=localStorage.getItem(STORE_KEY);var obj=raw?JSON.parse(raw):{};return obj&&typeof obj==="object"&&!Array.isArray(obj)?obj:{}}catch(e){return {}}}' +
         'function writeSaved(obj){try{var keys=Object.keys(obj);if(keys.length)localStorage.setItem(STORE_KEY,JSON.stringify(obj));else localStorage.removeItem(STORE_KEY)}catch(e){}}' +
         'function hasSaved(areaId){var obj=readSaved();return typeof obj[areaId]==="string"&&obj[areaId].length>0}' +
         'function saveFor(areaId,value){var obj=readSaved();obj[areaId]=value;writeSaved(obj)}' +
         'function removeFor(areaId){var obj=readSaved();if(Object.prototype.hasOwnProperty.call(obj,areaId)){delete obj[areaId];writeSaved(obj)}}' +
         'function syncRemember(areaId){var yes=!!areaId&&hasSaved(areaId);remember.checked=yes;forget.hidden=!yes;areaPassword.placeholder=yes?"Toque no campo para usar a senha salva":"Digite a senha"}' +
-        'function fillSaved(force){if(!currentArea)return;if(!force&&Date.now()-openedAt<350)return;var obj=readSaved();var saved=obj[currentArea];if(typeof saved==="string"&&saved.length&&areaPassword.value===""){areaPassword.value=saved}}' +
-        'window.openGate=function(areaId){openedAt=Date.now();originalOpenGate(areaId);if(areaConfig[areaId]&&areaConfig[areaId].password){syncRemember(areaId)}};' +
+        'function fillSaved(){if(!currentArea||!gate.classList.contains("active"))return;var obj=readSaved();var saved=obj[currentArea];if(typeof saved==="string"&&saved.length&&areaPassword.value===""){areaPassword.value=saved}}' +
+        'window.openGate=function(areaId){originalOpenGate(areaId);if(areaConfig[areaId]&&areaConfig[areaId].password){areaPassword.type="password";var eye=areaPassword.parentElement.querySelector(".password-eye-btn");if(eye){eye.setAttribute("aria-label","Mostrar senha");eye.setAttribute("title","Mostrar senha")}syncRemember(areaId)}};' +
         'window.closeGate=function(){originalCloseGate();remember.checked=false;forget.hidden=true;areaPassword.placeholder="Digite a senha";};' +
-        'window.submitGate=function(){if(currentArea){var cfg=areaConfig[currentArea];var value=(areaPassword.value||"").trim();if(cfg&&value&&value===cfg.password){if(remember.checked){saveFor(currentArea,value)}else{removeFor(currentArea)}}}originalSubmitGate();};' +
-        'remember.addEventListener("change",function(){if(!currentArea)return;if(!remember.checked){removeFor(currentArea);forget.hidden=true}});' +
+        'window.submitGate=function(){var chosen=currentArea;var value=(areaPassword.value||"").trim();var shouldSave=remember.checked;originalSubmitGate();if(chosen&&currentArea===null&&!gate.classList.contains("active")){if(shouldSave){saveFor(chosen,value)}else{removeFor(chosen)}}};' +
+        'remember.addEventListener("change",function(){if(!currentArea)return;if(!remember.checked){removeFor(currentArea);forget.hidden=true;areaPassword.placeholder="Digite a senha"}});' +
         'forget.addEventListener("click",function(){if(!currentArea)return;removeFor(currentArea);remember.checked=false;forget.hidden=true;areaPassword.value="";areaPassword.placeholder="Digite a senha";areaPassword.focus()});' +
-        'areaPassword.addEventListener("pointerdown",function(){fillSaved(true)});' +
-        'areaPassword.addEventListener("touchstart",function(){fillSaved(true)},{passive:true});' +
-        'areaPassword.addEventListener("focus",function(){fillSaved(false)});' +
+        'areaPassword.addEventListener("pointerdown",fillSaved);' +
+        'areaPassword.addEventListener("touchstart",fillSaved,{passive:true});' +
+        'areaPassword.addEventListener("focus",fillSaved);' +
       '})();<\/script>';
 
       html = html.replace('</body>', savedPasswordScript + '</body>');
