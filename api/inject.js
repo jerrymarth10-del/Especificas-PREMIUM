@@ -509,11 +509,11 @@ module.exports = async function handler(req, res) {
   if(!field||document.getElementById("jrRememberAreaPassword"))return;
   var row=document.createElement("label");
   row.className="jr-remember-row";
-  row.innerHTML=\'<input type="checkbox" id="jrRememberAreaPassword"><span>Salvar senha neste aparelho</span>\';
+  row.innerHTML=\'<input type="checkbox" id="jrRememberAreaPassword"><span>Salvar senha neste dispositivo</span>\';
   field.insertAdjacentElement("afterend",row);
   var note=document.createElement("div");
   note.className="jr-remember-note";
-  note.textContent="A senha salva só aparece quando você tocar no campo.";
+  note.textContent="Salva somente neste aparelho. Toque no campo para preencher.";
   row.insertAdjacentElement("afterend",note);
   var check=document.getElementById("jrRememberAreaPassword");
   var activeArea=null;
@@ -542,7 +542,7 @@ module.exports = async function handler(req, res) {
       try{input.dispatchEvent(new Event("input",{bubbles:true}));}catch(e){}
     }
   }
-  input.addEventListener("pointerdown",fillSaved);
+  input.addEventListener("focus",function(){if(!suppressInitialFocus)fillSaved();});\n  input.addEventListener("pointerdown",fillSaved);
   input.addEventListener("click",fillSaved);
   input.addEventListener("touchstart",fillSaved,{passive:true});
   check.addEventListener("change",function(){
