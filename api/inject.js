@@ -539,7 +539,7 @@ module.exports = async function handler(req, res) {
         'function removeFor(areaId){var obj=readSaved();if(Object.prototype.hasOwnProperty.call(obj,areaId)){delete obj[areaId];writeSaved(obj)}}' +
         'function syncRemember(areaId){var yes=!!areaId&&hasSaved(areaId);remember.checked=yes;forget.hidden=!yes;areaPassword.placeholder=yes?"Toque no campo para usar a senha salva":"Digite a senha"}' +
         'function fillSaved(force){if(!currentArea)return;if(!force&&Date.now()-openedAt<350)return;var obj=readSaved();var saved=obj[currentArea];if(typeof saved==="string"&&saved.length&&areaPassword.value===""){areaPassword.value=saved}}' +
-        'window.openGate=function(areaId){originalOpenGate(areaId);openedAt=Date.now();if(areaConfig[areaId]&&areaConfig[areaId].password){syncRemember(areaId)}};' +
+        'window.openGate=function(areaId){openedAt=Date.now();originalOpenGate(areaId);if(areaConfig[areaId]&&areaConfig[areaId].password){syncRemember(areaId)}};' +
         'window.closeGate=function(){originalCloseGate();remember.checked=false;forget.hidden=true;areaPassword.placeholder="Digite a senha";};' +
         'window.submitGate=function(){if(currentArea){var cfg=areaConfig[currentArea];var value=(areaPassword.value||"").trim();if(cfg&&value&&value===cfg.password){if(remember.checked){saveFor(currentArea,value)}else{removeFor(currentArea)}}}originalSubmitGate();};' +
         'remember.addEventListener("change",function(){if(!currentArea)return;if(!remember.checked){removeFor(currentArea);forget.hidden=true}});' +
