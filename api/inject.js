@@ -783,7 +783,7 @@ module.exports = async function handler(req, res) {
               '.catch(function(){history.replaceState(null,"",location.pathname+location.search);setTimeout(openRequested,100);});' +
           '}' +
           'claimTicket();' +
-        '})();<\\/script>';
+        '})();</script>';
       html = html.replace('</body>', areaAccessScript + '</body>');
     }
 
