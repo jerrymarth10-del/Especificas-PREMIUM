@@ -8,7 +8,7 @@ const { buildPoliciaPenal } = require('./policia-penal-data');
 const JR_AREA_VERIFY_URL = 'https://sesau-certo.vercel.app/api/verify-area-ticket';
 const JR_HEALTH_AREAS = new Set([
   'radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio',
-  'nutricao','biomedicina','odontologia','psicologia','acsfiscal','educacaofisica','clinico'
+  'nutricao','biomedicina','odontologia','psicologia','acsfiscal','endemias','clinico'
 ]);
 
 function jrReadCookies(req){
@@ -759,7 +759,7 @@ module.exports = async function handler(req, res) {
       const areaAccessScript = '<script id="jr-purchased-area-access-v1">' +
         'window.__JR_PURCHASED_AREAS=' + safeAreas + ';' +
         '(function(){' +
-          'var health=["radiologia","enfermagem","tecnico","fisioterapia","farmaceutico","laboratorio","nutricao","biomedicina","odontologia","psicologia","acsfiscal","educacaofisica","clinico"];' +
+          'var health=["radiologia","enfermagem","tecnico","fisioterapia","farmaceutico","laboratorio","nutricao","biomedicina","odontologia","psicologia","acsfiscal","endemias","clinico"];' +
           'var allowed=Array.isArray(window.__JR_PURCHASED_AREAS)?window.__JR_PURCHASED_AREAS:[];' +
           'var original=window.openGate;' +
           'function openLegacy(areaId){return typeof original==="function"?original.apply(this,arguments):undefined;}' +
