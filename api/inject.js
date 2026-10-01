@@ -547,6 +547,42 @@ module.exports = async function handler(req, res) {
       }
     }
 
+
+    // JR: provas anteriores de Medicina / banca IBGP para o bloco Clínico Geral.
+    // Mantém todo o conteúdo existente e acrescenta uma seção separada, no padrão Prova + Gabarito.
+    if (!html.includes('jr-clinico-provas-ibgp-v1')) {
+      const clinicoStart = html.indexOf('id="area-clinico"');
+      const clinicoNext = clinicoStart >= 0 ? html.indexOf('<section class="area"', clinicoStart + 40) : -1;
+      if (clinicoStart >= 0) {
+        const clinicoEnd = clinicoNext >= 0 ? clinicoNext : html.indexOf('<footer class="footer">', clinicoStart);
+        let clinico = html.slice(clinicoStart, clinicoEnd);
+        const exams =
+          '<div id="jr-clinico-provas-ibgp-v1" class="list-box" style="margin-top:16px">' +
+            '<div class="box-head"><strong>Provas anteriores • Medicina • IBGP</strong><span>5 provas + gabaritos</span></div>' +
+            '<p style="margin:0 0 10px;color:#94a3b8;font-size:11px;line-height:1.45">Cadernos anteriores da banca IBGP para treinar o estilo de cobrança em Medicina, Saúde da Família, SUS e áreas médicas.</p>' +
+
+            '<div class="pdf-item" style="cursor:default"><span class="pdf-mark">IBGP</span><span class="lesson-text"><strong>Médico • Lagoa Santa/MG</strong><small>2015 • banca IBGP • PCI Concursos</small></span><span class="jr-exam-actions"><a href="https://www.pciconcursos.com.br/provas/download/medico-prefeitura-lagoa-santa-mg-ibgp-2015/6-ibgp-medico.pdf" target="_blank" rel="noopener">PROVA</a><a href="https://www.pciconcursos.com.br/provas/download/medico-prefeitura-lagoa-santa-mg-ibgp-2015/gab-preliminar.pdf" target="_blank" rel="noopener">GABARITO</a></span></div>' +
+
+            '<div class="pdf-item" style="cursor:default"><span class="pdf-mark">IBGP</span><span class="lesson-text"><strong>Médico do Trabalho • Santa Luzia/MG</strong><small>2018 • banca IBGP • PCI Concursos</small></span><span class="jr-exam-actions"><a href="https://www.pciconcursos.com.br/provas/download/medico-do-trabalho-prefeitura-santa-luzia-mg-ibgp-2018/medico-do-trabalho.pdf" target="_blank" rel="noopener">PROVA</a><a href="https://www.pciconcursos.com.br/provas/download/medico-do-trabalho-prefeitura-santa-luzia-mg-ibgp-2018/gabaritos.pdf" target="_blank" rel="noopener">GABARITO</a></span></div>' +
+
+            '<div class="pdf-item" style="cursor:default"><span class="pdf-mark">IBGP</span><span class="lesson-text"><strong>Médico PSF • Andradas/MG</strong><small>2017 • banca IBGP • PCI Concursos</small></span><span class="jr-exam-actions"><a href="https://www.pciconcursos.com.br/provas/medico-psf-e-hpp-abrangente/9" target="_blank" rel="noopener">PROVA</a><a href="https://www.pciconcursos.com.br/provas/medico-psf-e-hpp-abrangente/9" target="_blank" rel="noopener">GABARITO</a></span></div>' +
+
+            '<div class="pdf-item" style="cursor:default"><span class="pdf-mark">IBGP</span><span class="lesson-text"><strong>Médico Família e Comunidade • Lagoa Santa/MG</strong><small>2015 • banca IBGP • PCI Concursos</small></span><span class="jr-exam-actions"><a href="https://www.pciconcursos.com.br/provas/especialidades-com-acesse-direto-medicina-da-familia-e-comunidade-abrangente/4" target="_blank" rel="noopener">PROVA</a><a href="https://www.pciconcursos.com.br/provas/especialidades-com-acesse-direto-medicina-da-familia-e-comunidade-abrangente/4" target="_blank" rel="noopener">GABARITO</a></span></div>' +
+
+            '<div class="pdf-item" style="cursor:default"><span class="pdf-mark">IBGP</span><span class="lesson-text"><strong>Médico do Trabalho • CISSUL/MG</strong><small>2017 • banca IBGP • PCI Concursos</small></span><span class="jr-exam-actions"><a href="https://www.pciconcursos.com.br/provas/instrutor-i-seguranca-do-trabalho-abrangente/158" target="_blank" rel="noopener">PROVA</a><a href="https://www.pciconcursos.com.br/provas/instrutor-i-seguranca-do-trabalho-abrangente/158" target="_blank" rel="noopener">GABARITO</a></span></div>' +
+          '</div>';
+        const closeAt = clinico.lastIndexOf('</div></div></div>');
+        if (closeAt >= 0) {
+          clinico = clinico.slice(0, closeAt) + exams + clinico.slice(closeAt);
+          html = html.slice(0, clinicoStart) + clinico + html.slice(clinicoEnd);
+        }
+      }
+    }
+
+    if (!html.includes('.jr-exam-actions{')) {
+      html = html.replace('</style>', '\n<style>.jr-exam-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.jr-exam-actions a{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;padding:7px 9px;border-radius:9px;background:#2563eb;color:#fff!important;font-size:10px;font-weight:900}.jr-exam-actions a+a{background:#0f766e}@media(max-width:720px){.jr-exam-actions{grid-column:2/-1;justify-content:flex-start;margin-top:6px}}</style>\n</style>');
+    }
+
     const prfBundle = buildPrf();
 
     if (!html.includes('#area-prf .prf-video')) {
