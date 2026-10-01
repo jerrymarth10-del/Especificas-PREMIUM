@@ -82,8 +82,10 @@ function buildExtra(){
   ];
   const endResources=[
     ['EDITAL','Edital oficial Vilhena/RO • 02/2026','IBGP • ACS e Agente de Combate às Endemias','https://novo.ibgpconcursos.com.br/rest/concurso/download/edital/23962/?file=site/anexos/749/00+-+EDITAL+N%EF%BF%BD+02-2026+PSP_VILHENA-RO.pdf'],
-    ['PROVA','ACE • Andradas/MG • IBGP 2017','PCI Concursos • prova e gabarito da mesma banca','https://www.pciconcursos.com.br/provas/download/agente-de-combate-a-endemias-prefeitura-andradas-mg-ibgp-2017'],
-    ['PROVA','ACE • Lagoa Santa/MG • IBGP 2015','PCI Concursos • prova e gabarito da mesma banca','https://www.pciconcursos.com.br/provas/download/agente-de-combate-as-endemias-prefeitura-lagoa-santa-mg-ibgp-2015'],
+    ['PROVA','ACE • Andradas/MG • IBGP 2017','PCI Concursos • prova direta em PDF','https://www.pciconcursos.com.br/provas/download/agente-de-combate-a-endemias-prefeitura-andradas-mg-ibgp-2017/agente-de-combate-a-endemias.pdf'],
+    ['GAB','Gabarito • ACE • Andradas/MG • IBGP 2017','PCI Concursos • gabarito direto em PDF','https://www.pciconcursos.com.br/provas/download/agente-de-combate-a-endemias-prefeitura-andradas-mg-ibgp-2017/gabarito.pdf'],
+    ['PROVA','ACE • Lagoa Santa/MG • IBGP 2015','PCI Concursos • prova direta em PDF','https://www.pciconcursos.com.br/provas/download/agente-de-combate-as-endemias-prefeitura-lagoa-santa-mg-ibgp-2015/2-ibgp-agente-combate-endemias.pdf'],
+    ['GAB','Gabarito preliminar • ACE • Lagoa Santa/MG • IBGP 2015','PCI Concursos • gabarito direto em PDF','https://www.pciconcursos.com.br/provas/download/agente-de-combate-as-endemias-prefeitura-lagoa-santa-mg-ibgp-2015/gab-preliminar.pdf'],
     ['PROVA','Agente Comunitário de Saúde • Andradas/MG • IBGP 2017','Treino da mesma banca e área de saúde pública','https://www.pciconcursos.com.br/provas/download/agente-comunitario-de-saude-prefeitura-andradas-mg-ibgp-2017'],
     ['PROVA','Técnico em Enfermagem • Dores do Indaiá/MG • IBGP 2021','Treino complementar da banca IBGP • área da saúde','https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-dores-do-indaia-mg-ibgp-2021'],
     ['PROVA','Técnico em Enfermagem • São João del-Rei/MG • IBGP 2021','Treino complementar da banca IBGP • área da saúde','https://www.pciconcursos.com.br/provas/download/tecnico-em-enfermagem-prefeitura-sao-joao-del-rei-mg-ibgp-2021'],
