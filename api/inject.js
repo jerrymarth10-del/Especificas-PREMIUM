@@ -184,7 +184,7 @@ module.exports = async function handler(req, res) {
       if (cfgStart < 0) throw new Error('Configuração das áreas não encontrada');
       const cfgEnd = html.indexOf('};', cfgStart);
       if (cfgEnd < 0) throw new Error('Fim da configuração das áreas não encontrado');
-      const entry = '  quimica: { title: "Seduc PA • Professor de Química", password: "QUIMICA2026", sectionId: "area-quimica", storageKey: "jr_especifica_quimica" },\n';
+      const entry = '  quimica: { title: "Seduc PA • Professor de Química", password: "", sectionId: "area-quimica", storageKey: "jr_especifica_quimica" },\n';
       html = html.slice(0, cfgEnd) + entry + html.slice(cfgEnd);
     }
 
