@@ -104,9 +104,15 @@ function examMarkup(){
 function buildPsicologiaSemusa(){
   const first=LESSONS[0];
   const card =
-    '<article class="card jr-pss-card jr-approved-art-card" onclick="openGate(\'psicologiasemusa\')" role="button" tabindex="0" ' +
-    'onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openGate(\'psicologiasemusa\')}" aria-label="Acessar Psicologia SEMUSA Porto Velho">' +
+    '<article class="card jr-pss-card jr-approved-art-card">' +
       '<img class="jr-pss-card-art" src="data:image/jpeg;base64,' + CARD_ART_BASE64 + '" alt="SEMUSA Porto Velho Psicologia" width="220" height="330" decoding="async" loading="eager">' +
+      '<div class="card-shade"></div>' +
+      '<div class="card-body">' +
+        '<span class="tag">🧠 SEMUSA Porto Velho • Psicologia</span>' +
+        '<h3>Psicologia</h3>' +
+        '<p>Preparação para Psicologia da SEMUSA Porto Velho, com videoaulas, SUS, ética profissional, PDFs e provas com gabaritos.</p>' +
+        '<button class="card-btn" type="button" onclick="openGate(\'psicologiasemusa\')" aria-label="Acessar Psicologia SEMUSA Porto Velho">Acessar</button>' +
+      '</div>' +
     '</article>';
 
   const area =
@@ -154,7 +160,7 @@ function buildPsicologiaSemusa(){
     '</section>';
 
   const css =
-    '.jr-pss-card{position:relative!important;overflow:hidden!important;padding:0!important;background:#050505!important;aspect-ratio:2/3!important;min-width:0}.jr-pss-card .jr-pss-card-art{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;display:block!important;transform:none!important;transition:none!important}.jr-pss-card:focus{outline:2px solid #ef4444;outline-offset:3px}' +
+    '.jr-pss-card{position:relative!important;overflow:hidden!important;padding:0!important;background:#050505!important;aspect-ratio:2/3!important;min-width:0}.jr-pss-card .jr-pss-card-art{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;display:block!important;transform:none!important;transition:none!important}.jr-pss-card:focus-within{outline:2px solid #ef4444;outline-offset:3px}' +
     '.jr-pss-card .tag{background:rgba(37,99,235,.18)!important;border-color:rgba(96,165,250,.34)!important;color:#dbeafe!important}' +
     '.jr-pss-area{--pss-blue:#2563eb;--pss-sky:#60a5fa}.jr-pss-edital{display:flex;flex-wrap:wrap;gap:7px;margin:2px 0 18px}.jr-pss-edital span{padding:7px 10px;border-radius:999px;background:rgba(37,99,235,.12);border:1px solid rgba(96,165,250,.22);font-size:11px;font-weight:800;color:#dbeafe}' +
     '.jr-pss-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:15px}.jr-pss-side{display:grid;gap:15px;align-content:start}.jr-pss-box{border:1px solid rgba(148,163,184,.18);border-radius:18px;background:rgba(2,6,23,.34);padding:14px;min-width:0}.jr-pss-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px}.jr-pss-head strong{font-size:14px}.jr-pss-head span{font-size:10px;font-weight:900;color:#93c5fd}' +
