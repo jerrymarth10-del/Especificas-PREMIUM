@@ -580,7 +580,7 @@ module.exports = async function handler(req, res) {
     }
 
     if (!html.includes('.jr-exam-actions{')) {
-      html = html.replace('</style>', '\n<style>.jr-exam-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.jr-exam-actions a{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;padding:7px 9px;border-radius:9px;background:#2563eb;color:#fff!important;font-size:10px;font-weight:900}.jr-exam-actions a+a{background:#0f766e}@media(max-width:720px){.jr-exam-actions{grid-column:2/-1;justify-content:flex-start;margin-top:6px}}</style>\n</style>');
+      html = html.replace('</style>', '\n.jr-exam-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.jr-exam-actions a{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;padding:7px 9px;border-radius:9px;background:#2563eb;color:#fff!important;font-size:10px;font-weight:900}.jr-exam-actions a+a{background:#0f766e}@media(max-width:720px){.jr-exam-actions{grid-column:2/-1;justify-content:flex-start;margin-top:6px}}\n</style>');
     }
 
     const prfBundle = buildPrf();
