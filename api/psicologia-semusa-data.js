@@ -1,4 +1,4 @@
-const CARD_ART_BASE64 = require('./psicologia-semusa-card-1') + require('./psicologia-semusa-card-2') + require('./psicologia-semusa-card-3') + require('./psicologia-semusa-card-4');
+const CARD_ART_BASE64 = require('../lib/psicologia-semusa-card-1') + require('../lib/psicologia-semusa-card-2') + require('../lib/psicologia-semusa-card-3') + require('../lib/psicologia-semusa-card-4');
 
 const LESSONS = [
   ['Aspectos psicossociais da infância','Desenvolvimento psicológico infantil • aspectos psicossociais da infância','9p_mzY2hfrY'],
