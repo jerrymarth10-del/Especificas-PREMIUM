@@ -753,6 +753,131 @@ module.exports = async function handler(req, res) {
       html = html.replace('</body>', savedPasswordScript + '</body>');
     }
 
+
+
+    // JR: reforço SEMUSA Porto Velho / IBGP no bloco de Psicologia.
+    // Mantém todas as aulas e PDFs antigos e acrescenta apenas um módulo complementar.
+    if (!html.includes('id="jr-psicologia-semusa-ibgp-v1"')) {
+      const psicoStart = html.indexOf('id="area-psicologia"');
+      const psicoNext = psicoStart >= 0 ? html.indexOf('<section class="area"', psicoStart + 40) : -1;
+
+      if (psicoStart >= 0) {
+        const psicoEnd = psicoNext >= 0 ? psicoNext : html.indexOf('<footer class="footer">', psicoStart);
+        let psico = html.slice(psicoStart, psicoEnd);
+
+        psico = psico
+          .replace('🧠 IDECAN • Psicologia', '🧠 SESAU / SEMUSA • Psicologia')
+          .replace('Psicologia • SESAU • IDECAN', 'Psicologia • SESAU / SEMUSA • IDECAN / IBGP')
+          .replace(
+            'Psicólogo SESAU Rondônia • bloco com aulas de psicologia, psicopedagogia, questões IDECAN, legislação municipal e PDFs para estudo.',
+            'Psicologia para SESAU Rondônia e SEMUSA Porto Velho • aulas, questões, legislação, PDFs e provas anteriores com reforço direcionado à banca IBGP.'
+          );
+
+        const psicoUpgrade =
+          '<div id="jr-psicologia-semusa-ibgp-v1" class="jr-psico-semusa">' +
+            '<div class="jr-psico-kicker">SEMUSA PORTO VELHO • BANCA IBGP • REFORÇO 2026</div>' +
+            '<h3>Psicologia • Conteúdo direcionado ao novo edital</h3>' +
+            '<p class="jr-psico-intro">Módulo complementar às aulas que já existem na plataforma. Selecionamos aulas de professores, universidades, conselhos e canais especializados, sem depender de grandes cursinhos.</p>' +
+
+            '<div class="jr-psico-edital">' +
+              '<span>Saúde biopsicossocial</span><span>Avaliação psicológica</span><span>Infância e adolescência</span>' +
+              '<span>Processos grupais</span><span>Psicopatologia</span><span>Testes / SATEPSI</span>' +
+              '<span>Entrevista psicológica</span><span>IST / HIV / AIDS</span><span>Ética profissional</span>' +
+            '</div>' +
+
+            '<div class="jr-psico-grid">' +
+              '<div class="jr-psico-box">' +
+                '<div class="jr-psico-box-head"><strong>Videoaulas focadas no edital</strong><span>12 reforços</span></div>' +
+                '<div class="jr-psico-player">' +
+                  '<iframe id="jr-psico-player-v1" src="https://www.youtube.com/embed/lpD0-Qb9qeM" title="Psicologia • SEMUSA • Videoaula" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>' +
+                '</div>' +
+                '<div class="jr-psico-lessons">' +
+
+                  '<button type="button" class="jr-psico-lesson active" data-video="lpD0-Qb9qeM"><b>01 • Saúde como fenômeno biopsicossocial</b><small>Psicologia e modelo biopsicossocial • aula independente</small></button>' +
+                  '<button type="button" class="jr-psico-lesson" data-video="CtabP9zF6Qs"><b>02 • Avaliação psicológica e psicodiagnóstico</b><small>Conceitos, finalidade e intervenção • Monique Arantes</small></button>' +
+                  '<button type="button" class="jr-psico-lesson" data-video="IKZeE2mogLQ"><b>03 • Desenvolvimento psicológico na adolescência</b><small>Concepções teóricas • Univesp</small></button>' +
+                  '<button type="button" class="jr-psico-lesson" data-video="VI3KvhfUPbU"><b>04 • Processo grupal e dinâmica de grupo</b><small>Kurt Lewin • Prof. Marcos Justiniano</small></button>' +
+                  '<button type="button" class="jr-psico-lesson" data-video="BWLAY-BgTek"><b>05 • Princípios de Psicopatologia</b><small>Prof. Dr. Paulo Dalgalarrondo • referência universitária</small></button>' +
+                  '<button type="button" class="jr-psico-lesson" data-video="JinQt3S13sg"><b>06 • Transtornos psicóticos e esquizofrenia</b><small>Revisão de transtornos psicóticos • Liga de Psiquiatria / Unicamp</small></button>' +
+                  '<button type="button" class="jr-psico-lesson" data-video="mUIY6OMsauE"><b>07 • Depressão na Atenção Básica</b><small>Abordagem dos transtornos depressivos • Telessaúde HC-UFMG</small></button>' +
+                  '<button type="button" class="jr-psico-lesson" data-video="4jLSbk3mYVM"><b>08 • Alcoolismo e dependência do álcool</b><small>Dependência e fatores associados • Ciência USP</small></button>' +
+                  '<button type="button" class="jr-psico-lesson" data-video="opF5uvklLA0"><b>09 • Testes psicológicos e SATEPSI</b><small>Escolha e uso de testes • DicasPsi</small></button>' +
+                  '<button type="button" class="jr-psico-lesson" data-video="qgZTjf05rso"><b>10 • Entrevista psicológica / entrevista clínica</b><small>Objetivos e condução para concursos • aula especializada</small></button>' +
+                  '<button type="button" class="jr-psico-lesson" data-video="hR7FCqnbqO8"><b>11 • Psicologia, prevenção e IST/HIV/AIDS</b><small>Atuação profissional nos serviços • CREPOP</small></button>' +
+                  '<button type="button" class="jr-psico-lesson" data-video="y0nkvmYb65o"><b>12 • Determinantes sociais e ambientais da saúde</b><small>Determinantes do processo saúde-doença • Série SUS</small></button>' +
+
+                '</div>' +
+              '</div>' +
+
+              '<div class="jr-psico-box jr-psico-provas">' +
+                '<div class="jr-psico-box-head"><strong>Provas anteriores • Psicologia • IBGP</strong><span>6 provas + gabaritos</span></div>' +
+                '<p class="jr-psico-note">Links diretos para os PDFs do PCI Concursos.</p>' +
+
+                '<div class="jr-psico-prova-group"><b>2019 • Psicólogo Clínico • Andrelândia/MG</b>' +
+                  '<div><a href="https://www.pciconcursos.com.br/provas/download/psicologo-clinico-prefeitura-andrelandia-mg-ibgp-2019/psicologo-clinico.pdf" target="_blank" rel="noopener">PROVA</a>' +
+                  '<a href="https://www.pciconcursos.com.br/provas/download/psicologo-clinico-prefeitura-andrelandia-mg-ibgp-2019/gabarito.pdf" target="_blank" rel="noopener">GABARITO</a></div></div>' +
+
+                '<div class="jr-psico-prova-group"><b>2018 • Psicólogo • Santa Luzia/MG</b>' +
+                  '<div><a href="https://www.pciconcursos.com.br/provas/download/psicologo-prefeitura-santa-luzia-mg-ibgp-2018/psiclogo.pdf" target="_blank" rel="noopener">PROVA</a>' +
+                  '<a href="https://www.pciconcursos.com.br/provas/download/psicologo-prefeitura-santa-luzia-mg-ibgp-2018/gabaritos.pdf" target="_blank" rel="noopener">GABARITO</a></div></div>' +
+
+                '<div class="jr-psico-prova-group"><b>2018 • Téc. Superior de Saúde – Psicólogo • Itabira/MG</b>' +
+                  '<div><a href="https://www.pciconcursos.com.br/provas/download/tecnico-superior-de-saude-psicologo-prefeitura-itabira-mg-ibgp-2018/tecnico-superior-de-saude-psicologo.pdf" target="_blank" rel="noopener">PROVA</a>' +
+                  '<a href="https://www.pciconcursos.com.br/provas/download/tecnico-superior-de-saude-psicologo-prefeitura-itabira-mg-ibgp-2018/gabarito.pdf" target="_blank" rel="noopener">GABARITO</a></div></div>' +
+
+                '<div class="jr-psico-prova-group"><b>2017 • Psicólogo • Andradas/MG</b>' +
+                  '<div><a href="https://www.pciconcursos.com.br/provas/download/psicologo-prefeitura-andradas-mg-ibgp-2017/psicologo.pdf" target="_blank" rel="noopener">PROVA</a>' +
+                  '<a href="https://www.pciconcursos.com.br/provas/download/psicologo-prefeitura-andradas-mg-ibgp-2017/gabarito.pdf" target="_blank" rel="noopener">GABARITO</a></div></div>' +
+
+                '<div class="jr-psico-prova-group"><b>2016 • Psicólogo • CISSUL/MG</b>' +
+                  '<div><a href="https://www.pciconcursos.com.br/provas/download/psicologo-cissul-mg-ibgp-2016/psicologo.pdf" target="_blank" rel="noopener">PROVA</a>' +
+                  '<a href="https://www.pciconcursos.com.br/provas/download/psicologo-cissul-mg-ibgp-2016/gabarito.pdf" target="_blank" rel="noopener">GABARITO</a></div></div>' +
+
+                '<div class="jr-psico-prova-group"><b>2015 • Psicólogo • Lagoa Santa/MG</b>' +
+                  '<div><a href="https://www.pciconcursos.com.br/provas/download/psicologo-prefeitura-lagoa-santa-mg-ibgp-2015/8-ibgp-psicologo.pdf" target="_blank" rel="noopener">PROVA</a>' +
+                  '<a href="https://www.pciconcursos.com.br/provas/download/psicologo-prefeitura-lagoa-santa-mg-ibgp-2015/gab-preliminar.pdf" target="_blank" rel="noopener">GABARITO</a></div></div>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+
+        const lastClose = psico.lastIndexOf('</section>');
+        if (lastClose >= 0) {
+          psico = psico.slice(0, lastClose) + psicoUpgrade + psico.slice(lastClose);
+          html = html.slice(0, psicoStart) + psico + html.slice(psicoEnd);
+        }
+      }
+    }
+
+    if (!html.includes('.jr-psico-semusa{')) {
+      const psicoCss =
+        '.jr-psico-semusa{margin:24px 0 4px;padding:20px;border:1px solid rgba(59,130,246,.22);border-radius:22px;background:linear-gradient(180deg,rgba(15,23,42,.96),rgba(15,23,42,.86));box-shadow:0 18px 45px rgba(2,6,23,.22)}' +
+        '.jr-psico-semusa h3{margin:7px 0 8px;font-size:22px}.jr-psico-kicker{font-size:11px;font-weight:900;letter-spacing:.09em;color:#93c5fd}.jr-psico-intro{margin:0 0 14px;color:#cbd5e1;line-height:1.5}' +
+        '.jr-psico-edital{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 16px}.jr-psico-edital span{padding:6px 9px;border-radius:999px;background:rgba(59,130,246,.13);border:1px solid rgba(96,165,250,.22);font-size:11px;color:#dbeafe;font-weight:700}' +
+        '.jr-psico-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);gap:14px}.jr-psico-box{border:1px solid rgba(148,163,184,.18);border-radius:16px;background:rgba(2,6,23,.32);padding:13px;min-width:0}.jr-psico-box-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.jr-psico-box-head strong{font-size:14px}.jr-psico-box-head span{font-size:10px;font-weight:800;color:#93c5fd}' +
+        '.jr-psico-player{position:relative;aspect-ratio:16/9;border-radius:13px;overflow:hidden;background:#000;margin-bottom:10px}.jr-psico-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.jr-psico-lessons{display:grid;gap:7px;max-height:500px;overflow:auto;padding-right:2px}.jr-psico-lesson{appearance:none;text-align:left;width:100%;padding:10px 11px;border-radius:11px;border:1px solid rgba(148,163,184,.18);background:rgba(15,23,42,.72);color:#f8fafc;cursor:pointer}.jr-psico-lesson b,.jr-psico-lesson small{display:block}.jr-psico-lesson b{font-size:12px;line-height:1.35}.jr-psico-lesson small{margin-top:3px;color:#94a3b8;font-size:10px;line-height:1.35}.jr-psico-lesson.active{border-color:rgba(96,165,250,.62);background:rgba(37,99,235,.18)}' +
+        '.jr-psico-note{font-size:11px;color:#94a3b8;margin:0 0 10px}.jr-psico-prova-group{padding:11px 0;border-top:1px solid rgba(148,163,184,.14)}.jr-psico-prova-group:first-of-type{border-top:0}.jr-psico-prova-group b{display:block;font-size:12px;line-height:1.35;margin-bottom:7px}.jr-psico-prova-group div{display:flex;gap:7px;flex-wrap:wrap}.jr-psico-prova-group a{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;padding:7px 9px;border-radius:9px;background:#2563eb;color:#fff;font-size:10px;font-weight:900;letter-spacing:.03em}.jr-psico-prova-group a+ a{background:#0f766e}' +
+        '@media(max-width:820px){.jr-psico-semusa{padding:14px}.jr-psico-grid{grid-template-columns:1fr}.jr-psico-lessons{max-height:none}.jr-psico-box-head{align-items:flex-start}.jr-psico-semusa h3{font-size:19px}}';
+      html = html.replace('</style>', psicoCss + '</style>');
+    }
+
+    if (!html.includes('id="jr-psico-semusa-script-v1"')) {
+      const psicoScript =
+        '<script id="jr-psico-semusa-script-v1">(function(){' +
+          'function init(){' +
+            'var root=document.getElementById("jr-psicologia-semusa-ibgp-v1");if(!root)return;' +
+            'var player=document.getElementById("jr-psico-player-v1");if(!player)return;' +
+            'root.querySelectorAll(".jr-psico-lesson").forEach(function(btn){btn.addEventListener("click",function(){' +
+              'var id=btn.getAttribute("data-video");if(!id)return;' +
+              'player.src="https://www.youtube.com/embed/"+encodeURIComponent(id)+"?autoplay=1";' +
+              'root.querySelectorAll(".jr-psico-lesson").forEach(function(x){x.classList.remove("active")});btn.classList.add("active");' +
+              'try{player.scrollIntoView({behavior:"smooth",block:"center"})}catch(e){}' +
+            '})});' +
+          '}' +
+          'if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();' +
+        '})();</script>';
+      html = html.replace('</body>', psicoScript + '</body>');
+    }
+
     const jrPurchasedAreas = await jrPurchasedAreasFromRequest(req);
     if (!html.includes('id="jr-purchased-area-access-v1"')) {
       const safeAreas = JSON.stringify(jrPurchasedAreas).replace(/</g, '\\u003c');
