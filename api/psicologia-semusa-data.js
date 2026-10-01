@@ -1,4 +1,17 @@
 const LESSONS = [
+  ['Aspectos psicossociais da infância','Desenvolvimento psicológico infantil • aspectos psicossociais da infância','9p_mzY2hfrY'],
+  ['Psicologia do desenvolvimento • questões comentadas','Desenvolvimento humano • revisão por questões de concursos','n3MUrSIUFcU'],
+  ['Teoria dos estágios cognitivos de Piaget','Desenvolvimento cognitivo • questões comentadas para concursos','ZxTaneT6fsE'],
+  ['Psicanálise • questões comentadas','Desenvolvimento psicológico e Psicanálise • revisão para concursos','p_wMqmh9HCQ'],
+  ['Avaliação psicológica • questões comentadas','Avaliação psicológica aplicada às provas de concurso','d7f8mRLTyvA'],
+  ['História da Psicologia • questões comentadas','Bases históricas e desenvolvimento da Psicologia','Wy-oxeTkJ00'],
+  ['Código de Ética Profissional para concursos','Código de Ética Profissional da Psicóloga e do Psicólogo','1MVmB5iFdms'],
+  ['Princípios fundamentais do Código de Ética','Princípios fundamentais que orientam a atuação profissional','q0qXg5GHxlw'],
+  ['Deveres fundamentais do psicólogo','Deveres profissionais previstos no Código de Ética','jib4xZFnvUQ'],
+  ['Vedações éticas na prática profissional','O que o psicólogo não pode fazer na prática profissional','6_AFMy2cE_Q'],
+  ['Responsabilidades profissionais do psicólogo','Responsabilidades descritas no Código de Ética','eo69_HZowWQ'],
+  ['Consequências do descumprimento do Código de Ética','Infrações, responsabilização e consequências éticas','VdS9yJB0uvQ'],
+  ['Resumo do Código de Ética para provas','Revisão dos pontos essenciais para concurso e prática profissional','nY1hkQ582Ho'],
   ['Saúde como fenômeno biopsicossocial','Psicologia e modelo biopsicossocial • conceito de saúde multideterminado','lpD0-Qb9qeM'],
   ['Avaliação psicológica e psicodiagnóstico','Avaliação como base da intervenção • conceitos, técnicas e diagnóstico','CtabP9zF6Qs'],
   ['Desenvolvimento psicológico na adolescência','Concepções teóricas do desenvolvimento psicológico','IKZeE2mogLQ'],
@@ -19,11 +32,12 @@ const LESSONS = [
   ['Transtornos de ansiedade','Características, tipos, sintomas e tratamento','HJAUBm7cu9w'],
   ['Alcoolismo e dependência do álcool','Dependência do álcool e fatores associados','4jLSbk3mYVM'],
   ['Testes psicológicos e SATEPSI','Uso de testes, critérios técnicos e consulta ao sistema do CFP','bmXDb0MASK8'],
-  ['Código de Ética do Psicólogo','Código de Ética Profissional da Psicóloga e do Psicólogo','1MVmB5iFdms'],
   ['Constituição Federal • arts. 196 a 200','Saúde na Constituição e base constitucional do SUS','bnHmW4zN6n8'],
   ['Lei nº 8.080/1990','Organização, princípios e conceitos fundamentais do SUS','pT-Vz2sxdDc'],
   ['Lei nº 8.142/1990','Participação social e transferências intergovernamentais','Ri9Gn-Uf-p8'],
-  ['PNAB • Atenção Primária • ESF','Política Nacional de Atenção Básica e Estratégia Saúde da Família','BfP3qtjKiGw'],
+  ['PNAB • Política Nacional de Atenção Básica','Portaria nº 2.436/2017 • fundamentos da Atenção Básica','G7idwHauTlQ'],
+  ['PNAB • princípios e diretrizes da Atenção Básica','Princípios, diretrizes, organização e funcionamento da Atenção Básica','LJzIPpeqeug'],
+  ['PNAB • questões de prova','Questões comentadas sobre Atenção Básica e Portaria nº 2.436/2017','lv3O6FVonYQ'],
   ['Vigilância em Saúde','Vigilância epidemiológica, sanitária, ambiental e do trabalhador','V9cpuEW6zEs'],
   ['Sistemas de Informação em Saúde','Informação para gestão, vigilância e epidemiologia no SUS','OqWsAlCEfUE'],
   ['Epidemiologia • conceitos e estudos','Conceitos epidemiológicos e tipos de estudos cobrados em provas','-SB43jzq-as']
@@ -102,7 +116,7 @@ function buildPsicologiaSemusa(){
       '<div class="area-top"><div class="area-head"><div>' +
         '<span class="mini-tag">🧠 SEMUSA Porto Velho • Psicologia • IBGP</span>' +
         '<h2>Psicologia • SEMUSA Porto Velho • IBGP</h2>' +
-        '<p>Trilha separada e direcionada ao Edital nº 25/2026, sem foco psicopedagógico: conteúdos específicos de Psicologia, SUS, legislação em saúde e provas anteriores da banca IBGP.</p>' +
+        '<p>Trilha separada e direcionada ao Edital nº 25/2026: conteúdos específicos de Psicologia, SUS, legislação em saúde e provas anteriores da banca IBGP.</p>' +
       '</div></div></div>' +
 
       '<div class="jr-pss-edital">' +
@@ -129,9 +143,12 @@ function buildPsicologiaSemusa(){
           '</div>' +
 
           '<div class="jr-pss-box">' +
-            '<div class="jr-pss-head"><strong>PDFs e questões</strong><span>apoio</span></div>' +
+            '<div class="jr-pss-head"><strong>PDFs e questões</strong><span>6 materiais</span></div>' +
             '<a class="jr-pss-resource" href="/pdfs/250-questoes-comentadas-psicologo-2026.pdf" target="_blank" rel="noopener"><b>PDF • 250 questões comentadas – Psicólogo 2026</b><small>Treino complementar de Psicologia</small></a>' +
             '<a class="jr-pss-resource" href="/pdfs/250-questoes-comentadas-psicologo-2026-gabarito.pdf" target="_blank" rel="noopener"><b>Gabarito • 250 questões comentadas</b><small>Arquivo de respostas do material</small></a>' +
+            '<a class="jr-pss-resource" href="/1000%20quest%C3%B5es.pdf" target="_blank" rel="noopener"><b>PDF • 1000 questões comentadas de Saúde Pública</b><small>Questões de SUS, PNAB e políticas públicas já existentes na plataforma</small></a>' +
+            '<a class="jr-pss-resource" href="/Quest%C3%B5es%20301%20a%20400.pdf" target="_blank" rel="noopener"><b>PDF • Questões 301 a 400</b><small>Revisão complementar de SUS e saúde pública</small></a>' +
+            '<a class="jr-pss-resource" href="/Quest%C3%B5es%20401%20a%20500.pdf" target="_blank" rel="noopener"><b>PDF • Questões 401 a 500</b><small>Continuação do treino em SUS, PNAB e políticas de saúde</small></a>' +
             '<a class="jr-pss-resource" href="https://www.pciconcursos.com.br/simulados/saude-publica/sus" target="_blank" rel="noopener"><b>Questões • SUS / Saúde Pública</b><small>Treino complementar de legislação e saúde pública</small></a>' +
           '</div>' +
         '</div>' +
