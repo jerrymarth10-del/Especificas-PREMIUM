@@ -9,7 +9,7 @@ const { buildPsicologiaSemusa } = require('./psicologia-semusa-data');
 const JR_AREA_VERIFY_URL = 'https://sesau-certo.vercel.app/api/verify-area-ticket';
 const JR_HEALTH_AREAS = new Set([
   'radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio',
-  'nutricao','biomedicina','odontologia','psicologia','acsfiscal','endemias','clinico'
+  'nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','endemias','clinico'
 ]);
 
 function jrReadCookies(req){
@@ -839,7 +839,7 @@ module.exports = async function handler(req, res) {
           'function openLegacy(areaId){return typeof original==="function"?original.apply(this,arguments):undefined;}' +
           'function askServer(areaId){' +
             'if(health.indexOf(areaId)<0)return openLegacy(areaId);' +
-            'var verifyArea=areaId==="psicologiasemusa"?"psicologia":areaId;' +
+            'var verifyArea=areaId;' +
             'var controller=typeof AbortController==="function"?new AbortController():null;' +
             'var timer=controller?setTimeout(function(){controller.abort();},5000):null;' +
             'var opts={cache:"no-store",credentials:"same-origin"};if(controller)opts.signal=controller.signal;' +
