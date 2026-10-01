@@ -777,17 +777,17 @@ module.exports = async function handler(req, res) {
           '<div id="jr-psicologia-semusa-ibgp-v1" class="jr-psico-semusa">' +
             '<div class="jr-psico-kicker">SEMUSA PORTO VELHO • BANCA IBGP • REFORÇO 2026</div>' +
             '<h3>Psicologia • Conteúdo direcionado ao novo edital</h3>' +
-            '<p class="jr-psico-intro">Módulo complementar às aulas que já existem na plataforma. Selecionamos aulas de professores, universidades, conselhos e canais especializados, sem depender de grandes cursinhos.</p>' +
+            '<p class="jr-psico-intro">Módulo complementar às aulas que já existem na plataforma, com reforço alinhado aos tópicos do edital e materiais de professores, universidades, conselhos e canais educacionais especializados.</p>' +
 
             '<div class="jr-psico-edital">' +
               '<span>Saúde biopsicossocial</span><span>Avaliação psicológica</span><span>Infância e adolescência</span>' +
               '<span>Processos grupais</span><span>Psicopatologia</span><span>Testes / SATEPSI</span>' +
-              '<span>Entrevista psicológica</span><span>IST / HIV / AIDS</span><span>Ética profissional</span>' +
+              '<span>Entrevista psicológica</span><span>IST / HIV / AIDS</span><span>Ansiedade</span><span>SUS / APS / PNAB</span><span>Vigilância / Epidemiologia</span><span>Ética profissional</span>' +
             '</div>' +
 
             '<div class="jr-psico-grid">' +
               '<div class="jr-psico-box">' +
-                '<div class="jr-psico-box-head"><strong>Videoaulas focadas no edital</strong><span>12 reforços</span></div>' +
+                '<div class="jr-psico-box-head"><strong>Videoaulas focadas no edital</strong><span>20 reforços</span></div>' +
                 '<div class="jr-psico-player">' +
                   '<iframe id="jr-psico-player-v1" src="https://www.youtube.com/embed/lpD0-Qb9qeM" title="Psicologia • SEMUSA • Videoaula" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>' +
                 '</div>' +
@@ -796,22 +796,22 @@ module.exports = async function handler(req, res) {
                   '<button type="button" class="jr-psico-lesson active" data-video="lpD0-Qb9qeM"><b>01 • Saúde como fenômeno biopsicossocial</b><small>Psicologia e modelo biopsicossocial • aula independente</small></button>' +
                   '<button type="button" class="jr-psico-lesson" data-video="CtabP9zF6Qs"><b>02 • Avaliação psicológica e psicodiagnóstico</b><small>Conceitos, finalidade e intervenção • Monique Arantes</small></button>' +
                   '<button type="button" class="jr-psico-lesson" data-video="IKZeE2mogLQ"><b>03 • Desenvolvimento psicológico na adolescência</b><small>Concepções teóricas • Univesp</small></button>' +
-                  '<button type="button" class="jr-psico-lesson" data-video="VI3KvhfUPbU"><b>04 • Processo grupal e dinâmica de grupo</b><small>Kurt Lewin • Prof. Marcos Justiniano</small></button>' +
+                  '<button type="button" class="jr-psico-lesson" data-video="SjFgWCut_yI"><b>04 • Processo grupal e dinâmica de grupo</b><small>Kurt Lewin, teoria de campo e processos grupais</small></button>' +
                   '<button type="button" class="jr-psico-lesson" data-video="BWLAY-BgTek"><b>05 • Princípios de Psicopatologia</b><small>Prof. Dr. Paulo Dalgalarrondo • referência universitária</small></button>' +
                   '<button type="button" class="jr-psico-lesson" data-video="JinQt3S13sg"><b>06 • Transtornos psicóticos e esquizofrenia</b><small>Revisão de transtornos psicóticos • Liga de Psiquiatria / Unicamp</small></button>' +
-                  '<button type="button" class="jr-psico-lesson" data-video="mUIY6OMsauE"><b>07 • Depressão na Atenção Básica</b><small>Abordagem dos transtornos depressivos • Telessaúde HC-UFMG</small></button>' +
+                  '<button type="button" class="jr-psico-lesson" data-video="mTni16Xs_cU"><b>07 • Depressão e transtornos depressivos</b><small>Psicopatologia direcionada para concursos • Dra. Monique Arantes</small></button>' +
                   '<button type="button" class="jr-psico-lesson" data-video="4jLSbk3mYVM"><b>08 • Alcoolismo e dependência do álcool</b><small>Dependência e fatores associados • Ciência USP</small></button>' +
-                  '<button type="button" class="jr-psico-lesson" data-video="opF5uvklLA0"><b>09 • Testes psicológicos e SATEPSI</b><small>Escolha e uso de testes • DicasPsi</small></button>' +
+                  '<button type="button" class="jr-psico-lesson" data-video="bmXDb0MASK8"><b>09 • Testes psicológicos e SATEPSI</b><small>Escolha, uso de testes e consulta ao sistema do CFP</small></button>' +
                   '<button type="button" class="jr-psico-lesson" data-video="qgZTjf05rso"><b>10 • Entrevista psicológica / entrevista clínica</b><small>Objetivos e condução para concursos • aula especializada</small></button>' +
                   '<button type="button" class="jr-psico-lesson" data-video="hR7FCqnbqO8"><b>11 • Psicologia, prevenção e IST/HIV/AIDS</b><small>Atuação profissional nos serviços • CREPOP</small></button>' +
-                  '<button type="button" class="jr-psico-lesson" data-video="y0nkvmYb65o"><b>12 • Determinantes sociais e ambientais da saúde</b><small>Determinantes do processo saúde-doença • Série SUS</small></button>' +
+                  '<button type="button" class="jr-psico-lesson" data-video="2JJNDeUkVtI"><b>12 • Determinantes sociais e ambientais da saúde</b><small>Condições sociais, econômicas, culturais e comportamentais • Conexão SUS</small></button><button type="button" class="jr-psico-lesson" data-video="HJAUBm7cu9w"><b>13 • Transtornos de ansiedade</b><small>Características, tipos, sintomas e tratamento • Psicopatologia para concursos</small></button><button type="button" class="jr-psico-lesson" data-video="wY-zIa4a_zo"><b>14 • Constituição Federal • Saúde • arts. 196 a 200</b><small>Revisão por questões de concurso</small></button><button type="button" class="jr-psico-lesson" data-video="Q5zYJndNxyM"><b>15 • Lei nº 8.080/1990</b><small>Organização, princípios e conceitos fundamentais do SUS</small></button><button type="button" class="jr-psico-lesson" data-video="bR6fvRKZrKQ"><b>16 • Lei nº 8.142/1990</b><small>Participação social e transferências intergovernamentais</small></button><button type="button" class="jr-psico-lesson" data-video="PU56RhOhhXM"><b>17 • PNAB e Estratégia Saúde da Família</b><small>Atenção Primária e organização da Saúde da Família</small></button><button type="button" class="jr-psico-lesson" data-video="Q0hYz3lKrG8"><b>18 • Vigilância em Saúde</b><small>Vigilância sanitária, ambiental e saúde do trabalhador • CONASEMS</small></button><button type="button" class="jr-psico-lesson" data-video="OqWsAlCEfUE"><b>19 • Sistemas de Informação em Saúde</b><small>Sistemas e informação para gestão e vigilância no SUS</small></button><button type="button" class="jr-psico-lesson" data-video="-SB43jzq-as"><b>20 • Epidemiologia • conceitos e estudos</b><small>Conceitos epidemiológicos e tipos de estudos cobrados em provas</small></button>' +
 
                 '</div>' +
               '</div>' +
 
               '<div class="jr-psico-box jr-psico-provas">' +
                 '<div class="jr-psico-box-head"><strong>Provas anteriores • Psicologia • IBGP</strong><span>6 provas + gabaritos</span></div>' +
-                '<p class="jr-psico-note">Links diretos para os PDFs do PCI Concursos.</p>' +
+                '<p class="jr-psico-note">6 provas anteriores da banca IBGP com prova e gabarito, organizadas por ano.</p>' +
 
                 '<div class="jr-psico-prova-group"><b>2019 • Psicólogo Clínico • Andrelândia/MG</b>' +
                   '<div><a href="https://www.pciconcursos.com.br/provas/download/psicologo-clinico-prefeitura-andrelandia-mg-ibgp-2019/psicologo-clinico.pdf" target="_blank" rel="noopener">PROVA</a>' +
