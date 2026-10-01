@@ -1,3 +1,5 @@
+const CARD_ART_BASE64 = require('./psicologia-semusa-card-1') + require('./psicologia-semusa-card-2') + require('./psicologia-semusa-card-3') + require('./psicologia-semusa-card-4');
+
 const LESSONS = [
   ['Aspectos psicossociais da infância','Desenvolvimento psicológico infantil • aspectos psicossociais da infância','9p_mzY2hfrY'],
   ['Psicologia do desenvolvimento • questões comentadas','Desenvolvimento humano • revisão por questões de concursos','n3MUrSIUFcU'],
@@ -46,33 +48,33 @@ const LESSONS = [
 const EXAMS = [
   {
     title:'2019 • Psicólogo Clínico • Andrelândia/MG',
-    prova:'https://www.pciconcursos.com.br/provas/download/psicologo-clinico-prefeitura-andrelandia-mg-ibgp-2019/psicologo-clinico.pdf',
-    gabarito:'https://www.pciconcursos.com.br/provas/download/psicologo-clinico-prefeitura-andrelandia-mg-ibgp-2019/gabarito.pdf'
+    prova:'https://eticaconcursos.com.br/provas/arquivos/prova/ibgp-2019-prefeitura-de-andrelandia-mg-psicologo-clinico-prova.pdf',
+    gabarito:'https://eticaconcursos.com.br/provas/arquivos/gabarito/ibgp-2019-prefeitura-de-andrelandia-mg-psicologo-clinico-gabarito.pdf'
   },
   {
     title:'2018 • Psicólogo • Santa Luzia/MG',
-    prova:'https://www.pciconcursos.com.br/provas/download/psicologo-prefeitura-santa-luzia-mg-ibgp-2018/psiclogo.pdf',
-    gabarito:'https://www.pciconcursos.com.br/provas/download/psicologo-prefeitura-santa-luzia-mg-ibgp-2018/gabaritos.pdf'
+    prova:'https://arquivos.qconcursos.com/prova/arquivo_prova/72186/ibgp-2018-prefeitura-de-santa-luzia-mg-psicologo-prova.pdf',
+    gabarito:'https://eticaconcursos.com.br/provas/arquivos/gabarito/ibgp-2018-prefeitura-de-santa-luzia-mg-psicologo-gabarito.pdf'
   },
   {
     title:'2018 • Téc. Superior de Saúde – Psicólogo • Itabira/MG',
-    prova:'https://www.pciconcursos.com.br/provas/download/tecnico-superior-de-saude-psicologo-prefeitura-itabira-mg-ibgp-2018/tecnico-superior-de-saude-psicologo.pdf',
-    gabarito:'https://www.pciconcursos.com.br/provas/download/tecnico-superior-de-saude-psicologo-prefeitura-itabira-mg-ibgp-2018/gabarito.pdf'
+    prova:'https://eticaconcursos.com.br/provas/arquivos/prova/ibgp-2018-prefeitura-de-itabira-mg-tecnico-superior-de-saude-psicologo-prova.pdf',
+    gabarito:'https://eticaconcursos.com.br/provas/arquivos/gabarito/ibgp-2018-prefeitura-de-itabira-mg-tecnico-superior-de-saude-psicologo-gabarito.pdf'
   },
   {
     title:'2017 • Psicólogo • Andradas/MG',
-    prova:'https://www.pciconcursos.com.br/provas/download/psicologo-prefeitura-andradas-mg-ibgp-2017/psicologo.pdf',
-    gabarito:'https://www.pciconcursos.com.br/provas/download/psicologo-prefeitura-andradas-mg-ibgp-2017/gabarito.pdf'
+    prova:'https://eticaconcursos.com.br/provas/arquivos/prova/ibgp-2017-prefeitura-de-andradas-mg-psicologo-prova.pdf',
+    gabarito:'https://eticaconcursos.com.br/provas/arquivos/gabarito/ibgp-2017-prefeitura-de-andradas-mg-psicologo-gabarito.pdf'
   },
   {
     title:'2016 • Psicólogo • CISSUL/MG',
-    prova:'https://www.pciconcursos.com.br/provas/download/psicologo-cissul-mg-ibgp-2016/psicologo.pdf',
-    gabarito:'https://www.pciconcursos.com.br/provas/download/psicologo-cissul-mg-ibgp-2016/gabarito.pdf'
+    prova:'https://eticaconcursos.com.br/provas/arquivos/prova/ibgp-2017-cissul-mg-psicologo-prova.pdf',
+    gabarito:'https://eticaconcursos.com.br/provas/arquivos/gabarito/ibgp-2017-cissul-mg-psicologo-gabarito.pdf'
   },
   {
     title:'2015 • Psicólogo • Lagoa Santa/MG',
-    prova:'https://www.pciconcursos.com.br/provas/download/psicologo-prefeitura-lagoa-santa-mg-ibgp-2015/8-ibgp-psicologo.pdf',
-    gabarito:'https://www.pciconcursos.com.br/provas/download/psicologo-prefeitura-lagoa-santa-mg-ibgp-2015/gab-preliminar.pdf'
+    prova:'https://eticaconcursos.com.br/provas/arquivos/prova/ibgp-2015-prefeitura-de-lagoa-santa-mg-psicologo-prova.pdf',
+    gabarito:'https://eticaconcursos.com.br/provas/arquivos/gabarito/ibgp-2015-prefeitura-de-lagoa-santa-mg-psicologo-gabarito.pdf'
   }
 ];
 
@@ -102,14 +104,10 @@ function examMarkup(){
 function buildPsicologiaSemusa(){
   const first=LESSONS[0];
   const card =
-    '<article class="card jr-pss-card" onclick="openGate(\'psicologiasemusa\')" role="button" tabindex="0" ' +
+    '<article class="card jr-pss-card jr-approved-art-card" onclick="openGate(\'psicologiasemusa\')" role="button" tabindex="0" ' +
     'onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openGate(\'psicologiasemusa\')}" aria-label="Acessar Psicologia SEMUSA Porto Velho">' +
-      '<div class="card-shade"></div><div class="card-body">' +
-      '<span class="tag">🧠 SEMUSA Porto Velho • IBGP</span>' +
-      '<h3>Psicologia • SEMUSA Porto Velho</h3>' +
-      '<p>Trilha exclusiva do edital: Psicologia da Saúde, avaliação psicológica, psicopatologia, ética, SUS e provas da banca IBGP.</p>' +
-      '<button class="card-btn" type="button" tabindex="-1">Acessar</button>' +
-      '</div></article>';
+      '<img class="jr-pss-card-art" src="data:image/jpeg;base64,' + CARD_ART_BASE64 + '" alt="SEMUSA Porto Velho Psicologia" width="220" height="330" decoding="async" loading="eager">' +
+    '</article>';
 
   const area =
     '<section class="area jr-pss-area" id="area-psicologia-semusa">' +
@@ -156,6 +154,7 @@ function buildPsicologiaSemusa(){
     '</section>';
 
   const css =
+    '.jr-pss-card{position:relative!important;overflow:hidden!important;padding:0!important;background:#050505!important;aspect-ratio:2/3!important;min-width:0}.jr-pss-card .jr-pss-card-art{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;display:block!important;transform:none!important;transition:none!important}.jr-pss-card:focus{outline:2px solid #ef4444;outline-offset:3px}' +
     '.jr-pss-card .tag{background:rgba(37,99,235,.18)!important;border-color:rgba(96,165,250,.34)!important;color:#dbeafe!important}' +
     '.jr-pss-area{--pss-blue:#2563eb;--pss-sky:#60a5fa}.jr-pss-edital{display:flex;flex-wrap:wrap;gap:7px;margin:2px 0 18px}.jr-pss-edital span{padding:7px 10px;border-radius:999px;background:rgba(37,99,235,.12);border:1px solid rgba(96,165,250,.22);font-size:11px;font-weight:800;color:#dbeafe}' +
     '.jr-pss-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:15px}.jr-pss-side{display:grid;gap:15px;align-content:start}.jr-pss-box{border:1px solid rgba(148,163,184,.18);border-radius:18px;background:rgba(2,6,23,.34);padding:14px;min-width:0}.jr-pss-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px}.jr-pss-head strong{font-size:14px}.jr-pss-head span{font-size:10px;font-weight:900;color:#93c5fd}' +
