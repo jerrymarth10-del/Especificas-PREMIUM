@@ -94,3 +94,5 @@ jobs:
           git add index.html
           git commit -m "Align pharmacy block with SEMUSA 25/2026"
           git push origin main
+
+# trigger pharmacy patch
