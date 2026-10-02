@@ -33,7 +33,7 @@ jobs:
 
           sec = text[start:end]
 
-          head_pat = re.compile(r'<h2>Farmacêutico</h2>\\s*<p>Bloco completo com foco em concursos para a área farmacêutica: assistência farmacêutica, farmacologia, SUS, EBSERH e legislação sanitária\\.</p>')
+          head_pat = re.compile(r'<h2>Farmacêutico</h2>\s*<p>Bloco completo com foco em concursos para a área farmacêutica: assistência farmacêutica, farmacologia, SUS, EBSERH e legislação sanitária\.</p>')
           new_head = '''<h2>Farmacêutico • SEMUSA Porto Velho</h2>
           <p>Preparatório atualizado conforme o Edital nº 25/2026 — cargo 509. Foco em assistência e cuidado farmacêutico, farmacologia, segurança do paciente, fisiopatologia, SUS e vigilância em saúde.</p>'''
           sec, n_head = head_pat.subn(new_head, sec, count=1)
@@ -99,3 +99,5 @@ jobs:
 # retry with whitespace-safe header match
 
 # retry with corrected Python regex escapes
+
+# retry exact regex lines
