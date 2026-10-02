@@ -468,6 +468,57 @@ module.exports = async function handler(req, res) {
     }
 
 
+
+    // JR: reutiliza as aulas de PNAB já existentes em Psicologia SEMUSA nos blocos de Enfermagem e Técnico.
+    function jrAddPnabLessons(areaId, areaKey, oldCount, newCount, firstLessonNumber, markerId, techComplement) {
+      if (html.includes(markerId)) return;
+      const start = html.indexOf('id="area-' + areaId + '"');
+      if (start < 0) return;
+      const next = html.indexOf('<section class="area"', start + 40);
+      const end = next >= 0 ? next : html.indexOf('<footer class="footer">', start);
+      if (end < 0) return;
+
+      let section = html.slice(start, end);
+      const listMarker = '<div class="scroll-list">';
+      const listStart = section.indexOf(listMarker);
+      if (listStart < 0) return;
+      const listClose = section.indexOf('</div>', listStart + listMarker.length);
+      if (listClose < 0) return;
+
+      const note1 = techComplement
+        ? 'Reforço de SUS e Atenção Básica para SEMUSA • Portaria nº 2.436/2017'
+        : 'Conteúdo expresso no edital SEMUSA • Portaria nº 2.436/2017';
+      const note2 = techComplement
+        ? 'Reforço de organização, princípios e diretrizes da Atenção Básica'
+        : 'Princípios, diretrizes, organização e funcionamento da Atenção Básica';
+      const note3 = techComplement
+        ? 'Treino complementar de SUS e Atenção Básica'
+        : 'Questões comentadas sobre Atenção Básica e Portaria nº 2.436/2017';
+
+      const n1 = String(firstLessonNumber).padStart(2, '0');
+      const n2 = String(firstLessonNumber + 1).padStart(2, '0');
+      const n3 = String(firstLessonNumber + 2).padStart(2, '0');
+
+      const lessons =
+        '<button id="' + markerId + '" class="lesson-item" type="button" data-area="' + areaKey + '" data-embed="https://www.youtube.com/embed/G7idwHauTlQ" data-title="Aula ' + n1 + ' - PNAB • Política Nacional de Atenção Básica" data-note="' + note1 + '" data-yt="https://www.youtube.com/watch?v=G7idwHauTlQ">' +
+        '<span class="lesson-mark">▶</span><span class="lesson-text"><strong>Aula ' + n1 + ' - PNAB • Política Nacional de Atenção Básica</strong><small>' + note1 + '</small></span><span class="lesson-open lesson-status">Livre</span></button>' +
+        '<button class="lesson-item" type="button" data-area="' + areaKey + '" data-embed="https://www.youtube.com/embed/LJzIPpeqeug" data-title="Aula ' + n2 + ' - PNAB • Princípios e Diretrizes da Atenção Básica" data-note="' + note2 + '" data-yt="https://www.youtube.com/watch?v=LJzIPpeqeug">' +
+        '<span class="lesson-mark">▶</span><span class="lesson-text"><strong>Aula ' + n2 + ' - PNAB • Princípios e Diretrizes da Atenção Básica</strong><small>' + note2 + '</small></span><span class="lesson-open lesson-status">Livre</span></button>' +
+        '<button class="lesson-item" type="button" data-area="' + areaKey + '" data-embed="https://www.youtube.com/embed/lv3O6FVonYQ" data-title="Aula ' + n3 + ' - PNAB • Questões de Prova" data-note="' + note3 + '" data-yt="https://www.youtube.com/watch?v=lv3O6FVonYQ">' +
+        '<span class="lesson-mark">▶</span><span class="lesson-text"><strong>Aula ' + n3 + ' - PNAB • Questões de Prova</strong><small>' + note3 + '</small></span><span class="lesson-open lesson-status">Livre</span></button>';
+
+      section = section.slice(0, listClose) + lessons + section.slice(listClose);
+      section = section.replace(
+        '<div class="box-head"><strong>Aulas da área</strong><span>' + oldCount + ' aulas</span></div>',
+        '<div class="box-head"><strong>Aulas da área</strong><span>' + newCount + ' aulas</span></div>'
+      );
+      html = html.slice(0, start) + section + html.slice(end);
+    }
+
+    jrAddPnabLessons('enfermagem', 'enfermagem', 48, 51, 49, 'jr-pnab-enfermagem-semusa-v1', false);
+    jrAddPnabLessons('tecnico', 'tecnico', 43, 46, 44, 'jr-pnab-tecnico-semusa-v1', true);
+
+
     // JR: adiciona 5 provas IDECAN + gabaritos no bloco de Odontologia, abrindo os PDFs diretamente.
     if (!html.includes('jr-odontologia-provas-idecan-v1')) {
       const odontStart = html.indexOf('id="area-odontologia"');
