@@ -973,6 +973,99 @@ module.exports = async function handler(req, res) {
       html = html.replace('</body>', areaAccessScript + '</body>');
     }
 
+
+    // JR: Farmácia SEMUSA — bloco mobile limpo + questões IBGP + PDFs PCI diretos.
+    if (!html.includes('id="jr-farmacia-ibgp-v3"')) {
+      const jrPharmVideos = [
+        ['01','UXAUdGyE0GA'],
+        ['02','8EeVEfZNVMY'],
+        ['03','u6z_BrFBZRA'],
+        ['04','_ud057gKtzQ'],
+        ['05','nQ8HInhbKL4'],
+        ['06','DUlNUnasAQw'],
+        ['07','qRlfh0IJrSo'],
+        ['08','E9Aa3cNJXGo'],
+        ['09','kFQQmRbz9yY'],
+        ['10','F1vpWPZhziY'],
+        ['11','coAE0E1KBVk'],
+        ['12','Sx0Bqy85DrM']
+      ];
+      const jrPharmQuestionItems = jrPharmVideos.map(function(v){
+        return '<button class="lesson-item" type="button" data-area="farmaceutico" data-embed="https://www.youtube.com/embed/' + v[1] + '" data-title="IBGP • Questão ' + v[0] + ' — Farmácia" data-note="Questão comentada da banca IBGP" data-yt="https://www.youtube.com/watch?v=' + v[1] + '&list=PL_wUKt4wObZFEGPysx4s6ivSF22l2qN58"><span class="lesson-mark">▶</span><span class="lesson-text"><strong>IBGP • Questão ' + v[0] + ' — Farmácia</strong><small>Questão comentada • banca IBGP</small></span><span class="lesson-open lesson-status">Assistir</span></button>';
+      }).join('');
+      const jrPlaylistBox = '<div class="list-box jr-ibgp-questions" id="jr-farmacia-ibgp-v3"><div class="box-head"><strong>🎯 Questões Comentadas — Banca IBGP | Farmácia</strong><span>12 vídeos</span></div><div class="scroll-list"><a class="pdf-item jr-playlist-all" href="https://www.youtube.com/playlist?list=PL_wUKt4wObZFEGPysx4s6ivSF22l2qN58" target="_blank" rel="noopener"><span class="pdf-mark">▶</span><span class="lesson-text"><strong>Playlist completa — IBGP Farmácia</strong><small>Farmatop Concursos • sequência completa</small></span><span class="lesson-open">Abrir</span></a>' + jrPharmQuestionItems + '</div></div>';
+      const jrExamBox = '<div class="list-box" id="jr-ibgp-farmacia-20261002"><div class="box-head"><strong>📝 IBGP • Provas anteriores de Farmácia</strong><span>PCI • prova + gabarito</span></div><div class="scroll-list">' +
+        '<a class="pdf-item" href="https://arq.pciconcursos.com.br/provas/28540250/e44dc0907451/tecnico_em_farmacia.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Técnico em Farmácia — IBGP</strong><small>PCI Concursos • PDF direto</small></span><span class="lesson-open">Abrir</span></a>' +
+        '<a class="pdf-item" href="https://arq.pciconcursos.com.br/provas/28540250/f1abc342e4ae/gabariots_pos_recursos.pdf" target="_blank" rel="noopener"><span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito pós-recursos — Técnico em Farmácia</strong><small>PCI Concursos • PDF direto</small></span><span class="lesson-open">Abrir</span></a>' +
+        '<a class="pdf-item" href="https://arq.pciconcursos.com.br/provas/29337234/402478389756/qoaspm_farmaceutico_farmacia_hospitalar.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Farmacêutico — Farmácia Hospitalar — IBGP</strong><small>PCI Concursos • PDF direto</small></span><span class="lesson-open">Abrir</span></a>' +
+        '<a class="pdf-item" href="https://arq.pciconcursos.com.br/provas/29337234/7f2569b60188/gabarito_definitivo.pdf" target="_blank" rel="noopener"><span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito definitivo — Farmácia Hospitalar</strong><small>PCI Concursos • PDF direto</small></span><span class="lesson-open">Abrir</span></a>' +
+      '</div></div>';
+
+      const jrSectionStart = html.indexOf('<section class="area" id="area-farmaceutico">');
+      const jrSectionEnd = jrSectionStart >= 0 ? html.indexOf('</section>', jrSectionStart) : -1;
+      if (jrSectionStart >= 0 && jrSectionEnd > jrSectionStart) {
+        let jrSection = html.slice(jrSectionStart, jrSectionEnd + '</section>'.length);
+
+        const jrLessonsHeading = jrSection.indexOf('Aulas complementares da área');
+        if (jrLessonsHeading >= 0) {
+          const jrLessonsBox = jrSection.lastIndexOf('<div class="list-box"', jrLessonsHeading);
+          if (jrLessonsBox >= 0) jrSection = jrSection.slice(0, jrLessonsBox) + jrPlaylistBox + jrSection.slice(jrLessonsBox);
+        }
+
+        const jrEditalHeading = jrSection.indexOf('Trilha SEMUSA • Farmacêutico 509');
+        if (jrEditalHeading >= 0) {
+          const jrEditalStart = jrSection.lastIndexOf('<div class="list-box"', jrEditalHeading);
+          const jrEditalEnd = jrSection.indexOf('<div class="list-box"', jrEditalHeading + 1);
+          if (jrEditalStart >= 0 && jrEditalEnd > jrEditalStart) {
+            const jrOldEditalBox = jrSection.slice(jrEditalStart, jrEditalEnd);
+            const jrOpenEnd = jrOldEditalBox.indexOf('>');
+            const jrCloseStart = jrOldEditalBox.lastIndexOf('</div>');
+            if (jrOpenEnd >= 0 && jrCloseStart > jrOpenEnd) {
+              let jrEditalInner = jrOldEditalBox.slice(jrOpenEnd + 1, jrCloseStart);
+              jrEditalInner = jrEditalInner.replace(/<div class="box-head">[\s\S]*?<\/div>/, '');
+              jrEditalInner = jrEditalInner.replace(/<span class="lesson-open">EDITAL<\/span>/g, '<span class="lesson-open">TÓPICO</span>');
+              const jrCollapsedEdital = '<details class="list-box jr-pharm-edital"><summary class="jr-edital-summary"><span>📋 Conteúdo programático • SEMUSA Farmácia</span><small>Toque para abrir</small></summary><div class="jr-edital-wrap">' + jrEditalInner + '</div></details>';
+              jrSection = jrSection.slice(0, jrEditalStart) + jrCollapsedEdital + jrSection.slice(jrEditalEnd);
+            }
+          }
+        }
+
+        const jrExamMarker = jrSection.indexOf('id="jr-ibgp-farmacia-20261002"');
+        const jrSectionClose = jrSection.lastIndexOf('</section>');
+        if (jrSectionClose >= 0) {
+          if (jrExamMarker >= 0) {
+            const jrExamStart = jrSection.lastIndexOf('<div class="list-box"', jrExamMarker);
+            if (jrExamStart >= 0) jrSection = jrSection.slice(0, jrExamStart) + jrExamBox + jrSection.slice(jrSectionClose);
+          } else {
+            jrSection = jrSection.slice(0, jrSectionClose) + jrExamBox + jrSection.slice(jrSectionClose);
+          }
+        }
+
+        html = html.slice(0, jrSectionStart) + jrSection + html.slice(jrSectionEnd + '</section>'.length);
+      }
+
+      if (!html.includes('id="jr-farmacia-mobile-v3"')) {
+        const jrFarmaciaCss = '<style id="jr-farmacia-mobile-v3">' +
+          '#area-farmaceutico .jr-ibgp-questions,#area-farmaceutico .jr-pharm-edital,#area-farmaceutico #jr-ibgp-farmacia-20261002{grid-column:1/-1}' +
+          '#area-farmaceutico .jr-edital-summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;cursor:pointer;font-weight:800;list-style:none}' +
+          '#area-farmaceutico .jr-edital-summary::-webkit-details-marker{display:none}' +
+          '#area-farmaceutico .jr-edital-summary small{font-size:11px;font-weight:700;opacity:.72;white-space:nowrap}' +
+          '#area-farmaceutico .jr-edital-wrap{padding:0 12px 12px}' +
+          '#area-farmaceutico .jr-playlist-all{border-style:dashed}' +
+          '@media(max-width:640px){' +
+            '#area-farmaceutico .jr-ibgp-questions .scroll-list{max-height:430px;overflow:auto}' +
+            '#area-farmaceutico .jr-pharm-edital[open] .scroll-list{max-height:360px;overflow:auto}' +
+            '#area-farmaceutico .jr-edital-summary{padding:12px 13px;font-size:13px}' +
+            '#area-farmaceutico .jr-edital-summary small{font-size:10px}' +
+            '#area-farmaceutico .jr-pharm-edital .pdf-item,#area-farmaceutico #jr-ibgp-farmacia-20261002 .pdf-item{padding:10px 9px;min-height:0}' +
+            '#area-farmaceutico .jr-pharm-edital .lesson-text strong,#area-farmaceutico #jr-ibgp-farmacia-20261002 .lesson-text strong{font-size:12px;line-height:1.25}' +
+            '#area-farmaceutico .jr-pharm-edital .lesson-text small,#area-farmaceutico #jr-ibgp-farmacia-20261002 .lesson-text small{font-size:10px;line-height:1.25}' +
+          '}' +
+        '</style>';
+        html = html.replace('</head>', jrFarmaciaCss + '</head>');
+      }
+    }
+
     res.statusCode = 200;
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.setHeader('cache-control', 'no-store, max-age=0, must-revalidate');
