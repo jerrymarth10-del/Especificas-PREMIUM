@@ -97,3 +97,5 @@ jobs:
 # trigger pharmacy patch
 
 # retry with whitespace-safe header match
+
+# retry with corrected Python regex escapes
