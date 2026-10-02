@@ -1,4 +1,4 @@
-name: Patch Farmacia SEMUSA
+name: Finalize Farmacia SEMUSA
 
 on:
   push:
@@ -10,13 +10,13 @@ permissions:
   contents: write
 
 jobs:
-  patch:
+  finalize:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Atualizar bloco Farmacia
+      - name: Finalizar bloco Farmacia SEMUSA
         shell: bash
         run: |
           python - <<'PY'
@@ -25,62 +25,76 @@ jobs:
 
           path = Path("index.html")
           text = path.read_text(encoding="utf-8")
-
-          start = text.find('id="area-farmaceutico"')
-          end = text.find('<section class="area"', start + 30)
+          start = text.find('<section class="area" id="area-farmaceutico">')
+          end = text.find('<section class="area"', start + 40)
           if start < 0 or end < 0:
               raise SystemExit("Bloco Farmacêutico não encontrado")
 
           sec = text[start:end]
 
-          head_pat = re.compile(r'<h2>Farmacêutico</h2>\s*<p>Bloco completo com foco em concursos para a área farmacêutica: assistência farmacêutica, farmacologia, SUS, EBSERH e legislação sanitária\.</p>')
-          new_head = '''<h2>Farmacêutico • SEMUSA Porto Velho</h2>
-          <p>Preparatório atualizado conforme o Edital nº 25/2026 — cargo 509. Foco em assistência e cuidado farmacêutico, farmacologia, segurança do paciente, fisiopatologia, SUS e vigilância em saúde.</p>'''
-          sec, n_head = head_pat.subn(new_head, sec, count=1)
-          if n_head != 1:
-              raise SystemExit("Cabeçalho esperado não encontrado")
+          # Remove conteúdo local de Ji-Paraná do bloco direcionado à SEMUSA.
+          for n in range(50, 56):
+              sec = re.sub(
+                  rf'<button class="lesson-item"[^>]*data-area="farmaceutico"[^>]*data-title="Aula {n} - [^"]*"[^>]*>[\s\S]*?</button>\s*',
+                  '',
+                  sec,
+                  count=1
+              )
 
-          old_count = '<div class="box-head"><strong>Aulas da área</strong><span>30 aulas</span></div>'
-          new_count = '<div class="box-head"><strong>Aulas da área</strong><span>63 aulas</span></div>'
-          if old_count not in sec:
-              raise SystemExit("Contador de aulas esperado não encontrado")
-          sec = sec.replace(old_count, new_count, 1)
+          sec = sec.replace(
+              '<div class="box-head"><strong>Aulas da área</strong><span>63 aulas</span></div>',
+              '<div class="box-head"><strong>Aulas complementares da área</strong><span>57 aulas</span></div>'
+          )
 
-          pdf_pat = re.compile(r'<div class="list-box">\s*<div class="box-head"><strong>PDFs</strong><span>2 arquivo\(s\)</span></div>\s*<div class="scroll-list">[\s\S]*?Questões do SUS[\s\S]*?</a></div>\s*</div>')
-          if len(pdf_pat.findall(sec)) != 1:
-              raise SystemExit("Bloco de PDFs esperado não encontrado de forma única")
-
-          replacement = '''<div class="list-box">
-            <div class="box-head"><strong>Trilha SEMUSA • Farmacêutico 509</strong><span>Edital 25/2026</span></div>
+          priority = '''<div class="list-box">
+            <div class="box-head"><strong>🔥 Trilha de videoaulas • SEMUSA Farmácia</strong><span>8 prioridades</span></div>
             <div class="scroll-list">
-              <div class="pdf-item"><span class="pdf-mark">✓</span><span class="lesson-text"><strong>Cuidado e serviços farmacêuticos</strong><small>Rastreamento em saúde, educação em saúde, revisão da farmacoterapia, conciliação medicamentosa, gestão da condição de saúde, acompanhamento farmacoterapêutico, consulta e prescrição farmacêutica.</small></span><span class="lesson-open">EDITAL</span></div>
-              <div class="pdf-item"><span class="pdf-mark">✓</span><span class="lesson-text"><strong>Farmacologia, farmacovigilância e segurança</strong><small>Uso racional, farmacocinética, interações, farmacoepidemiologia, farmacovigilância, reações adversas, segurança do paciente e erros de medicação.</small></span><span class="lesson-open">EDITAL</span></div>
-              <div class="pdf-item"><span class="pdf-mark">✓</span><span class="lesson-text"><strong>Clínica e fisiopatologia</strong><small>Doenças infectocontagiosas, diabetes, cardiovasculares, oncologia, ginecologia/obstetrícia e distúrbios articulares e ósseos.</small></span><span class="lesson-open">EDITAL</span></div>
-              <div class="pdf-item"><span class="pdf-mark">✓</span><span class="lesson-text"><strong>Atenção farmacêutica e PRM</strong><small>Filosofia e método de cuidado, gestão, classificação/prevenção/resolução de problemas relacionados a medicamentos, documentação e registro do cuidado.</small></span><span class="lesson-open">EDITAL</span></div>
-              <div class="pdf-item"><span class="pdf-mark">✓</span><span class="lesson-text"><strong>SUS, epidemiologia e vigilância em saúde</strong><small>Evolução e organização do SUS, princípios e legislação, planejamento, gestão de recursos, direitos dos usuários, controle social, ações/programas, indicadores, sistemas de informação e vigilância.</small></span><span class="lesson-open">EDITAL</span></div>
+              <button class="lesson-item" type="button" data-area="farmaceutico" data-embed="https://www.youtube.com/embed/4yv2zII7jWw" data-title="SEMUSA 01 - Princípios e Diretrizes do SUS" data-note="SUS — conteúdo do Edital 25/2026" data-yt="https://www.youtube.com/watch?v=4yv2zII7jWw"><span class="lesson-mark">▶</span><span class="lesson-text"><strong>SEMUSA 01 - Princípios e Diretrizes do SUS</strong><small>Base obrigatória do edital</small></span><span class="lesson-open lesson-status">Prioritária</span></button>
+              <button class="lesson-item" type="button" data-area="farmaceutico" data-embed="https://www.youtube.com/embed/YJaEz2qBveY" data-title="SEMUSA 02 - Revisão SUS" data-note="Revisão objetiva de SUS" data-yt="https://www.youtube.com/watch?v=YJaEz2qBveY"><span class="lesson-mark">▶</span><span class="lesson-text"><strong>SEMUSA 02 - Revisão SUS</strong><small>Fixação dos pontos mais cobrados</small></span><span class="lesson-open lesson-status">Prioritária</span></button>
+              <button class="lesson-item" type="button" data-area="farmaceutico" data-embed="https://www.youtube.com/embed/mHqEcokB2hI" data-title="SEMUSA 03 - Sistema Nacional de Vigilância Sanitária" data-note="Vigilância sanitária" data-yt="https://www.youtube.com/watch?v=mHqEcokB2hI&t=12s"><span class="lesson-mark">▶</span><span class="lesson-text"><strong>SEMUSA 03 - Sistema Nacional de Vigilância Sanitária</strong><small>Vigilância em saúde e organização sanitária</small></span><span class="lesson-open lesson-status">Prioritária</span></button>
+              <button class="lesson-item" type="button" data-area="farmaceutico" data-embed="https://www.youtube.com/embed/oJoylP9sNB8" data-title="SEMUSA 04 - Vigilância Epidemiológica" data-note="Vigilância epidemiológica" data-yt="https://www.youtube.com/watch?v=oJoylP9sNB8"><span class="lesson-mark">▶</span><span class="lesson-text"><strong>SEMUSA 04 - Vigilância Epidemiológica</strong><small>Conteúdo expresso no edital</small></span><span class="lesson-open lesson-status">Prioritária</span></button>
+              <button class="lesson-item" type="button" data-area="farmaceutico" data-embed="https://www.youtube.com/embed/i-36FxEcqiQ" data-title="SEMUSA 05 - Inspeção Sanitária x Vigilância Sanitária" data-note="Vigilância sanitária" data-yt="https://www.youtube.com/watch?v=i-36FxEcqiQ"><span class="lesson-mark">▶</span><span class="lesson-text"><strong>SEMUSA 05 - Inspeção Sanitária x Vigilância Sanitária</strong><small>Diferenças conceituais e operacionais</small></span><span class="lesson-open lesson-status">Prioritária</span></button>
+              <button class="lesson-item" type="button" data-area="farmaceutico" data-embed="https://www.youtube.com/embed/R7Gl173xdek" data-title="SEMUSA 06 - Biossegurança" data-note="Biossegurança aplicada à saúde" data-yt="https://www.youtube.com/watch?v=R7Gl173xdek"><span class="lesson-mark">▶</span><span class="lesson-text"><strong>SEMUSA 06 - Biossegurança</strong><small>Conteúdo específico do cargo 509</small></span><span class="lesson-open lesson-status">Prioritária</span></button>
+              <button class="lesson-item" type="button" data-area="farmaceutico" data-embed="https://www.youtube.com/embed/136V2fz02G8" data-title="SEMUSA 07 - Introdução à Biossegurança" data-note="Revisão de biossegurança" data-yt="https://www.youtube.com/watch?v=136V2fz02G8"><span class="lesson-mark">▶</span><span class="lesson-text"><strong>SEMUSA 07 - Introdução à Biossegurança</strong><small>Reforço para fixação</small></span><span class="lesson-open lesson-status">Prioritária</span></button>
+              <button class="lesson-item" type="button" data-area="farmaceutico" data-embed="https://www.youtube.com/embed/videoseries?list=PLGo3_Q7AW0LaSquGYX5WG3p6cNaW8PLnm&index=19" data-title="SEMUSA 08 - Segurança do Paciente" data-note="Segurança do paciente e prevenção de erros" data-yt="https://www.youtube.com/playlist?list=PLGo3_Q7AW0LaSquGYX5WG3p6cNaW8PLnm&index=19"><span class="lesson-mark">▶</span><span class="lesson-text"><strong>SEMUSA 08 - Segurança do Paciente</strong><small>Segurança do paciente e erros de medicação</small></span><span class="lesson-open lesson-status">Prioritária</span></button>
             </div>
           </div>
 
-          <div class="list-box">
-            <div class="box-head"><strong>PDFs e materiais • SEMUSA Farmácia</strong><span>8 PDFs + questões</span></div>
+          '''
+          marker = '<div class="list-box">\n  <div class="box-head"><strong>Trilha SEMUSA • Farmacêutico 509</strong>'
+          if 'Trilha de videoaulas • SEMUSA Farmácia' not in sec:
+              if marker not in sec:
+                  raise SystemExit("Trilha SEMUSA não encontrada")
+              sec = sec.replace(marker, priority + marker, 1)
+
+          exams = '''<div class="list-box">
+            <div class="box-head"><strong>📝 IBGP • Provas anteriores de Farmácia</strong><span>Prova + gabarito</span></div>
             <div class="scroll-list">
-              <a class="pdf-item" href="https://www.novaconcursos.com.br/laravel/blog/pdf/portal/stream/2026/10/semusa-de-porto-velho-ro-2026-edital.pdf?download=1" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Edital nº 25/2026 — SEMUSA Porto Velho</strong><small>Edital completo com anexos e conteúdo programático do cargo 509</small></span><span class="lesson-open">Abrir</span></a>
-              <a class="pdf-item" href="ESPECIFICO FARMACIA SESAU.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Material Específico de Farmácia</strong><small>Base ampla de Farmácia para revisão; complementar à trilha SEMUSA 509</small></span><span class="lesson-open">Abrir</span></a>
-              <a class="pdf-item" href="1500-questoes-farmacia-referencias.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>1.500 Questões de Farmácia</strong><small>Banco de questões e referências para treino intensivo</small></span><span class="lesson-open">Abrir</span></a>
-              <a class="pdf-item" href="farmacotecnica.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Farmacotécnica</strong><small>Material de apoio e revisão</small></span><span class="lesson-open">Abrir</span></a>
-              <a class="pdf-item" href="https://bvsms.saude.gov.br/bvs/publicacoes/cuidado_farmaceutico_contexto_sistema_saude_v1.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Cuidado Farmacêutico no contexto do SUS — Vol. 1</strong><small>Ministério da Saúde • material oficial</small></span><span class="lesson-open">Abrir</span></a>
-              <a class="pdf-item" href="https://bvsms.saude.gov.br/bvs/publicacoes/cuidado_farmaceutico_atencao_basica_saude_2_1ed.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Cuidado Farmacêutico na Atenção Básica</strong><small>Ministério da Saúde • clínica e cuidado farmacêutico</small></span><span class="lesson-open">Abrir</span></a>
-              <a class="pdf-item" href="https://bvsms.saude.gov.br/bvs/publicacoes/competencias_farmaceuticos_cuidado_farmaceutico_v2.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Competências para o Cuidado Farmacêutico</strong><small>Ministério da Saúde • atuação clínica e serviços farmacêuticos</small></span><span class="lesson-open">Abrir</span></a>
-              <a class="pdf-item" href="https://admin.cff.org.br/src/uploads/publicacao/arquivo/5d58df3fb5b210625cf3d87dad4a8c2b0a5fc0f5.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Serviços Farmacêuticos destinados ao paciente</strong><small>Conselho Federal de Farmácia • conceitos e prática profissional</small></span><span class="lesson-open">Abrir</span></a>
-              <a class="pdf-item" href="https://www.pciconcursos.com.br/simulados/saude-publica/sus" target="_blank" rel="noopener"><span class="pdf-mark">Q</span><span class="lesson-text"><strong>Questões de Saúde Pública — SUS</strong><small>Treino complementar de SUS</small></span><span class="lesson-open">Responder</span></a>
+              <a class="pdf-item" href="https://eticaconcursos.com.br/provas/arquivos/prova/ibgp-2021-prefeitura-de-sao-joao-del-rei-mg-farmaceutico-bioquimico-prova.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Farmacêutico Bioquímico — São João del-Rei/MG</strong><small>IBGP • 2021 • PDF direto</small></span><span class="lesson-open">Abrir prova</span></a>
+              <a class="pdf-item" href="https://eticaconcursos.com.br/provas/arquivos/gabarito/ibgp-2021-prefeitura-de-sao-joao-del-rei-mg-farmaceutico-bioquimico-gabarito.pdf" target="_blank" rel="noopener"><span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito — Farmacêutico Bioquímico — São João del-Rei/MG</strong><small>IBGP • 2021 • PDF direto</small></span><span class="lesson-open">Abrir gabarito</span></a>
             </div>
-          </div>'''
-          sec = pdf_pat.sub(replacement, sec, count=1)
+          </div>
+          '''
+
+          if 'IBGP • Provas anteriores de Farmácia' not in sec:
+              anchor = '<div class="list-box">\n  <div class="box-head"><strong>PDFs e materiais • SEMUSA Farmácia</strong>'
+              a = sec.find(anchor)
+              if a < 0:
+                  raise SystemExit("Caixa de PDFs SEMUSA não encontrada")
+              # Insere a caixa de provas após a caixa atual de PDFs, usando o fechamento final do bloco.
+              tail = sec.rfind('    </div>\n  </div>\n</section>')
+              if tail < 0:
+                  raise SystemExit("Final da seção Farmácia não encontrado")
+              sec = sec[:tail] + exams + sec[tail:]
 
           updated = text[:start] + sec + text[end:]
-          path.write_text(updated, encoding="utf-8")
-          print("Farmácia SEMUSA atualizada com sucesso.")
+          if updated != text:
+              path.write_text(updated, encoding="utf-8")
+              print("Farmácia finalizada.")
+          else:
+              print("Nenhuma alteração necessária.")
           PY
+
       - name: Commit
         shell: bash
         run: |
@@ -91,13 +105,7 @@ jobs:
           git config user.name "JR Aprova Automation"
           git config user.email "actions@users.noreply.github.com"
           git add index.html
-          git commit -m "Align pharmacy block with SEMUSA 25/2026"
+          git commit -m "Finalize SEMUSA pharmacy content and IBGP exam pair"
           git push origin main
 
-# trigger pharmacy patch
-
-# retry with whitespace-safe header match
-
-# retry with corrected Python regex escapes
-
-# retry exact regex lines
+# final pharmacy pass 2026-10-02
