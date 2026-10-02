@@ -238,6 +238,56 @@ module.exports = async function handler(req, res) {
     }
 
 
+
+    // JR: adiciona 5 provas IBGP + gabaritos no bloco de Farmácia, mantendo os materiais existentes.
+    if (!html.includes('jr-farmacia-provas-ibgp-v1')) {
+      const farmaciaStart = html.indexOf('id="area-farmaceutico"');
+      const farmaciaEnd = farmaciaStart >= 0 ? html.indexOf('<section class="area"', farmaciaStart + 40) : -1;
+      if (farmaciaStart >= 0) {
+        const end = farmaciaEnd >= 0 ? farmaciaEnd : html.indexOf('<footer class="footer">', farmaciaStart);
+        let farmacia = html.slice(farmaciaStart, end);
+
+        const provasIbgp =
+          '<div id="jr-farmacia-provas-ibgp-v1" style="padding:14px 4px 8px;margin-top:10px;border-top:1px solid rgba(148,163,184,.24);font-weight:800;font-size:14px;">IBGP • Provas anteriores de Farmácia</div>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/farmaceutico-prefeitura-dores-do-indaia-mg-ibgp-2021/farmaceutico.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Farmacêutico • Dores do Indaiá/MG</strong><small>IBGP • 2021 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/farmaceutico-prefeitura-dores-do-indaia-mg-ibgp-2021/gabarito-definitivo.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito definitivo • Farmacêutico • Dores do Indaiá/MG</strong><small>IBGP • 2021 • PDF • PCI Concursos</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://eticaconcursos.com.br/provas/arquivos/prova/ibgp-2021-prefeitura-de-sao-joao-del-rei-mg-farmaceutico-bioquimico-prova.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Farmacêutico Bioquímico • São João del-Rei/MG</strong><small>IBGP • 2021 • prova direta em PDF • Ética Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://eticaconcursos.com.br/provas/arquivos/gabarito/ibgp-2021-prefeitura-de-sao-joao-del-rei-mg-farmaceutico-bioquimico-gabarito.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Farmacêutico Bioquímico • São João del-Rei/MG</strong><small>IBGP • 2021 • PDF • Ética Concursos</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-farmacia-prefeitura-sao-joao-del-rei-mg-ibgp-2021/tecnico-em-farmacia.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Técnico em Farmácia • São João del-Rei/MG</strong><small>IBGP • 2021 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-em-farmacia-prefeitura-sao-joao-del-rei-mg-ibgp-2021/gabariots-pos-recursos.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito pós-recursos • Técnico em Farmácia • São João del-Rei/MG</strong><small>IBGP • 2021 • PDF • PCI Concursos</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://eticaconcursos.com.br/provas/arquivos/prova/ibgp-2021-prefeitura-de-dores-do-indaia-mg-bioquimico-prova.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Bioquímico • Dores do Indaiá/MG</strong><small>IBGP • 2021 • prova direta em PDF • Ética Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://eticaconcursos.com.br/provas/arquivos/gabarito/ibgp-2021-prefeitura-de-dores-do-indaia-mg-bioquimico-gabarito.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Bioquímico • Dores do Indaiá/MG</strong><small>IBGP • 2021 • PDF • Ética Concursos</small></span><span class="lesson-open">Abrir gabarito</span></a>' +
+
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-superior-de-saude-farmaceutico-prefeitura-itabira-mg-ibgp-2018/tecnico-superior-de-saude-farmaceutico.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">PROVA</span><span class="lesson-text"><strong>Técnico Superior de Saúde • Farmacêutico • Itabira/MG</strong><small>IBGP • 2018 • prova direta em PDF • PCI Concursos</small></span><span class="lesson-open">Abrir prova</span></a>' +
+          '<a class="pdf-item" href="https://www.pciconcursos.com.br/provas/download/tecnico-superior-de-saude-farmaceutico-prefeitura-itabira-mg-ibgp-2018/gabarito.pdf" target="_blank" rel="noopener">' +
+          '<span class="pdf-mark">GAB</span><span class="lesson-text"><strong>Gabarito • Técnico Superior de Saúde • Farmacêutico • Itabira/MG</strong><small>IBGP • 2018 • PDF • PCI Concursos</small></span><span class="lesson-open">Abrir gabarito</span></a>';
+
+        const closeList = '</a></div>\n    </div>\n    </div>\n  </div>\n</section>';
+        if (farmacia.includes(closeList)) {
+          farmacia = farmacia.replace(closeList, '</a>' + provasIbgp + '</div>\n    </div>\n    </div>\n  </div>\n</section>');
+          farmacia = farmacia.replace(
+            '<div class="box-head"><strong>PDFs</strong><span>2 arquivo(s)</span></div>',
+            '<div class="box-head"><strong>PDFs e provas anteriores</strong><span>13 materiais</span></div>'
+          );
+          html = html.slice(0, farmaciaStart) + farmacia + html.slice(end);
+        }
+      }
+    }
+
+
     // JR: adiciona provas anteriores de Fisioterapia sem duplicar itens.
     if (!html.includes('jr-fisio-provas-v1')) {
       const fisioStart = html.indexOf('id="area-fisioterapia"');
