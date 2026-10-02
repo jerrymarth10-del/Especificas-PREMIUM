@@ -1,0 +1,159 @@
+name: Patch IBGP health blocks
+
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-ibgp-health.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Add IBGP exam pairs by health role
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          p=Path("index.html")
+          html=p.read_text(encoding="utf-8")
+          E="https://eticaconcursos.com.br/provas/arquivos"
+
+          def item(url,title,note,kind):
+              return f'<a class="pdf-item" href="{url}" target="_blank" rel="noopener"><span class="pdf-mark">{kind}</span><span class="lesson-text"><strong>{title}</strong><small>{note}</small></span><span class="lesson-open">Abrir</span></a>'
+
+          def block(marker,title,items):
+              return f'<div class="list-box" id="{marker}"><div class="box-head"><strong>📝 {title}</strong><span>Prova + gabarito</span></div><div class="scroll-list">{"".join(items)}</div></div>'
+
+          def add(area,marker,markup):
+              global html
+              if f'id="{marker}"' in html:
+                  return False
+              start=html.find(f'<section class="area" id="area-{area}">')
+              if start < 0:
+                  print("AVISO área ausente:", area)
+                  return False
+              end=html.find("</section>",start)
+              if end < 0:
+                  raise SystemExit("Fim de seção ausente: "+area)
+              html=html[:end]+markup+html[end:]
+              return True
+
+          # Substitui a caixa antiga de Farmácia para não duplicar o par já publicado.
+          fs=html.find('<section class="area" id="area-farmaceutico">')
+          fe=html.find("</section>",fs) if fs >= 0 else -1
+          if fs >= 0 and fe > fs:
+              sec=html[fs:fe]
+              sec2=re.sub(
+                  r'<div class="list-box">\s*<div class="box-head"><strong>📝 IBGP • Provas anteriores de Farmácia</strong><span>Prova \+ gabarito</span></div>\s*<div class="scroll-list">[\s\S]*?</div>\s*</div>\s*',
+                  '',
+                  sec,
+                  count=1
+              )
+              if sec2 != sec:
+                  html=html[:fs]+sec2+html[fe:]
+
+          changed=[]
+
+          configs=[
+            ("farmaceutico","jr-ibgp-farmacia-20261002","IBGP • Farmácia",[
+              item(f"{E}/prova/ibgp-2018-prefeitura-de-itabira-mg-tecnico-superior-de-saude-farmaceutico-prova.pdf","Farmacêutico — Itabira/MG","IBGP • 2018 • PDF direto validado","PROVA"),
+              item(f"{E}/gabarito/ibgp-2018-prefeitura-de-itabira-mg-tecnico-superior-de-saude-farmaceutico-gabarito.pdf","Gabarito — Farmacêutico — Itabira/MG","IBGP • 2018 • PDF direto validado","GAB"),
+              item(f"{E}/prova/ibgp-2021-prefeitura-de-sao-joao-del-rei-mg-farmaceutico-bioquimico-prova.pdf","Farmacêutico Bioquímico — São João del-Rei/MG","IBGP • 2021 • PDF direto","PROVA"),
+              item(f"{E}/gabarito/ibgp-2021-prefeitura-de-sao-joao-del-rei-mg-farmaceutico-bioquimico-gabarito.pdf","Gabarito — Farmacêutico Bioquímico","IBGP • 2021 • PDF direto","GAB"),
+            ]),
+            ("nutricao","jr-ibgp-nutricao-20261002","IBGP • Nutrição",[
+              item(f"{E}/prova/ibgp-2018-prefeitura-de-itabira-mg-tecnico-superior-de-saude-nutricionista-prova.pdf","Nutricionista — Itabira/MG","IBGP • 2018 • PDF direto validado","PROVA"),
+              item(f"{E}/gabarito/ibgp-2018-prefeitura-de-itabira-mg-tecnico-superior-de-saude-nutricionista-gabarito.pdf","Gabarito — Nutricionista — Itabira/MG","IBGP • 2018 • PDF direto validado","GAB"),
+            ]),
+            ("fisioterapia","jr-ibgp-fisio-20261002","IBGP • Fisioterapia",[
+              item(f"{E}/prova/ibgp-2018-prefeitura-de-itabira-mg-tecnico-superior-de-saude-fisioterapeuta-prova.pdf","Fisioterapeuta — Itabira/MG","IBGP • 2018 • PDF direto validado","PROVA"),
+              item(f"{E}/gabarito/ibgp-2018-prefeitura-de-itabira-mg-tecnico-superior-de-saude-fisioterapeuta-gabarito.pdf","Gabarito — Fisioterapeuta — Itabira/MG","IBGP • 2018 • PDF direto validado","GAB"),
+            ]),
+            ("psicologia","jr-ibgp-psico-20261002","IBGP • Psicologia",[
+              item(f"{E}/prova/ibgp-2018-prefeitura-de-itabira-mg-tecnico-superior-de-saude-psicologo-prova.pdf","Psicólogo — Itabira/MG","IBGP • 2018 • PDF direto validado","PROVA"),
+              item(f"{E}/gabarito/ibgp-2018-prefeitura-de-itabira-mg-tecnico-superior-de-saude-psicologo-gabarito.pdf","Gabarito — Psicólogo — Itabira/MG","IBGP • 2018 • PDF direto validado","GAB"),
+            ]),
+            ("enfermagem","jr-ibgp-enfermagem-20261002","IBGP • Enfermagem",[
+              item(f"{E}/prova/ibgp-2021-prefeitura-de-dores-do-indaia-mg-enfermeiro-prova.pdf","Enfermeiro — Dores do Indaiá/MG","IBGP • 2021 • PDF direto validado","PROVA"),
+              item(f"{E}/gabarito/ibgp-2021-prefeitura-de-dores-do-indaia-mg-enfermeiro-gabarito.pdf","Gabarito — Enfermeiro — Dores do Indaiá/MG","IBGP • 2021 • PDF direto validado","GAB"),
+            ]),
+            ("tecnico","jr-ibgp-tecnico-enf-20261002","IBGP • Técnico em Enfermagem",[
+              item(f"{E}/prova/ibgp-2021-prefeitura-de-dores-do-indaia-mg-tecnico-em-enfermagem-prova.pdf","Técnico em Enfermagem — Dores do Indaiá/MG","IBGP • 2021 • PDF direto validado","PROVA"),
+              item(f"{E}/gabarito/ibgp-2021-prefeitura-de-dores-do-indaia-mg-tecnico-em-enfermagem-gabarito.pdf","Gabarito — Técnico em Enfermagem","IBGP • 2021 • PDF direto validado","GAB"),
+            ]),
+            ("odontologia","jr-ibgp-odonto-20261002","IBGP • Odontologia",[
+              item(f"{E}/prova/ibgp-2021-prefeitura-de-dores-do-indaia-mg-odontologo-prova.pdf","Odontólogo — Dores do Indaiá/MG","IBGP • 2021 • PDF direto validado","PROVA"),
+              item(f"{E}/gabarito/ibgp-2021-prefeitura-de-dores-do-indaia-mg-odontologo-gabarito.pdf","Gabarito — Odontólogo — Dores do Indaiá/MG","IBGP • 2021 • PDF direto validado","GAB"),
+            ]),
+            ("biomedicina","jr-ibgp-biomed-correlata-20261002","IBGP • Bioquímica/Laboratório — prova correlata",[
+              item(f"{E}/prova/ibgp-2021-prefeitura-de-dores-do-indaia-mg-bioquimico-prova.pdf","Bioquímico — Dores do Indaiá/MG","IBGP • 2021 • correlata; não é prova específica de Biomédico","PROVA"),
+              item(f"{E}/gabarito/ibgp-2021-prefeitura-de-dores-do-indaia-mg-bioquimico-gabarito.pdf","Gabarito — Bioquímico — Dores do Indaiá/MG","IBGP • 2021 • material correlato","GAB"),
+            ]),
+            ("laboratorio","jr-ibgp-lab-correlata-20261002","IBGP • Laboratório/Bioquímica — prova correlata",[
+              item(f"{E}/prova/ibgp-2021-prefeitura-de-dores-do-indaia-mg-bioquimico-prova.pdf","Bioquímico — Dores do Indaiá/MG","IBGP • 2021 • correlata para treino de laboratório","PROVA"),
+              item(f"{E}/gabarito/ibgp-2021-prefeitura-de-dores-do-indaia-mg-bioquimico-gabarito.pdf","Gabarito — Bioquímico — Dores do Indaiá/MG","IBGP • 2021 • material correlato","GAB"),
+            ]),
+            ("acsfiscal","jr-ibgp-acs-ace-20261002","IBGP • ACS e Endemias",[
+              item(f"{E}/prova/ibgp-2017-prefeitura-de-andradas-mg-agente-de-combate-a-endemias-prova.pdf","Agente de Combate a Endemias — Andradas/MG","IBGP • 2017 • PDF direto validado","PROVA"),
+              item(f"{E}/gabarito/ibgp-2017-prefeitura-de-andradas-mg-agente-de-combate-a-endemias-gabarito.pdf","Gabarito — Agente de Combate a Endemias","IBGP • 2017 • PDF direto validado","GAB"),
+              item(f"{E}/prova/ibgp-2017-prefeitura-de-andradas-mg-agente-comunitario-de-saude-prova.pdf","Agente Comunitário de Saúde — Andradas/MG","IBGP • 2017 • PDF direto validado","PROVA"),
+              item(f"{E}/gabarito/ibgp-2017-prefeitura-de-andradas-mg-agente-comunitario-de-saude-gabarito.pdf","Gabarito — Agente Comunitário de Saúde","IBGP • 2017 • PDF direto validado","GAB"),
+            ]),
+            ("clinico","jr-ibgp-medicina-pci-20261002","IBGP • Medicina • PCI Concursos",[
+              item("https://arq.pciconcursos.com.br/provas/22752325/49175f80b134/3_ibgp_medico_clinico.pdf","Médico Clínico — IBGP","PCI Concursos • PDF direto","PROVA"),
+              item("https://arq.pciconcursos.com.br/provas/22752325/0b594ee55738/gab_preliminar.pdf","Gabarito — Médico Clínico — IBGP","PCI Concursos • PDF direto","GAB"),
+              item("https://arq.pciconcursos.com.br/provas/22753469/f6808c01b414/6_ibgp_medico.pdf","Médico — IBGP","PCI Concursos • PDF direto","PROVA"),
+              item("https://arq.pciconcursos.com.br/provas/22753469/074f078c0a55/gab_preliminar.pdf","Gabarito — Médico — IBGP","PCI Concursos • PDF direto","GAB"),
+              item("https://arq.pciconcursos.com.br/provas/22751736/77ca15cdd858/2_ibgp_medico_cardiologia.pdf","Médico Cardiologia — IBGP","PCI Concursos • PDF direto • treino adicional","PROVA"),
+              item("https://arq.pciconcursos.com.br/provas/22751736/368c54cb67d4/gab_preliminar.pdf","Gabarito — Médico Cardiologia — IBGP","PCI Concursos • PDF direto","GAB"),
+            ]),
+          ]
+
+          for area,marker,title,items in configs:
+              if add(area,marker,block(marker,title,items)):
+                  changed.append(area)
+
+          # Radiologia: mantém PDFs PCI já presentes e adiciona referência IBGP exata
+          # sem fingir que os PDFs genéricos existentes são da IBGP.
+          rad_marker="jr-ibgp-radiologia-ref-20261002"
+          rad=block(rad_marker,"IBGP • Radiologia — referência da prova",[
+              item("https://www.pciconcursos.com.br/provas/download/tecnico-em-radiologia-radiologia-odontologica-prefeitura-lagoa-santa-mg-ibgp-2015","Técnico em Radiologia — Lagoa Santa/MG","IBGP • 2015 • referência PCI; PDF final protegido por verificação do PCI","PCI"),
+          ])
+          if add("radiologia",rad_marker,rad):
+              changed.append("radiologia")
+
+          if not changed:
+              print("Nenhuma alteração necessária.")
+          else:
+              # Verificações de sanidade.
+              required=["farmaceutico","nutricao","fisioterapia","psicologia","enfermagem","tecnico","odontologia","clinico","acsfiscal"]
+              for a in required:
+                  if f'id="area-{a}"' not in html:
+                      raise SystemExit("Área ausente após patch: "+a)
+              if 'jr-ibgp-medicina-pci-20261002' not in html:
+                  raise SystemExit("Bloco Medicina não inserido")
+              p.write_text(html,encoding="utf-8")
+              print("Atualizados:", ", ".join(changed))
+          PY
+
+      - name: Commit patched index
+        shell: bash
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "Nenhuma alteração pendente."
+            exit 0
+          fi
+          git config user.name "JR Aprova Automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add IBGP exam pairs across SEMUSA health blocks"
+          git push origin main
