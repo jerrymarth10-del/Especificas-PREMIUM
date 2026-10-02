@@ -1,0 +1,96 @@
+name: Patch Farmacia SEMUSA
+
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-pharmacy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Atualizar bloco Farmacia
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path("index.html")
+          text = path.read_text(encoding="utf-8")
+
+          start = text.find('id="area-farmaceutico"')
+          end = text.find('<section class="area"', start + 30)
+          if start < 0 or end < 0:
+              raise SystemExit("Bloco Farmacêutico não encontrado")
+
+          sec = text[start:end]
+
+          old_head = '''<h2>Farmacêutico</h2>
+                <p>Bloco completo com foco em concursos para a área farmacêutica: assistência farmacêutica, farmacologia, SUS, EBSERH e legislação sanitária.</p>'''
+          new_head = '''<h2>Farmacêutico • SEMUSA Porto Velho</h2>
+                <p>Preparatório atualizado conforme o Edital nº 25/2026 — cargo 509. Foco em assistência e cuidado farmacêutico, farmacologia, segurança do paciente, fisiopatologia, SUS e vigilância em saúde.</p>'''
+          if old_head not in sec:
+              raise SystemExit("Cabeçalho esperado não encontrado")
+          sec = sec.replace(old_head, new_head, 1)
+
+          old_count = '<div class="box-head"><strong>Aulas da área</strong><span>30 aulas</span></div>'
+          new_count = '<div class="box-head"><strong>Aulas da área</strong><span>63 aulas</span></div>'
+          if old_count not in sec:
+              raise SystemExit("Contador de aulas esperado não encontrado")
+          sec = sec.replace(old_count, new_count, 1)
+
+          pdf_pat = re.compile(r'<div class="list-box">\s*<div class="box-head"><strong>PDFs</strong><span>2 arquivo\(s\)</span></div>\s*<div class="scroll-list">[\s\S]*?Questões do SUS[\s\S]*?</a></div>\s*</div>')
+          if len(pdf_pat.findall(sec)) != 1:
+              raise SystemExit("Bloco de PDFs esperado não encontrado de forma única")
+
+          replacement = '''<div class="list-box">
+            <div class="box-head"><strong>Trilha SEMUSA • Farmacêutico 509</strong><span>Edital 25/2026</span></div>
+            <div class="scroll-list">
+              <div class="pdf-item"><span class="pdf-mark">✓</span><span class="lesson-text"><strong>Cuidado e serviços farmacêuticos</strong><small>Rastreamento em saúde, educação em saúde, revisão da farmacoterapia, conciliação medicamentosa, gestão da condição de saúde, acompanhamento farmacoterapêutico, consulta e prescrição farmacêutica.</small></span><span class="lesson-open">EDITAL</span></div>
+              <div class="pdf-item"><span class="pdf-mark">✓</span><span class="lesson-text"><strong>Farmacologia, farmacovigilância e segurança</strong><small>Uso racional, farmacocinética, interações, farmacoepidemiologia, farmacovigilância, reações adversas, segurança do paciente e erros de medicação.</small></span><span class="lesson-open">EDITAL</span></div>
+              <div class="pdf-item"><span class="pdf-mark">✓</span><span class="lesson-text"><strong>Clínica e fisiopatologia</strong><small>Doenças infectocontagiosas, diabetes, cardiovasculares, oncologia, ginecologia/obstetrícia e distúrbios articulares e ósseos.</small></span><span class="lesson-open">EDITAL</span></div>
+              <div class="pdf-item"><span class="pdf-mark">✓</span><span class="lesson-text"><strong>Atenção farmacêutica e PRM</strong><small>Filosofia e método de cuidado, gestão, classificação/prevenção/resolução de problemas relacionados a medicamentos, documentação e registro do cuidado.</small></span><span class="lesson-open">EDITAL</span></div>
+              <div class="pdf-item"><span class="pdf-mark">✓</span><span class="lesson-text"><strong>SUS, epidemiologia e vigilância em saúde</strong><small>Evolução e organização do SUS, princípios e legislação, planejamento, gestão de recursos, direitos dos usuários, controle social, ações/programas, indicadores, sistemas de informação e vigilância.</small></span><span class="lesson-open">EDITAL</span></div>
+            </div>
+          </div>
+
+          <div class="list-box">
+            <div class="box-head"><strong>PDFs e materiais • SEMUSA Farmácia</strong><span>8 PDFs + questões</span></div>
+            <div class="scroll-list">
+              <a class="pdf-item" href="https://www.novaconcursos.com.br/laravel/blog/pdf/portal/stream/2026/10/semusa-de-porto-velho-ro-2026-edital.pdf?download=1" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Edital nº 25/2026 — SEMUSA Porto Velho</strong><small>Edital completo com anexos e conteúdo programático do cargo 509</small></span><span class="lesson-open">Abrir</span></a>
+              <a class="pdf-item" href="ESPECIFICO FARMACIA SESAU.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Material Específico de Farmácia</strong><small>Base ampla de Farmácia para revisão; complementar à trilha SEMUSA 509</small></span><span class="lesson-open">Abrir</span></a>
+              <a class="pdf-item" href="1500-questoes-farmacia-referencias.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>1.500 Questões de Farmácia</strong><small>Banco de questões e referências para treino intensivo</small></span><span class="lesson-open">Abrir</span></a>
+              <a class="pdf-item" href="farmacotecnica.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Farmacotécnica</strong><small>Material de apoio e revisão</small></span><span class="lesson-open">Abrir</span></a>
+              <a class="pdf-item" href="https://bvsms.saude.gov.br/bvs/publicacoes/cuidado_farmaceutico_contexto_sistema_saude_v1.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Cuidado Farmacêutico no contexto do SUS — Vol. 1</strong><small>Ministério da Saúde • material oficial</small></span><span class="lesson-open">Abrir</span></a>
+              <a class="pdf-item" href="https://bvsms.saude.gov.br/bvs/publicacoes/cuidado_farmaceutico_atencao_basica_saude_2_1ed.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Cuidado Farmacêutico na Atenção Básica</strong><small>Ministério da Saúde • clínica e cuidado farmacêutico</small></span><span class="lesson-open">Abrir</span></a>
+              <a class="pdf-item" href="https://bvsms.saude.gov.br/bvs/publicacoes/competencias_farmaceuticos_cuidado_farmaceutico_v2.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Competências para o Cuidado Farmacêutico</strong><small>Ministério da Saúde • atuação clínica e serviços farmacêuticos</small></span><span class="lesson-open">Abrir</span></a>
+              <a class="pdf-item" href="https://admin.cff.org.br/src/uploads/publicacao/arquivo/5d58df3fb5b210625cf3d87dad4a8c2b0a5fc0f5.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Serviços Farmacêuticos destinados ao paciente</strong><small>Conselho Federal de Farmácia • conceitos e prática profissional</small></span><span class="lesson-open">Abrir</span></a>
+              <a class="pdf-item" href="https://www.pciconcursos.com.br/simulados/saude-publica/sus" target="_blank" rel="noopener"><span class="pdf-mark">Q</span><span class="lesson-text"><strong>Questões de Saúde Pública — SUS</strong><small>Treino complementar de SUS</small></span><span class="lesson-open">Responder</span></a>
+            </div>
+          </div>'''
+          sec = pdf_pat.sub(replacement, sec, count=1)
+
+          updated = text[:start] + sec + text[end:]
+          path.write_text(updated, encoding="utf-8")
+          print("Farmácia SEMUSA atualizada com sucesso.")
+          PY
+      - name: Commit
+        shell: bash
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "Nenhuma alteração pendente."
+            exit 0
+          fi
+          git config user.name "JR Aprova Automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Align pharmacy block with SEMUSA 25/2026"
+          git push origin main
