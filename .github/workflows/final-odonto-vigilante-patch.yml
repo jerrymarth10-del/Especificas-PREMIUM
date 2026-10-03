@@ -45,8 +45,7 @@ jobs:
                   f'<span class="lesson-open">Abrir</span></a>'
               )
 
-          # 1) ODONTOLOGIA: reforçar lacunas exatas do edital SEMUSA/IBGP
-          od_marker = "jr-odonto-extra-20261003-final"
+          # ODONTOLOGIA
           os = html.find('<section class="area" id="area-odontologia">')
           if os < 0:
               raise SystemExit("Odontologia não encontrada")
@@ -55,9 +54,9 @@ jobs:
               oe = html.find('</main>', os)
           sec = html[os:oe]
 
-          if od_marker not in sec:
+          if "jr-odonto-extra-20261003-final" not in sec:
               extra = (
-                  f'<span id="{od_marker}" hidden></span>'
+                  '<span id="jr-odonto-extra-20261003-final" hidden></span>'
                   + lesson("odontologia",44,"0sgDDX9Z_Lg","Mecanismo de ação do flúor","Uso do flúor na prevenção e tratamento da cárie; conteúdo expresso no edital.")
                   + lesson("odontologia",45,"fmzruRUzyFc","Fluorose dentária","Aspectos clínicos e epidemiológicos da fluorose dentária.")
                   + lesson("odontologia",46,"WlehIU6BkJA","Manifestações bucais de doenças sistêmicas","Revisão direcionada às manifestações orais associadas a doenças sistêmicas.")
@@ -80,10 +79,9 @@ jobs:
               sec = sec.replace("<strong>Aulas da área</strong><span>43 aulas</span>","<strong>Aulas da área</strong><span>51 aulas</span>",1)
               sec = sec.replace("0 de 43 concluídas","0 de 51 concluídas",1)
 
-          sb_marker = "jr-sbbrasil-2010-final"
-          if sb_marker not in sec:
+          if "jr-sbbrasil-2010-final" not in sec:
               sb = (
-                  f'<span id="{sb_marker}" hidden></span>'
+                  '<span id="jr-sbbrasil-2010-final" hidden></span>'
                   + material(
                       "https://bvsms.saude.gov.br/bvs/publicacoes/pesquisa_nacional_saude_bucal_sbbrasil_2010.pdf",
                       "PDF",
@@ -102,23 +100,19 @@ jobs:
 
           html = html[:os] + sec + html[oe:]
 
-          # 2) NOVO BLOCO: Agente de Segurança e Vigilância - Câmara de Candeias do Jamari
-          vig_marker = "jr-vigilante-candeias-final-20261003"
-          if vig_marker not in html:
+          # VIGILANTE / CANDEIAS
+          if "jr-vigilante-candeias-final-20261003" not in html:
               svg = """<svg xmlns="http://www.w3.org/2000/svg" width="640" height="960" viewBox="0 0 640 960"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#163b63"/></linearGradient></defs><rect width="640" height="960" fill="url(#g)"/><circle cx="320" cy="330" r="145" fill="#0b1d31" stroke="#38bdf8" stroke-width="10"/><path d="M320 205l105 40v92c0 76-47 137-105 170-58-33-105-94-105-170v-92z" fill="#0f2742" stroke="#e2e8f0" stroke-width="8"/><path d="M270 337l33 34 72-82" fill="none" stroke="#38bdf8" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><text x="320" y="570" text-anchor="middle" fill="#fff" font-family="Arial" font-size="48" font-weight="700">VIGILÂNCIA</text><text x="320" y="625" text-anchor="middle" fill="#bae6fd" font-family="Arial" font-size="28">Candeias do Jamari • IBGP</text><text x="320" y="770" text-anchor="middle" fill="#94a3b8" font-family="Arial" font-size="24">JR APROVA</text></svg>"""
               img = "data:image/svg+xml;base64," + base64.b64encode(svg.encode("utf-8")).decode("ascii")
+              card = f'''<article class="card jr-card-vigilante" id="jr-vigilante-candeias-final-20261003" onclick="openGate('vigilante')" role="button" tabindex="0" aria-label="Acessar Agente de Segurança e Vigilância"><img src="{img}" alt="Agente de Segurança e Vigilância • Candeias do Jamari" width="640" height="960" decoding="async" loading="lazy"><div class="card-shade"></div><div class="card-body"><span class="tag">Câmara de Candeias do Jamari • IBGP</span><h3>Agente de Segurança e Vigilância</h3><p>Preparatório do cargo 201 com conhecimentos específicos, legislação municipal, materiais oficiais e videoaulas direcionadas ao Edital 01/2026.</p><button class="card-btn" type="button" tabindex="-1">Acessar</button></div></article>'''
 
-              card = f'''<article class="card jr-card-vigilante" id="{vig_marker}" onclick="openGate('vigilante')" role="button" tabindex="0" aria-label="Acessar Agente de Segurança e Vigilância">
-              <img src="{img}" alt="Agente de Segurança e Vigilância • Candeias do Jamari" width="640" height="960" decoding="async" loading="lazy">
-              <div class="card-shade"></div><div class="card-body"><span class="tag">Câmara de Candeias do Jamari • IBGP</span><h3>Agente de Segurança e Vigilância</h3><p>Preparatório do cargo 201 com conhecimentos específicos, legislação municipal, materiais oficiais e videoaulas direcionadas ao Edital 01/2026.</p><button class="card-btn" type="button" tabindex="-1">Acessar</button></div></article>'''
-
-              penal_gate = html.find("openGate('penal')")
-              if penal_gate < 0:
-                  raise SystemExit("Âncora da Polícia Penal não encontrada")
-              penal_article = html.rfind("<article", 0, penal_gate)
-              if penal_article < 0:
-                  raise SystemExit("Card anterior não encontrado")
-              html = html[:penal_article] + card + html[penal_article:]
+              od_gate = html.find("openGate('odontologia')")
+              if od_gate < 0:
+                  raise SystemExit("Âncora do card de Odontologia não encontrada")
+              od_card = html.rfind("<article", 0, od_gate)
+              if od_card < 0:
+                  raise SystemExit("Início do card de Odontologia não encontrado")
+              html = html[:od_card] + card + html[od_card:]
 
               vig_lessons = (
                   lesson("vigilante",1,"l1-IxnQ91hg","Controle de acesso","Entrada, saída, identificação e controle de permanência de pessoas.")
@@ -127,7 +121,6 @@ jobs:
                   + lesson("vigilante",4,"E5aT72zDcco","Extintores de incêndio","Classes de incêndio, agentes extintores e procedimentos básicos.")
                   + lesson("vigilante",5,"lJxXQb7t8PQ","Ética no serviço público e atendimento","Conduta, postura profissional, relações humanas e atendimento ao cidadão.")
               )
-
               focus = (
                   '<div class="lesson-item" style="cursor:default"><span class="lesson-mark">01</span><span class="lesson-text"><strong>Sessões plenárias e controle de acesso</strong><small>Protocolos durante sessões e permanência de público, autoridades e servidores.</small></span><span class="lesson-open">Edital</span></div>'
                   '<div class="lesson-item" style="cursor:default"><span class="lesson-mark">02</span><span class="lesson-text"><strong>Disciplina, hierarquia e conduta</strong><small>Subordinação funcional, ética do servidor e execução de determinações superiores.</small></span><span class="lesson-open">Edital</span></div>'
@@ -136,7 +129,6 @@ jobs:
                   '<div class="lesson-item" style="cursor:default"><span class="lesson-mark">05</span><span class="lesson-text"><strong>Incêndio e evacuação</strong><small>Prevenção, extintores, rotas de fuga, evacuação e acionamento do Corpo de Bombeiros.</small></span><span class="lesson-open">Edital</span></div>'
                   '<div class="lesson-item" style="cursor:default"><span class="lesson-mark">06</span><span class="lesson-text"><strong>Ordem, atendimento e segurança institucional</strong><small>Monitoramento de acessos, relações humanas e apoio à segurança do Legislativo.</small></span><span class="lesson-open">Edital</span></div>'
               )
-
               docs = (
                   material("https://novo.ibgpconcursos.com.br/concurso.jsp?cod=784","EDITAL","Câmara de Candeias do Jamari • Edital 01/2026","Página oficial da banca IBGP")
                   + material("https://www.candeiasdojamari.ro.leg.br/leis/lei-organica-municipal/lei-organica-do-municipio-de-candeias-do-jamari/at_download/file","PDF","Lei Orgânica de Candeias do Jamari","Documento oficial da Câmara Municipal")
@@ -145,9 +137,7 @@ jobs:
                   + material("https://www.gov.br/pf/pt-br/assuntos/seguranca-privada/legislacao-normas-e-orientacoes/manual-do-vigilante/manual-do-vigilante/manual_vigilante.zip/@@download/file/manual_do_vigilante_2a_edic-retificado.pdf","PDF","Manual do Vigilante • Polícia Federal","Apoio oficial para rondas, controle de acesso, comunicação e vigilância patrimonial")
                   + material("https://www.gov.br/pf/pt-br/assuntos/seguranca-privada/legislacao-normas-e-orientacoes/portarias/portaria-no-16-cgcsp_dpa_pf-de-1o-de-agosto-de-2024-portaria-no-16-cgcsp_dpa_pf-de-1o-de-agosto-de-2024-dou-imprensa-nacional.pdf/@@download/file","PDF","Prevenção e combate a incêndios • Polícia Federal","Referência oficial sobre extintores e evacuação")
               )
-
               section = f'''<section class="area" id="area-vigilante"><div class="area-top"><div class="area-head"><div class="jr-area-icon" aria-hidden="true">🛡️</div><div><span class="mini-tag">Câmara de Candeias do Jamari/RO • IBGP • Cargo 201</span><h2>Agente de Segurança e Vigilância</h2><p>Trilha direcionada ao Edital 01/2026, com conhecimentos específicos, legislação municipal e materiais oficiais.</p></div></div></div><div class="area-content"><div class="area-grid"><div class="player-box"><div class="box-head"><strong>Videoaula atual</strong><span>Player integrado</span></div><div class="video-wrap"><iframe id="player-vigilante" src="https://www.youtube.com/embed/l1-IxnQ91hg" title="Agente de Segurança e Vigilância" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><div class="player-meta"><strong id="title-vigilante">Controle de acesso</strong><small id="note-vigilante">Entrada, saída, identificação e controle de permanência de pessoas.</small><a id="link-vigilante" href="https://www.youtube.com/watch?v=l1-IxnQ91hg" target="_blank" rel="noopener">Ver no YouTube</a></div><div class="module-progress"><div class="progress-top"><strong>Seu progresso</strong><span id="progress-text-vigilante">0 de 5 concluídas</span></div><div class="progress-bar"><div class="progress-fill" id="progress-fill-vigilante"></div></div></div><div class="continue-wrap"><button class="continue-btn" type="button" onclick="continueFromLast('vigilante')">Continuar de onde parou</button></div></div><div class="list-box"><div class="box-head"><strong>Aulas da área</strong><span>5 aulas essenciais</span></div><div class="scroll-list">{vig_lessons}</div></div></div><div class="area-grid" style="padding-top:0"><div class="list-box"><div class="box-head"><strong>🎯 Foco do edital • Cargo 201</strong><span>IBGP 2026</span></div><div class="scroll-list">{focus}</div></div><div class="list-box"><div class="box-head"><strong>📚 PDFs e legislação oficial</strong><span>6 materiais</span></div><div class="scroll-list">{docs}</div></div></div></div></section>'''
-
               main_end = html.find("</main>")
               if main_end < 0:
                   raise SystemExit("</main> não encontrado")
@@ -161,15 +151,14 @@ jobs:
                   cfg = '  vigilante: { title: "Agente de Segurança e Vigilância • Candeias do Jamari", password: "VIGIA2026", sectionId: "area-vigilante", storageKey: "jr_especifica_vigilante" },\n'
                   html = html[:cfg_end] + "\n" + cfg + html[cfg_end:]
 
-          checks = [
+          for token in [
               'jr-odonto-extra-20261003-final',
               'jr-sbbrasil-2010-final',
               'id="area-vigilante"',
               "openGate('vigilante')",
               'sectionId: "area-vigilante"',
               'SB Brasil 2010 • Relatório Final'
-          ]
-          for token in checks:
+          ]:
               if token not in html:
                   raise SystemExit("Falha de validação: " + token)
 
