@@ -1,0 +1,138 @@
+name: Add Odonto FGV playlist
+
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-odonto-fgv-playlist.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Patch Odontologia playlist
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path("index.html")
+          html = path.read_text(encoding="utf-8")
+
+          marker = "jr-odonto-fgv-playlist-20261003"
+          if marker in html:
+              print("Playlist já aplicada; nada a fazer.")
+              raise SystemExit(0)
+
+          videos = [
+              ("fEwjsn9WCSE", "BANCA FGV 2022 - ESTOMATOLOGIA BIÓPSIA"),
+              ("pgDX6CXv83k", "BANCA FGV 2022 HIV / AIDS LESÕES BUCAIS"),
+              ("FMPDJcZOMXA", "BANCA FGV 2022 CLASSIFICAÇÃO ASA"),
+              ("3r07z0C2RdE", "BANCA FGV PM-SP 2022"),
+              ("nFr-39Z1FXs", "Banca FGV QUESTÃO COMENTADA 2022: LESÕES FUNDAMENTAIS"),
+              ("U-C2LDrQGi8", "BANCA FGV 2022 QUESTÃO COMENTADA: SARCOMA DE KAPOSI"),
+              ("81E5pACB4QA", "QUESTÃO COMENTADA BANCA FGV : Aumento Gengival"),
+              ("rWRD5QrnBN0", "QUESTÃO COMENTADA FGV FATOR C CONTRAINDICAÇÃO DE POLIMERIZAÇÃO"),
+              ("5GA5FqPv-tA", "QUESTÃO COMENTADA BANCA FGV 2021 : ANESTÉSICO LOCAL EFICAZ INJETÁVEL E TÓPICO"),
+              ("zE0Et4XQvyA", "Questão da banca FGV 2023 ENARE E MPU. #concursospúblicos #odontologiaconcursos"),
+              ("-OkWUaUbzX0", "ARTICAÍNA É éster ou amida? #concursospúblicos #odontologiaconcursos #resumodeodonto"),
+          ]
+
+          start = html.find('<section class="area" id="area-odontologia">')
+          if start < 0:
+              raise SystemExit("Bloco Odontologia não encontrado")
+          end = html.find('<section class="area"', start + 20)
+          if end < 0:
+              end = html.find('</main>', start)
+          sec = html[start:end]
+
+          existing = []
+          for m in re.finditer(r'<strong>Aula\s+(\d{1,3})\s*[•-]', sec):
+              existing.append(int(m.group(1)))
+          old_count = max(existing) if existing else 0
+
+          missing = [(vid, title) for vid, title in videos if vid not in sec]
+          shift = len(missing)
+          if shift == 0:
+              print("Todos os vídeos já existem no bloco.")
+              raise SystemExit(0)
+
+          def shift_label(m):
+              return f"{m.group(1)}{int(m.group(2)) + shift:02d}{m.group(3)}"
+          sec = re.sub(r'(<strong>Aula\s+)(\d{1,3})(\s*[•-]\s*)', shift_label, sec)
+
+          note = "Playlist Banca FGV • questões comentadas e revisão de Odontologia"
+
+          def lesson(n, vid, title):
+              return (
+                  f'<button class="lesson-item" type="button" data-area="odontologia" '
+                  f'data-embed="https://www.youtube.com/embed/{vid}" data-title="{title}" '
+                  f'data-note="{note}" data-yt="https://www.youtube.com/watch?v={vid}">'
+                  f'<span class="lesson-mark">▶</span><span class="lesson-text">'
+                  f'<strong>Aula {n:02d} • {title}</strong><small>{note}</small></span>'
+                  f'<span class="lesson-open lesson-status">Livre</span></button>'
+              )
+
+          block = f'<span id="{marker}" hidden></span>' + "".join(
+              lesson(i + 1, vid, title) for i, (vid, title) in enumerate(missing)
+          )
+
+          head = sec.find("<strong>Aulas da área</strong>")
+          list_start = sec.find('<div class="scroll-list">', head)
+          if head < 0 or list_start < 0:
+              raise SystemExit("Lista de aulas de Odontologia não encontrada")
+          insert_at = list_start + len('<div class="scroll-list">')
+          sec = sec[:insert_at] + block + sec[insert_at:]
+
+          total = old_count + shift
+          sec = re.sub(r'Odontologia • \d+ aulas', f'Odontologia • {total} aulas', sec, count=1)
+          sec = re.sub(r'com \d+ aulas para concursos da área odontológica',
+                       f'com {total} aulas para concursos da área odontológica', sec, count=1)
+          sec = re.sub(r'<strong>Aulas da área</strong><span>\d+ aulas</span>',
+                       f'<strong>Aulas da área</strong><span>{total} aulas</span>', sec, count=1)
+          sec = re.sub(r'\d+ de \d+ concluídas', f'0 de {total} concluídas', sec, count=1)
+
+          first_id, first_title = missing[0]
+          sec = re.sub(r'(id="player-odontologia"\s+src=")[^"]+',
+                       rf'\1https://www.youtube.com/embed/{first_id}', sec, count=1)
+          sec = re.sub(r'(<strong id="title-odontologia">)[^<]*(</strong>)',
+                       rf'\1{first_title}\2', sec, count=1)
+          sec = re.sub(r'(<small id="note-odontologia">)[^<]*(</small>)',
+                       rf'\1{note}\2', sec, count=1)
+          sec = re.sub(r'(<a id="link-odontologia"\s+href=")[^"]+',
+                       rf'\1https://www.youtube.com/watch?v={first_id}', sec, count=1)
+
+          html = html[:start] + sec + html[end:]
+
+          for vid, title in videos:
+              if vid not in html or title not in html:
+                  raise SystemExit(f"Falha de validação: {vid}")
+          if marker not in html:
+              raise SystemExit("Marker não encontrado após patch")
+          if f"Aula {total:02d}" not in sec:
+              raise SystemExit("Contagem final de aulas não validada")
+
+          path.write_text(html, encoding="utf-8")
+          print(f"Playlist FGV adicionada: {shift} vídeos. Total Odonto: {total} aulas.")
+          PY
+
+      - name: Commit index
+        shell: bash
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "Nada para alterar."
+            exit 0
+          fi
+          git config user.name "JR Aprova Automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add FGV Odontologia playlist as first lessons"
+          git push origin main
