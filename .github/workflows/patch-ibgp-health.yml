@@ -63,6 +63,73 @@ jobs:
 
           changed=[]
 
+          # Odontologia • SEMUSA Porto Velho • Edital 25/2026
+          # Preserva aulas existentes e troca apenas documentos/foco/provas.
+          os=html.find('<section class="area" id="area-odontologia">')
+          oe=html.find("</section>",os) if os >= 0 else -1
+          if os >= 0 and oe > os:
+              sec=html[os:oe]
+              sec=sec.replace(
+                  '<h2>Odontologia</h2>',
+                  '<h2>Odontologia • SEMUSA Porto Velho • IBGP</h2>',
+                  1
+              )
+              sec=sec.replace(
+                  '<div class="box-head"><strong>PDFs</strong><span>1 arquivo(s)</span></div>',
+                  '<div class="box-head"><strong>Documentos e treino</strong><span>SEMUSA 2026</span></div>',
+                  1
+              )
+              sec=re.sub(
+                  r'<a class="pdf-item" href="https://rondonia\\.ro\\.gov\\.br/wp-content/uploads/2017/01/013-Abertura-Concurso-Publico-SESAU-RO-2017-Atualizado\\.pdf"[^>]*>[\\s\\S]*?</a>\\s*',
+                  '<a class="pdf-item" href="https://www.diariomunicipal.com.br/arom/materia/12E00984" target="_blank" rel="noopener"><span class="pdf-mark">EDITAL</span><span class="lesson-text"><strong>SEMUSA Porto Velho • Edital nº 25/2026</strong><small>Cargo 514 — Odontólogo • referência oficial</small></span><span class="lesson-open">Abrir</span></a>',
+                  sec,
+                  count=1
+              )
+              sec=re.sub(
+                  r'<div class="list-box" id="jr-ibgp-odonto-20261002">[\\s\\S]*?</div></div>\\s*',
+                  '<span id="jr-ibgp-odonto-20261002" hidden></span>',
+                  sec,
+                  count=1
+              )
+              if 'id="jr-semusa-odonto-20261003"' not in sec:
+                  focus=[
+                      ("01","Saúde bucal e epidemiologia","SB Brasil 2010; cárie, doença periodontal e câncer bucal; diagnóstico, tratamento, prevenção e controle."),
+                      ("02","Flúor, fluorose e promoção de saúde","Uso do flúor, métodos coletivos, fluorose dentária, educação em saúde e ações coletivas."),
+                      ("03","Biossegurança e controle de infecção","Biossegurança, ergonomia e controle de infecção aplicados à prática odontológica."),
+                      ("04","Cirurgia odontológica","Extrações simples e com odontosecção, alveoloplastia, biópsias, suturas e drenagens."),
+                      ("05","Dentística e materiais","Preparo de cavidades, proteção do complexo pulpodentário e materiais restauradores."),
+                      ("06","Estomatologia e doenças sistêmicas","Patologias intra e extraósseas, diagnóstico, tratamento e manifestações bucais de doenças sistêmicas."),
+                      ("07","Farmacologia, SUS e ética","Terapêutica, dor, receituário, Lei 8.080/1990, Lei 8.142/1990, Portaria 2.436/2017 e Código de Ética."),
+                  ]
+                  focus_html="".join(
+                      f'<div class="lesson-item" style="cursor:default"><span class="lesson-mark">{n}</span><span class="lesson-text"><strong>{t}</strong><small>{d}</small></span><span class="lesson-open">Edital</span></div>'
+                      for n,t,d in focus
+                  )
+                  pci=[
+                      ("https://www.pciconcursos.com.br/provas/download/tecnico-superior-de-saude-cirurgiao-prefeitura-itabira-mg-ibgp-2018","Técnico Superior de Saúde — Cirurgião — Itabira/MG","IBGP • 2018"),
+                      ("https://www.pciconcursos.com.br/provas/download/tecnico-superior-de-saude-cirurgiao-oral-prefeitura-itabira-mg-ibgp-2018","Técnico Superior de Saúde — Cirurgião Oral — Itabira/MG","IBGP • 2018"),
+                      ("https://www.pciconcursos.com.br/provas/download/tecnico-superior-de-saude-cirurgiao-psf-prefeitura-itabira-mg-ibgp-2018","Técnico Superior de Saúde — Cirurgião PSF — Itabira/MG","IBGP • 2018"),
+                      ("https://www.pciconcursos.com.br/provas/download/cirurgiao-dentista-de-familia-e-comunidade-prefeitura-lagoa-santa-mg-ibgp-2015","Cirurgião Dentista de Família e Comunidade — Lagoa Santa/MG","IBGP • 2015"),
+                      ("https://www.pciconcursos.com.br/provas/download/cirurgiao-dentista-periodontia-prefeitura-lagoa-santa-mg-ibgp-2015","Cirurgião Dentista — Periodontia — Lagoa Santa/MG","IBGP • 2015"),
+                  ]
+                  pci_html="".join(
+                      f'<a class="pdf-item" href="{u}" target="_blank" rel="noopener"><span class="pdf-mark">PCI</span><span class="lesson-text"><strong>{t}</strong><small>{d} • PCI Concursos • prova + gabarito</small></span><span class="lesson-open">Prova + gabarito</span></a>'
+                      for u,t,d in pci
+                  )
+                  extra=f'''<div class="area-grid" id="jr-semusa-odonto-20261003" style="padding-top:0">
+                    <div class="list-box">
+                      <div class="box-head"><strong>🎯 Foco do edital • Odontólogo 514</strong><span>SEMUSA 25/2026</span></div>
+                      <div class="scroll-list">{focus_html}</div>
+                    </div>
+                    <div class="list-box">
+                      <div class="box-head"><strong>📝 Provas anteriores • IBGP • Odontologia</strong><span>PCI Concursos</span></div>
+                      <div class="scroll-list">{pci_html}</div>
+                    </div>
+                  </div>'''
+                  sec=sec+extra
+              html=html[:os]+sec+html[oe:]
+              changed.append("odontologia-semusa")
+
           configs=[
             ("farmaceutico","jr-ibgp-farmacia-20261002","IBGP • Farmácia",[
               item(f"{E}/prova/ibgp-2018-prefeitura-de-itabira-mg-tecnico-superior-de-saude-farmaceutico-prova.pdf","Farmacêutico — Itabira/MG","IBGP • 2018 • PDF direto validado","PROVA"),
