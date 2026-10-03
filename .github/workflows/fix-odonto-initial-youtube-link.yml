@@ -1,0 +1,57 @@
+name: Fix Odonto initial YouTube link
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-odonto-initial-youtube-link.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Fix initial Odontologia player YouTube link
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path("index.html")
+          html = path.read_text(encoding="utf-8")
+
+          target = "https://www.youtube.com/watch?v=fEwjsn9WCSE"
+          pattern = r'(<a\s+id="link-odontologia"[^>]*?href=")[^"]+(")'
+          html2, n = re.subn(pattern, rf'\1{target}\2', html, count=1)
+
+          if n != 1:
+              raise SystemExit("Link inicial de Odontologia não encontrado")
+          if html2 == html:
+              print("Link já estava correto.")
+              raise SystemExit(0)
+          if target not in html2:
+              raise SystemExit("Falha na validação do link")
+
+          path.write_text(html2, encoding="utf-8")
+          print("Link inicial do player de Odontologia corrigido.")
+          PY
+
+      - name: Commit fix
+        shell: bash
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "Nada para alterar."
+            exit 0
+          fi
+          git config user.name "JR Aprova Automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Fix Odontologia initial YouTube link"
+          git push origin main
