@@ -79,12 +79,9 @@ jobs:
                   '<div class="box-head"><strong>Documentos e treino</strong><span>SEMUSA 2026</span></div>',
                   1
               )
-              sec=re.sub(
-                  r'<a class="pdf-item" href="https://rondonia\\.ro\\.gov\\.br/wp-content/uploads/2017/01/013-Abertura-Concurso-Publico-SESAU-RO-2017-Atualizado\\.pdf"[^>]*>[\\s\\S]*?</a>\\s*',
-                  '<a class="pdf-item" href="https://www.diariomunicipal.com.br/arom/materia/12E00984" target="_blank" rel="noopener"><span class="pdf-mark">EDITAL</span><span class="lesson-text"><strong>SEMUSA Porto Velho • Edital nº 25/2026</strong><small>Cargo 514 — Odontólogo • referência oficial</small></span><span class="lesson-open">Abrir</span></a>',
-                  sec,
-                  count=1
-              )
+              old_edital='<a class="pdf-item" href="https://rondonia.ro.gov.br/wp-content/uploads/2017/01/013-Abertura-Concurso-Publico-SESAU-RO-2017-Atualizado.pdf" target="_blank" rel="noopener"><span class="pdf-mark">PDF</span><span class="lesson-text"><strong>Edital SESAU RO 2017</strong><small>Referência oficial do concurso organizado pela FUNRIO</small></span><span class="lesson-open">Abrir</span></a>'
+              new_edital='<a class="pdf-item" href="https://www.diariomunicipal.com.br/arom/materia/12E00984" target="_blank" rel="noopener"><span class="pdf-mark">EDITAL</span><span class="lesson-text"><strong>SEMUSA Porto Velho • Edital nº 25/2026</strong><small>Cargo 514 — Odontólogo • referência oficial</small></span><span class="lesson-open">Abrir</span></a>'
+              sec=sec.replace(old_edital,new_edital,1)
               sec=re.sub(
                   r'<div class="list-box" id="jr-ibgp-odonto-20261002">[\\s\\S]*?</div></div>\\s*',
                   '<span id="jr-ibgp-odonto-20261002" hidden></span>',
