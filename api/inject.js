@@ -11,7 +11,7 @@ const { insertAssistenteSocial } = require('../lib/assistente-social');
 const JR_AREA_VERIFY_URL = 'https://sesau-certo.vercel.app/api/verify-area-ticket';
 const JR_HEALTH_AREAS = new Set([
   'radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio',
-  'nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','endemias','administrativo','clinico'
+  'nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','clinico'
 ]);
 
 function jrReadCookies(req){
@@ -969,13 +969,13 @@ module.exports = async function handler(req, res) {
       const areaAccessScript = '<script id="jr-purchased-area-access-v1">' +
         'window.__JR_PURCHASED_AREAS=' + safeAreas + ';' +
         '(function(){' +
-          'var health=["radiologia","enfermagem","tecnico","fisioterapia","farmaceutico","laboratorio","nutricao","biomedicina","odontologia","psicologia","psicologiasemusa","acsfiscal","endemias","administrativo","clinico"];' +
+          'var health=["radiologia","enfermagem","tecnico","fisioterapia","farmaceutico","laboratorio","nutricao","biomedicina","odontologia","psicologia","psicologiasemusa","acsfiscal","assistentesocial","endemias","administrativo","clinico"];' +
           'var allowed=Array.isArray(window.__JR_PURCHASED_AREAS)?window.__JR_PURCHASED_AREAS:[];' +
           'var original=window.openGate;' +
           'function openLegacy(areaId){return typeof original==="function"?original.apply(this,arguments):undefined;}' +
           'function askServer(areaId){' +
             'if(health.indexOf(areaId)<0&&areaId!=="assistentesocial")return openLegacy(areaId);' +
-            'var verifyArea=areaId==="assistentesocial"?"acsfiscal":areaId;' +
+            'var verifyArea=areaId;' +
             'var controller=typeof AbortController==="function"?new AbortController():null;' +
             'var timer=controller?setTimeout(function(){controller.abort();},5000):null;' +
             'var opts={cache:"no-store",credentials:"same-origin"};if(controller)opts.signal=controller.signal;' +
