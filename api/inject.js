@@ -8,6 +8,7 @@ const { buildPoliciaPenal } = require('./policia-penal-data');
 const { buildPsicologiaSemusa } = require('./psicologia-semusa-data');
 const { buildAdministrativo } = require('./administrativo-data');
 const { insertAssistenteSocial } = require('../lib/assistente-social');
+const { insertMotorista } = require('../lib/motorista');
 const JR_AREA_VERIFY_URL = 'https://sesau-certo.vercel.app/api/verify-area-ticket';
 const JR_HEALTH_AREAS = new Set([
   'radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio',
@@ -963,6 +964,7 @@ module.exports = async function handler(req, res) {
     }
 
     html = insertAssistenteSocial(html);
+    html = insertMotorista(html);
     const jrPurchasedAreas = await jrPurchasedAreasFromRequest(req);
     if (!html.includes('id="jr-purchased-area-access-v1"')) {
       const safeAreas = JSON.stringify(jrPurchasedAreas).replace(/</g, '\\u003c');
@@ -990,7 +992,7 @@ module.exports = async function handler(req, res) {
           '}' +
           'function openRequested(){' +
             'var area="";try{area=new URLSearchParams(location.search).get("area")||"";}catch(e){}' +
-            'if(health.indexOf(area)<0&&area!=="assistentesocial")return;' +
+            'if(health.indexOf(area)<0&&area!=="assistentesocial"&&area!=="motorista")return;' +
             'if(typeof window.openGate==="function")window.openGate(area);' +
           '}' +
           'function claimTicket(){' +
