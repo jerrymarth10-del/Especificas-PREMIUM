@@ -2,11 +2,11 @@
   "routes": [
     {
       "src": "^/$",
-      "dest": "/api/inject-servicos"
+      "dest": "/api/inject"
     },
     {
       "src": "^/index\\.html$",
-      "dest": "/api/inject-servicos"
+      "dest": "/api/inject"
     },
     {
       "handle": "filesystem"
