@@ -9,10 +9,11 @@ const { buildPsicologiaSemusa } = require('./psicologia-semusa-data');
 const { buildAdministrativo } = require('./administrativo-data');
 const { insertAssistenteSocial } = require('../lib/assistente-social');
 const { insertMotorista } = require('../lib/motorista');
+const { insertServicosGerais } = require('../lib/servicos-gerais');
 const JR_AREA_VERIFY_URL = 'https://sesau-certo.vercel.app/api/verify-area-ticket';
 const JR_HEALTH_AREAS = new Set([
   'radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio',
-  'nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','motorista','clinico'
+  'nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','motorista','servicosgerais','clinico'
 ]);
 
 function jrReadCookies(req){
@@ -965,13 +966,14 @@ module.exports = async function handler(req, res) {
 
     html = insertAssistenteSocial(html);
     html = insertMotorista(html);
+    html = insertServicosGerais(html);
     const jrPurchasedAreas = await jrPurchasedAreasFromRequest(req);
     if (!html.includes('id="jr-purchased-area-access-v1"')) {
       const safeAreas = JSON.stringify(jrPurchasedAreas).replace(/</g, '\\u003c');
       const areaAccessScript = '<script id="jr-purchased-area-access-v1">' +
         'window.__JR_PURCHASED_AREAS=' + safeAreas + ';' +
         '(function(){' +
-          'var health=["radiologia","enfermagem","tecnico","fisioterapia","farmaceutico","laboratorio","nutricao","biomedicina","odontologia","psicologia","psicologiasemusa","acsfiscal","assistentesocial","endemias","administrativo","motorista","clinico"];' +
+          'var health=["radiologia","enfermagem","tecnico","fisioterapia","farmaceutico","laboratorio","nutricao","biomedicina","odontologia","psicologia","psicologiasemusa","acsfiscal","assistentesocial","endemias","administrativo","motorista","servicosgerais","clinico"];' +
           'var allowed=Array.isArray(window.__JR_PURCHASED_AREAS)?window.__JR_PURCHASED_AREAS:[];' +
           'var original=window.openGate;' +
           'function openLegacy(areaId){return typeof original==="function"?original.apply(this,arguments):undefined;}' +
