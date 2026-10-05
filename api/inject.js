@@ -6,10 +6,11 @@ const { buildPrf } = require('./prf-data');
 const { buildExtra } = require('./extra-data');
 const { buildPoliciaPenal } = require('./policia-penal-data');
 const { buildPsicologiaSemusa } = require('./psicologia-semusa-data');
+const { buildAdministrativo } = require('./administrativo-data');
 const JR_AREA_VERIFY_URL = 'https://sesau-certo.vercel.app/api/verify-area-ticket';
 const JR_HEALTH_AREAS = new Set([
   'radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio',
-  'nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','endemias','clinico'
+  'nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','endemias','administrativo','clinico'
 ]);
 
 function jrReadCookies(req){
@@ -928,13 +929,45 @@ module.exports = async function handler(req, res) {
       html = html.replace('</body>', psicologiaSemusaBundle.script + '</body>');
     }
 
+    // JR: bloco administrativo compartilhado por compras SESAU e SEMUSA.
+    const administrativoBundle = buildAdministrativo();
+
+    if (!html.includes('.jr-admin-card{')) {
+      html = html.replace('</style>', '\n' + administrativoBundle.css + '\n</style>');
+    }
+
+    if (!html.includes("openGate('administrativo')")) {
+      const endemiasPos = html.indexOf("openGate('endemias')");
+      let insertAt = -1;
+      if (endemiasPos >= 0) {
+        const end = html.indexOf('</article>', endemiasPos);
+        if (end >= 0) insertAt = end + '</article>'.length;
+      }
+      if (insertAt < 0) {
+        const cardsEnd = html.indexOf('</div>', html.indexOf('class="cards"'));
+        if (cardsEnd >= 0) insertAt = cardsEnd;
+      }
+      if (insertAt < 0) throw new Error('Ponto de inserção do card Administrativo não encontrado');
+      html = html.slice(0, insertAt) + '\n' + administrativoBundle.card + '\n' + html.slice(insertAt);
+    }
+
+    if (!html.includes('id="area-administrativo"')) {
+      const footerAt = html.indexOf('<footer class="footer">');
+      if (footerAt < 0) throw new Error('Rodapé não encontrado para inserir Administrativo');
+      html = html.slice(0, footerAt) + '\n' + administrativoBundle.area + '\n' + html.slice(footerAt);
+    }
+
+    if (!html.includes('id="jr-administrativo-script-v1"')) {
+      html = html.replace('</body>', administrativoBundle.script + '</body>');
+    }
+
     const jrPurchasedAreas = await jrPurchasedAreasFromRequest(req);
     if (!html.includes('id="jr-purchased-area-access-v1"')) {
       const safeAreas = JSON.stringify(jrPurchasedAreas).replace(/</g, '\\u003c');
       const areaAccessScript = '<script id="jr-purchased-area-access-v1">' +
         'window.__JR_PURCHASED_AREAS=' + safeAreas + ';' +
         '(function(){' +
-          'var health=["radiologia","enfermagem","tecnico","fisioterapia","farmaceutico","laboratorio","nutricao","biomedicina","odontologia","psicologia","psicologiasemusa","acsfiscal","endemias","clinico"];' +
+          'var health=["radiologia","enfermagem","tecnico","fisioterapia","farmaceutico","laboratorio","nutricao","biomedicina","odontologia","psicologia","psicologiasemusa","acsfiscal","endemias","administrativo","clinico"];' +
           'var allowed=Array.isArray(window.__JR_PURCHASED_AREAS)?window.__JR_PURCHASED_AREAS:[];' +
           'var original=window.openGate;' +
           'function openLegacy(areaId){return typeof original==="function"?original.apply(this,arguments):undefined;}' +
