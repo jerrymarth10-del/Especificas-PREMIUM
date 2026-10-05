@@ -1,7 +1,7 @@
 const VERIFY_URL = "https://sesau-certo.vercel.app/api/verify-area-ticket";
 const HEALTH_AREAS = new Set([
   "radiologia","enfermagem","tecnico","fisioterapia","farmaceutico","laboratorio",
-  "nutricao","biomedicina","odontologia","psicologia","psicologiasemusa","acsfiscal","assistentesocial","endemias","administrativo","motorista","clinico"
+  "nutricao","biomedicina","odontologia","psicologia","psicologiasemusa","acsfiscal","assistentesocial","endemias","administrativo","motorista","servicosgerais","clinico","pediatria"
 ]);
 
 async function verifyTicket(ticket){
