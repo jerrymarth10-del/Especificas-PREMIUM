@@ -7,6 +7,7 @@ const { buildExtra } = require('./extra-data');
 const { buildPoliciaPenal } = require('./policia-penal-data');
 const { buildPsicologiaSemusa } = require('./psicologia-semusa-data');
 const { buildAdministrativo } = require('./administrativo-data');
+const { insertAssistenteSocial } = require('../lib/assistente-social');
 const JR_AREA_VERIFY_URL = 'https://sesau-certo.vercel.app/api/verify-area-ticket';
 const JR_HEALTH_AREAS = new Set([
   'radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio',
@@ -961,6 +962,7 @@ module.exports = async function handler(req, res) {
       html = html.replace('</body>', administrativoBundle.script + '</body>');
     }
 
+    html = insertAssistenteSocial(html);
     const jrPurchasedAreas = await jrPurchasedAreasFromRequest(req);
     if (!html.includes('id="jr-purchased-area-access-v1"')) {
       const safeAreas = JSON.stringify(jrPurchasedAreas).replace(/</g, '\\u003c');
@@ -972,8 +974,8 @@ module.exports = async function handler(req, res) {
           'var original=window.openGate;' +
           'function openLegacy(areaId){return typeof original==="function"?original.apply(this,arguments):undefined;}' +
           'function askServer(areaId){' +
-            'if(health.indexOf(areaId)<0)return openLegacy(areaId);' +
-            'var verifyArea=areaId;' +
+            'if(health.indexOf(areaId)<0&&areaId!=="assistentesocial")return openLegacy(areaId);' +
+            'var verifyArea=areaId==="assistentesocial"?"acsfiscal":areaId;' +
             'var controller=typeof AbortController==="function"?new AbortController():null;' +
             'var timer=controller?setTimeout(function(){controller.abort();},5000):null;' +
             'var opts={cache:"no-store",credentials:"same-origin"};if(controller)opts.signal=controller.signal;' +
@@ -988,7 +990,7 @@ module.exports = async function handler(req, res) {
           '}' +
           'function openRequested(){' +
             'var area="";try{area=new URLSearchParams(location.search).get("area")||"";}catch(e){}' +
-            'if(health.indexOf(area)<0)return;' +
+            'if(health.indexOf(area)<0&&area!=="assistentesocial")return;' +
             'if(typeof window.openGate==="function")window.openGate(area);' +
           '}' +
           'function claimTicket(){' +
