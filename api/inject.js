@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { applyCardLayout } = require('../lib/card-layout');
+const { applyCardLayout, applyCatalogNormalization } = require('../lib/card-layout');
 const { gunzipSync } = require('zlib');
 const { buildPrf } = require('./prf-data');
 const { buildExtra } = require('./extra-data');
@@ -1110,7 +1110,7 @@ module.exports = async function handler(req, res) {
     res.statusCode = 200;
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.setHeader('cache-control', 'no-store, max-age=0, must-revalidate');
-    res.end(applyCardLayout(html));
+    res.end(applyCatalogNormalization(applyCardLayout(html)));
   } catch (error) {
     res.statusCode = 500;
     res.setHeader('content-type', 'text/plain; charset=utf-8');
