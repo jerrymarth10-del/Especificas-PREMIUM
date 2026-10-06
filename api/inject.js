@@ -1111,7 +1111,7 @@ module.exports = async function handler(req, res) {
 
     // Prioriza os PDFs IBGP existentes somente no bloco de Odontologia.
     {
-      const start = html.indexOf('<section class="area" id="area-odontologia">');
+      const start = html.indexOf('id="area-odontologia"');
       const end = start >= 0 ? html.indexOf('</section>', start) : -1;
       if (start >= 0 && end > start) {
         let section = html.slice(start, end);
