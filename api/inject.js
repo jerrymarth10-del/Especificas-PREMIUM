@@ -1,8 +1,7 @@
 // JR_DEPLOY_TRIGGER_20261005_ACS_FRONT
 const fs = require('fs');
-// JR_DEPLOY_TRIGGER_ACS_FRONT_V1
 const path = require('path');
-const { applyCardLayout, applyCatalogNormalization } = require('../lib/card-layout');
+const { applyCardLayout } = require('../lib/card-layout');
 const { gunzipSync } = require('zlib');
 const { buildPrf } = require('./prf-data');
 const { buildExtra } = require('./extra-data');
@@ -1112,7 +1111,7 @@ module.exports = async function handler(req, res) {
     res.statusCode = 200;
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.setHeader('cache-control', 'no-store, max-age=0, must-revalidate');
-    res.end(applyCatalogNormalization(applyCardLayout(html)));
+    res.end(applyCardLayout(html));
   } catch (error) {
     res.statusCode = 500;
     res.setHeader('content-type', 'text/plain; charset=utf-8');
