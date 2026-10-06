@@ -1,3 +1,4 @@
+// JR_DEPLOY_TRIGGER_20261005_ACS_FRONT
 const fs = require('fs');
 const path = require('path');
 const { applyCardLayout, applyCatalogNormalization } = require('../lib/card-layout');
