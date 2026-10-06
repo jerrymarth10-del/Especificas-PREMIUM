@@ -1108,6 +1108,28 @@ module.exports = async function handler(req, res) {
       }
     }
 
+
+    // Prioriza os PDFs IBGP existentes somente no bloco de Odontologia.
+    {
+      const start = html.indexOf('<section class="area" id="area-odontologia">');
+      const end = start >= 0 ? html.indexOf('</section>', start) : -1;
+      if (start >= 0 && end > start) {
+        let section = html.slice(start, end);
+        const heading = section.indexOf('📝 Provas anteriores • IBGP • Odontologia');
+        const firstPdf = section.indexOf('<a class="pdf-item"');
+        const target = firstPdf >= 0 ? section.lastIndexOf('<div class="list-box">', firstPdf) : -1;
+        const boxStart = heading >= 0 ? section.lastIndexOf('<div class="list-box">', heading) : -1;
+        const listStart = heading >= 0 ? section.indexOf('<div class="scroll-list">', heading) : -1;
+        const closing = listStart >= 0 ? /<\/div>\s*<\/div>/.exec(section.slice(listStart)) : null;
+        const boxEnd = closing ? listStart + closing.index + closing[0].length : -1;
+        if (target >= 0 && boxStart > target && boxEnd > boxStart) {
+          const box = section.slice(boxStart, boxEnd);
+          section = section.slice(0, target) + box + section.slice(target, boxStart) + section.slice(boxEnd);
+          html = html.slice(0, start) + section + html.slice(end);
+        }
+      }
+    }
+
     res.statusCode = 200;
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.setHeader('cache-control', 'no-store, max-age=0, must-revalidate');
