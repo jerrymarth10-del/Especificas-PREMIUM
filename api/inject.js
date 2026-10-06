@@ -1,5 +1,6 @@
 // JR_DEPLOY_TRIGGER_20261005_ACS_FRONT
 const fs = require('fs');
+// JR_DEPLOY_TRIGGER_ACS_FRONT_V1
 const path = require('path');
 const { applyCardLayout, applyCatalogNormalization } = require('../lib/card-layout');
 const { gunzipSync } = require('zlib');
