@@ -35,7 +35,7 @@ function jrReadCookies(req){
 async function jrVerifyAreaTicket(ticket){
   if(!ticket || String(ticket).length > 8192) return '';
   const controller = new AbortController();
-  const timer = setTimeout(function(){ controller.abort(); }, 7000);
+  const timer = setTimeout(function(){ controller.abort(); }, 15000);
   try{
     const response = await fetch(JR_AREA_VERIFY_URL,{
       method:'POST',
@@ -982,13 +982,14 @@ module.exports = async function handler(req, res) {
           'function openLegacy(areaId){return typeof original==="function"?original.apply(this,arguments):undefined;}' +
           'function askServer(areaId){' +
             'if(health.indexOf(areaId)<0&&areaId!=="assistentesocial")return openLegacy(areaId);' +
+            'if(allowed.indexOf(areaId)>=0&&typeof window.showArea==="function"){if(typeof window.closeGate==="function")window.closeGate();window.showArea(areaId);return;}' +
             'var verifyArea=areaId;' +
             'var controller=typeof AbortController==="function"?new AbortController():null;' +
-            'var timer=controller?setTimeout(function(){controller.abort();},5000):null;' +
+            'var timer=controller?setTimeout(function(){controller.abort();},20000):null;' +
             'var opts={cache:"no-store",credentials:"same-origin"};if(controller)opts.signal=controller.signal;' +
             'return fetch("/api/access?area="+encodeURIComponent(verifyArea),opts)' +
               '.then(function(r){if(!r.ok)throw new Error("access");return r.json();})' +
-              '.then(function(data){if(data&&data.allowed&&data.area===verifyArea&&typeof window.showArea==="function"){window.showArea(areaId);return;}openLegacy(areaId);})' +
+              '.then(function(data){if(data&&data.allowed&&data.area===verifyArea&&typeof window.showArea==="function"){if(allowed.indexOf(areaId)<0)allowed.push(areaId);if(typeof window.closeGate==="function")window.closeGate();window.showArea(areaId);return;}openLegacy(areaId);})' +
               '.catch(function(){openLegacy(areaId);}).finally(function(){if(timer)clearTimeout(timer);});' +
           '}' +
           'if(typeof original==="function"&&!original.__jrPurchase){' +
@@ -1007,7 +1008,7 @@ module.exports = async function handler(req, res) {
             'if(!ticket){history.replaceState(null,"",location.pathname+location.search);setTimeout(openRequested,250);return;}' +
             'fetch("/api/claim-area",{method:"POST",headers:{"Content-Type":"application/json"},cache:"no-store",body:JSON.stringify({ticket:ticket})})' +
               '.then(function(r){return r.ok?r.json():null;})' +
-              '.then(function(data){history.replaceState(null,"",location.pathname+location.search);if(data&&data.ok){location.reload();return;}setTimeout(openRequested,100);})' +
+              '.then(function(data){history.replaceState(null,"",location.pathname+location.search);if(data&&data.ok&&health.indexOf(data.area)>=0){if(allowed.indexOf(data.area)<0)allowed.push(data.area);if(typeof window.closeGate==="function")window.closeGate();window.showArea(data.area);return;}setTimeout(openRequested,100);})' +
               '.catch(function(){history.replaceState(null,"",location.pathname+location.search);setTimeout(openRequested,100);});' +
           '}' +
           'claimTicket();' +

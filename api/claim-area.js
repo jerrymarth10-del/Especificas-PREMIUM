@@ -6,7 +6,7 @@ const HEALTH_AREAS = new Set([
 
 async function verifyTicket(ticket){
   const controller=new AbortController();
-  const timer=setTimeout(()=>controller.abort(),8000);
+  const timer=setTimeout(()=>controller.abort(),15000);
   try{
     const response=await fetch(VERIFY_URL,{
       method:"POST",
