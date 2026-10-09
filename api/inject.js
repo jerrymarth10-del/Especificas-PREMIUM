@@ -974,46 +974,48 @@ module.exports = async function handler(req, res) {
     const jrPurchasedAreas = await jrPurchasedAreasFromRequest(req);
     if (!html.includes('id="jr-purchased-area-access-v1"')) {
       const safeAreas = JSON.stringify(jrPurchasedAreas).replace(/</g, '\\u003c');
-      const areaAccessScript = '<script id="jr-purchased-area-access-v1">' +
-        'window.__JR_PURCHASED_AREAS=' + safeAreas + ';' +
-        '(function(){' +
-          'var health=["radiologia","enfermagem","tecnico","fisioterapia","farmaceutico","laboratorio","nutricao","biomedicina","odontologia","psicologia","psicologiasemusa","acsfiscal","assistentesocial","endemias","administrativo","motorista","servicosgerais","clinico","pediatria"];' +
-          'var allowed=Array.isArray(window.__JR_PURCHASED_AREAS)?window.__JR_PURCHASED_AREAS:[];' +
-          'var original=window.openGate;' +
-          'function openLegacy(areaId){return typeof original==="function"?original.apply(this,arguments):undefined;}' +
-          'function askServer(areaId){' +
-            'if(health.indexOf(areaId)<0&&areaId!=="assistentesocial")return openLegacy(areaId);' +
-            'if(allowed.indexOf(areaId)>=0&&typeof window.showArea==="function"){if(typeof window.closeGate==="function")window.closeGate();window.showArea(areaId);return;}' +
-            'var verifyArea=areaId;' +
-            'var controller=typeof AbortController==="function"?new AbortController():null;' +
-            'var timer=controller?setTimeout(function(){controller.abort();},20000):null;' +
-            'var opts={cache:"no-store",credentials:"same-origin"};if(controller)opts.signal=controller.signal;' +
-            'return fetch("/api/access?area="+encodeURIComponent(verifyArea),opts)' +
-              '.then(function(r){if(!r.ok)throw new Error("access");return r.json();})' +
-              '.then(function(data){if(data&&data.allowed&&data.area===verifyArea&&typeof window.showArea==="function"){if(allowed.indexOf(areaId)<0)allowed.push(areaId);if(typeof window.closeGate==="function")window.closeGate();window.showArea(areaId);return;}openLegacy(areaId);})' +
-              '.catch(function(){openLegacy(areaId);}).finally(function(){if(timer)clearTimeout(timer);});' +
-          '}' +
-          'if(typeof original==="function"&&!original.__jrPurchase){' +
-            'var wrapped=function(areaId){return askServer(areaId);};' +
-            'wrapped.__jrPurchase=true;window.openGate=wrapped;' +
-          '}' +
-          'function openRequested(){' +
-            'var area="";try{area=new URLSearchParams(location.search).get("area")||"";}catch(e){}' +
-            'if(health.indexOf(area)<0&&area!=="assistentesocial"&&area!=="motorista")return;' +
-            'if(typeof window.openGate==="function")window.openGate(area);' +
-          '}' +
-          'function claimTicket(){' +
-            'var raw=String(location.hash||"");var mark="#jr_area_ticket=";' +
-            'if(raw.indexOf(mark)!==0){setTimeout(openRequested,250);return;}' +
-            'var ticket="";try{ticket=decodeURIComponent(raw.slice(mark.length));}catch(e){ticket=raw.slice(mark.length);}' +
-            'if(!ticket){history.replaceState(null,"",location.pathname+location.search);setTimeout(openRequested,250);return;}' +
-            'fetch("/api/claim-area",{method:"POST",headers:{"Content-Type":"application/json"},cache:"no-store",body:JSON.stringify({ticket:ticket})})' +
-              '.then(function(r){return r.ok?r.json():null;})' +
-              '.then(function(data){history.replaceState(null,"",location.pathname+location.search);if(data&&data.ok&&health.indexOf(data.area)>=0){if(allowed.indexOf(data.area)<0)allowed.push(data.area);if(typeof window.closeGate==="function")window.closeGate();window.showArea(data.area);return;}setTimeout(openRequested,100);})' +
-              '.catch(function(){history.replaceState(null,"",location.pathname+location.search);setTimeout(openRequested,100);});' +
-          '}' +
-          'claimTicket();' +
-        '})();</script>';
+      const areaAccessScript = '<script id="jr-purchased-area-access-v1">window.__JR_PURCHASED_AREAS=' + safeAreas + ';' + String.raw`(function(){
+  var health=['radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio','nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','motorista','servicosgerais','clinico','pediatria'];
+  var allowed=Array.isArray(window.__JR_PURCHASED_AREAS)?window.__JR_PURCHASED_AREAS:[];
+  var original=window.openGate,claiming=String(location.hash||'').indexOf('#jr_area_ticket=')===0;
+  function clearNotice(){var el=document.getElementById('jr-purchase-notice');if(el)el.remove();}
+  function notice(retry,pending){
+    if(typeof window.closeGate==='function')window.closeGate();clearNotice();
+    var el=document.createElement('div');el.id='jr-purchase-notice';el.setAttribute('role','status');el.style.cssText='position:fixed;inset:0;background:#07111deF;z-index:999999;display:flex;align-items:center;justify-content:center;padding:24px;color:white;font-family:system-ui';
+    var box=document.createElement('div');box.style.cssText='max-width:440px;padding:28px;border-radius:18px;background:#13273c';
+    var title=document.createElement('h2');title.textContent=pending?'Abrindo seu preparatório…':'Vamos recuperar seu acesso';box.appendChild(title);
+    var text=document.createElement('p');text.textContent=pending?'Estamos confirmando a liberação da sua compra.':'Não foi possível confirmar sua liberação agora. Tente novamente ou recupere o acesso com os dados usados na compra.';box.appendChild(text);
+    if(!pending){var b=document.createElement('button');b.textContent='Tentar novamente';b.onclick=retry;box.appendChild(b);var a=document.createElement('a');a.href='https://semusa-sesau-app.vercel.app/';a.textContent='Recuperar acesso';a.style.cssText='display:block;margin-top:20px;color:#8dd5ff';box.appendChild(a);}
+    el.appendChild(box);document.body.appendChild(el);
+  }
+  function request(url,opts,attempt){
+    attempt=attempt||0;var controller=new AbortController();var timer=setTimeout(function(){controller.abort();},20000);
+    return fetch(url,Object.assign({},opts,{signal:controller.signal})).then(function(r){if(r.status>=500||r.status===429)throw Error('temporary');return r.json();}).catch(function(e){if(attempt>=2)throw e;return new Promise(function(resolve){setTimeout(resolve,350*(attempt+1));}).then(function(){return request(url,opts,attempt+1);});}).finally(function(){clearTimeout(timer);});
+  }
+  function show(area){clearNotice();if(allowed.indexOf(area)<0)allowed.push(area);if(typeof window.closeGate==='function')window.closeGate();window.showArea(area);}
+  function askServer(area){
+    if(health.indexOf(area)<0)return original&&original(area);
+    if(claiming)return;
+    if(allowed.indexOf(area)>=0)return show(area);
+    return request('/api/access?area='+encodeURIComponent(area),{cache:'no-store',credentials:'same-origin'}).then(function(data){
+      if(data&&data.allowed&&data.area===area)return show(area);
+      if(data&&data.purchased)return notice(function(){askServer(area);},false);
+      clearNotice();return original&&original(area);
+    }).catch(function(){notice(function(){askServer(area);},false);});
+  }
+  window.openGate=askServer;window.openGate.__jrPurchase=true;
+  function openRequested(){var area=new URLSearchParams(location.search).get('area')||'';if(health.indexOf(area)>=0)askServer(area);}
+  function claimTicket(){
+    var raw=String(location.hash||'');if(raw.indexOf('#jr_area_ticket=')!==0){claiming=false;setTimeout(openRequested,250);return;}
+    claiming=true;notice(claimTicket,true);var ticket='';try{ticket=decodeURIComponent(raw.slice(16));}catch(e){ticket=raw.slice(16);}
+    return request('/api/claim-area',{method:'POST',headers:{'Content-Type':'application/json'},cache:'no-store',credentials:'same-origin',body:JSON.stringify({ticket:ticket})}).then(function(data){
+      if(data&&data.ok&&health.indexOf(data.area)>=0){claiming=false;history.replaceState(null,'',location.pathname+location.search);show(data.area);return;}
+      notice(claimTicket,false);
+    }).catch(function(){notice(claimTicket,false);});
+  }
+  claimTicket();
+})();
+` + '</script>';
       html = html.replace('</body>', areaAccessScript + '</body>');
     }
 

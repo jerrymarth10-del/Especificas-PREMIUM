@@ -56,9 +56,9 @@ module.exports=async function handler(req,res){
 
   try{
     const verifiedArea=await verifyTicket(ticket);
-    return res.status(200).json({allowed:verifiedArea===area,area});
+    return res.status(200).json({allowed:verifiedArea===area,area,purchased:true});
   }catch(error){
     console.error("Consulta de acesso SESAU:",error?.message||error);
-    return res.status(503).json({allowed:false,area});
+    return res.status(503).json({allowed:false,area,purchased:true});
   }
 };
