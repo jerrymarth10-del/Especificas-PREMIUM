@@ -1,5 +1,6 @@
 // JR_DEPLOY_TRIGGER_20261005_ACS_FRONT
 const fs = require('fs');
+const { enrichFarmacia } = require('../lib/farmacia-ibgp');
 const path = require('path');
 const { applyCardLayout, applyCatalogNormalization } = require('../lib/card-layout');
 const { gunzipSync } = require('zlib');
@@ -1134,7 +1135,7 @@ module.exports = async function handler(req, res) {
     res.statusCode = 200;
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.setHeader('cache-control', 'no-store, max-age=0, must-revalidate');
-    res.end(applyCatalogNormalization(applyCardLayout(html)));
+    res.end(enrichFarmacia(applyCatalogNormalization(applyCardLayout(html))));
   } catch (error) {
     res.statusCode = 500;
     res.setHeader('content-type', 'text/plain; charset=utf-8');
