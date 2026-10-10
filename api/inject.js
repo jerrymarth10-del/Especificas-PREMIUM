@@ -1134,6 +1134,8 @@ module.exports = async function handler(req, res) {
       }
     }
 
+    html = html.replace('<main id="inicio">', `<main id="inicio"><section class="container" style="padding-top:20px"><div style="padding:18px 20px;border:1px solid var(--line);border-radius:16px;background:rgba(20,40,55,.85);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap"><div><strong>Procurando Português e as matérias gerais?</strong><p style="margin:6px 0 0;color:var(--muted);line-height:1.5">Elas estão no SESAU Certo. Aqui você estuda as específicas do cargo.</p></div><a href="https://sesau-certo.vercel.app/api/study-entry" style="display:inline-block;padding:12px 18px;border-radius:10px;background:#58d5ad;color:#071924;text-decoration:none;font-weight:800">Acessar matérias gerais</a></div></section>`);
+
     res.statusCode = 200;
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.setHeader('cache-control', 'no-store, max-age=0, must-revalidate');
