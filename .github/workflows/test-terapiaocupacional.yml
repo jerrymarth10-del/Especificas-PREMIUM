@@ -1,0 +1,36 @@
+name: Terapia Ocupacional — integration smoke test
+on:
+  push:
+    branches:
+      - codex/terapiaocupacional-20261012
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  access-and-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Checkout Especificas Premium (branch under test)
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          path: Especificas-PREMIUM
+          persist-credentials: false
+      - name: Checkout sesau-certo (matching feature branch)
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: jerrymarth10-del/sesau-certo
+          ref: codex/terapiaocupacional-20261012
+          path: sesau-certo
+          persist-credentials: false
+      - name: Checkout SEMUSA-SESAU-APP (matching feature branch)
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: jerrymarth10-del/SEMUSA-SESAU-APP
+          ref: codex/terapiaocupacional-20261012
+          path: SEMUSA-SESAU-APP
+          persist-credentials: false
+      - name: Integration test (isolated mocks, no real payments)
+        run: node Especificas-PREMIUM/scripts/test-terapiaocupacional.cjs
