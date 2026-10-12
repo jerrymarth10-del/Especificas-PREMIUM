@@ -34,3 +34,17 @@ jobs:
           persist-credentials: false
       - name: Integration test (isolated mocks, no real payments)
         run: node Especificas-PREMIUM/scripts/test-terapiaocupacional.cjs
+      - name: Render Projeto 1 with new card (anonymous regression)
+        run: |
+          node - <<'NODE'
+          const assert=require('node:assert/strict');
+          const handler=require('./sesau-certo/api/inject-quimica.js');
+          const res={statusCode:200,headers:{},setHeader(k,v){this.headers[k]=v},end(v){this.body=v;return this}};
+          Promise.resolve(handler({method:'GET',headers:{},query:{}},res)).then(()=>{
+            assert.equal(res.statusCode,200,'Projeto 1 must render without 500');
+            assert.match(res.body,/data-jr-card="terapiaocupacional"/);
+            assert.match(res.body,/\/api\/area-entry\?area=terapiaocupacional/);
+            assert.match(res.body,/data-jr-card="servicosgerais"/);
+            console.log('Projeto 1 render and legacy cards: PASS');
+          }).catch(e=>{console.error(e);process.exitCode=1});
+          NODE
