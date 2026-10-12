@@ -1,0 +1,133 @@
+{
+  "verifiedAt": "2026-10-12",
+  "lessons": [
+    {
+      "group": "Fundamentos e atuação profissional",
+      "video": "PzY0iCPZAtg",
+      "title": "História e fundamentos da Terapia Ocupacional",
+      "source": "Live UniFatecie"
+    },
+    {
+      "group": "Fundamentos e atuação profissional",
+      "video": "wilF18Re504",
+      "title": "Os pilares da prática em Terapia Ocupacional | Edu-TO & Naianna Santos",
+      "source": "Edu-TO /  Naianna Santos"
+    },
+    {
+      "group": "Fundamentos e atuação profissional",
+      "video": "e5SNcCyykx0",
+      "title": "Avaliação em Terapia Ocupacional",
+      "source": "Live UniFatecie"
+    },
+    {
+      "group": "Fundamentos e atuação profissional",
+      "video": "ZsdkcF7j4TY",
+      "title": "Terapia Ocupacional, Ética e Legislação: Onde estamos e para onde vamos?",
+      "source": "CREFITO 12"
+    },
+    {
+      "group": "SUS e Atenção Primária",
+      "video": "IoizBBKdOM8",
+      "title": "Importância da Terapia Ocupacional na Atenção Primária à Saúde",
+      "source": "CREFITO-1"
+    },
+    {
+      "group": "SUS e Atenção Primária",
+      "video": "tlPZhX2bHR8",
+      "title": "Terapia Ocupacional no SUS e no SUAS",
+      "source": "TV Crefito5"
+    },
+    {
+      "group": "SUS e Atenção Primária",
+      "video": "XXqsku0uBl0",
+      "title": "Do NASF à e-MULTI: o que mudou para o Terapeuta Ocupacional e Fisioterapeuta na APS?",
+      "source": "CREFITO-7"
+    },
+    {
+      "group": "Reabilitação e tecnologia assistiva",
+      "video": "-aLHIvCuqgw",
+      "title": "Terapia Ocupacional em Tecnologia Assistiva e Reabilitação | Dra. Érika Teixeira (Palestra completa)",
+      "source": "Crefito-3"
+    },
+    {
+      "group": "Reabilitação e tecnologia assistiva",
+      "video": "MDDK8xHuids",
+      "title": "Terapia Ocupacional em pacientes Pós-AVC - Dra. Erika Teixeira",
+      "source": "Neurofuncional"
+    },
+    {
+      "group": "Reabilitação e tecnologia assistiva",
+      "video": "TYODia1y-V4",
+      "title": "LAOT - Aula 12 -  Terapia de mão e MMSS",
+      "source": "LAOT-UFTM"
+    },
+    {
+      "group": "Saúde mental",
+      "video": "EFc8pMrmKdk",
+      "title": "Saúde mental e disfunções cognitivas",
+      "source": "Terapia Ocupacional Unicesumar"
+    },
+    {
+      "group": "Infância e envelhecimento",
+      "video": "JvflKCQ-yWE",
+      "title": "Revisão • Pediatria para Terapia Ocupacional",
+      "source": "Live UniFatecie"
+    },
+    {
+      "group": "Infância e envelhecimento",
+      "video": "sU434BY72f0",
+      "title": "Terapia Ocupacional em Geriatria e Gerontologia | Dra. Maria Helena Morgani (Palestra completa)",
+      "source": "Crefito-3"
+    },
+    {
+      "group": "Contextos hospitalares",
+      "video": "HyxufN-7CE0",
+      "title": "Introdução a Terapia Ocupacional no Contexto Hospitalar - Marysia Mara | CATO FMABC + LATOHCP UNB",
+      "source": "CATO FMABC"
+    },
+    {
+      "group": "Contextos hospitalares",
+      "video": "ZQ72SE0pqYM",
+      "title": "Palestra: Cuidados paliativos - o papel da terapia ocupacional em contexto hospitalar",
+      "source": "Crefito-3"
+    },
+    {
+      "group": "Questões para concursos",
+      "video": "o-mD9q3nHdY",
+      "title": "100 Questões de Terapia Ocupacional para Concurso",
+      "source": "Questões de Concurso Grátis"
+    }
+  ],
+  "exams": [
+    {
+      "url": "https://www.pciconcursos.com.br/provas/download/tecnico-superior-de-saude-terapeuta-ocupacional-prefeitura-itabira-mg-ibgp-2018",
+      "files": [
+        "gabarito.pdf",
+        "tecnico_superior_de_saude_terapeuta_ocupacional.pdf"
+      ],
+      "title": "Técnico Superior de Saúde - Terapeuta Ocupacional • 2018 • Pref. Itabira/MG • IBGP",
+      "answerFile": "gabarito.pdf",
+      "examFile": "tecnico_superior_de_saude_terapeuta_ocupacional.pdf"
+    },
+    {
+      "url": "https://www.pciconcursos.com.br/provas/download/terapeuta-ocupacional-prefeitura-andradas-mg-ibgp-2017",
+      "files": [
+        "gabarito.pdf",
+        "terapeuta_ocupacional.pdf"
+      ],
+      "title": "Terapeuta Ocupacional • 2017 • Pref. Andradas/MG • IBGP",
+      "answerFile": "gabarito.pdf",
+      "examFile": "terapeuta_ocupacional.pdf"
+    },
+    {
+      "url": "https://www.pciconcursos.com.br/provas/download/terapeuta-ocupacional-prefeitura-lagoa-santa-mg-ibgp-2015",
+      "files": [
+        "9_ibgp_terapeuta_ocupacional.pdf",
+        "gab_preliminar.pdf"
+      ],
+      "title": "Terapeuta Ocupacional • 2015 • Pref. Lagoa Santa/MG • IBGP",
+      "answerFile": "gab_preliminar.pdf",
+      "examFile": "9_ibgp_terapeuta_ocupacional.pdf"
+    }
+  ]
+}
