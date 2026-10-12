@@ -1,0 +1,50 @@
+name: Terapia Ocupacional — integration smoke test
+on:
+  push:
+    branches:
+      - codex/terapiaocupacional-20261012
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  access-and-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Checkout Especificas Premium (branch under test)
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          path: Especificas-PREMIUM
+          persist-credentials: false
+      - name: Checkout sesau-certo (matching feature branch)
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: jerrymarth10-del/sesau-certo
+          ref: codex/terapiaocupacional-20261012
+          path: sesau-certo
+          persist-credentials: false
+      - name: Checkout SEMUSA-SESAU-APP (matching feature branch)
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: jerrymarth10-del/SEMUSA-SESAU-APP
+          ref: codex/terapiaocupacional-20261012
+          path: SEMUSA-SESAU-APP
+          persist-credentials: false
+      - name: Integration test (isolated mocks, no real payments)
+        run: node Especificas-PREMIUM/scripts/test-terapiaocupacional.cjs
+      - name: Render Projeto 1 with new card (anonymous regression)
+        run: |
+          node - <<'NODE'
+          const assert=require('node:assert/strict');
+          const handler=require('./sesau-certo/api/inject-quimica.js');
+          const res={statusCode:200,headers:{},setHeader(k,v){this.headers[k]=v},end(v){this.body=v;return this}};
+          Promise.resolve(handler({method:'GET',headers:{},query:{}},res)).then(()=>{
+            assert.equal(res.statusCode,200,'Projeto 1 must render without 500');
+            assert.match(res.body,/data-jr-card="terapiaocupacional"/);
+            assert.match(res.body,/\/api\/area-entry\?area=terapiaocupacional/);
+            assert.match(res.body,/data-jr-card="servicosgerais"/);
+            console.log('Projeto 1 render and legacy cards: PASS');
+          }).catch(e=>{console.error(e);process.exitCode=1});
+          NODE

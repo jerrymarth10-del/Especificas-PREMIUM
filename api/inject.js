@@ -13,10 +13,11 @@ const { insertAssistenteSocial } = require('../lib/assistente-social');
 const { insertMotorista } = require('../lib/motorista');
 const { insertServicosGerais } = require('../lib/servicos-gerais');
 const { insertPediatria } = require('../lib/pediatria');
+const { insertTerapiaOcupacional } = require('../lib/terapiaocupacional');
 const JR_AREA_VERIFY_URL = 'https://sesau-certo.vercel.app/api/verify-area-ticket';
 const JR_HEALTH_AREAS = new Set([
   'radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio',
-  'nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','motorista','servicosgerais','clinico','pediatria'
+  'nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','motorista','servicosgerais','clinico','pediatria','terapiaocupacional'
 ]);
 
 function jrReadCookies(req){
@@ -972,10 +973,11 @@ module.exports = async function handler(req, res) {
     html = insertServicosGerais(html);
     html = insertPediatria(html);
     const jrPurchasedAreas = await jrPurchasedAreasFromRequest(req);
+    html = insertTerapiaOcupacional(html, jrPurchasedAreas.includes('terapiaocupacional'));
     if (!html.includes('id="jr-purchased-area-access-v1"')) {
       const safeAreas = JSON.stringify(jrPurchasedAreas).replace(/</g, '\\u003c');
       const areaAccessScript = '<script id="jr-purchased-area-access-v1">window.__JR_PURCHASED_AREAS=' + safeAreas + ';' + String.raw`(function(){
-  var health=['radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio','nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','motorista','servicosgerais','clinico','pediatria'];
+  var health=['radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio','nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','motorista','servicosgerais','clinico','pediatria','terapiaocupacional'];
   var allowed=Array.isArray(window.__JR_PURCHASED_AREAS)?window.__JR_PURCHASED_AREAS:[];
   var original=window.openGate,claiming=String(location.hash||'').indexOf('#jr_area_ticket=')===0;
   function clearNotice(){var el=document.getElementById('jr-purchase-notice');if(el)el.remove();}
@@ -992,7 +994,7 @@ module.exports = async function handler(req, res) {
     attempt=attempt||0;var controller=new AbortController();var timer=setTimeout(function(){controller.abort();},20000);
     return fetch(url,Object.assign({},opts,{signal:controller.signal})).then(function(r){if(r.status>=500||r.status===429)throw Error('temporary');return r.json();}).catch(function(e){if(attempt>=2)throw e;return new Promise(function(resolve){setTimeout(resolve,350*(attempt+1));}).then(function(){return request(url,opts,attempt+1);});}).finally(function(){clearTimeout(timer);});
   }
-  function show(area){clearNotice();if(allowed.indexOf(area)<0)allowed.push(area);if(typeof window.closeGate==='function')window.closeGate();window.showArea(area);}
+  function show(area){if(area==='terapiaocupacional'&&document.getElementById('area-terapiaocupacional')?.dataset.jrAuthorized!=='true'){location.replace(location.pathname+'?area=terapiaocupacional');return;}clearNotice();if(allowed.indexOf(area)<0)allowed.push(area);if(typeof window.closeGate==='function')window.closeGate();window.showArea(area);}
   function askServer(area){
     if(health.indexOf(area)<0)return original&&original(area);
     if(claiming)return;
@@ -1000,6 +1002,7 @@ module.exports = async function handler(req, res) {
     return request('/api/access?area='+encodeURIComponent(area),{cache:'no-store',credentials:'same-origin'}).then(function(data){
       if(data&&data.allowed&&data.area===area)return show(area);
       if(data&&data.purchased)return notice(function(){askServer(area);},false);
+      if(area==='terapiaocupacional')return notice(function(){askServer(area);},false);
       clearNotice();return original&&original(area);
     }).catch(function(){notice(function(){askServer(area);},false);});
   }

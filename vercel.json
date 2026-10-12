@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "src": "^/lib/terapiaocupacional(?:-conteudo)?\\.(?:js|json)$",
+      "dest": "/api/access"
+    },
+    {
       "src": "^/$",
       "dest": "/api/inject"
     },
