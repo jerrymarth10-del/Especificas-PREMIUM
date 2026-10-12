@@ -48,3 +48,29 @@ jobs:
             console.log('Projeto 1 render and legacy cards: PASS');
           }).catch(e=>{console.error(e);process.exitCode=1});
           NODE
+      - name: Live production GET checks (read only; no payments)
+        run: |
+          node - <<'NODE'
+          const assert=require('node:assert/strict');
+          async function get(label,url,{accept=[200],redirect='follow'}={}){
+            const res=await fetch(url,{method:'GET',redirect,signal:AbortSignal.timeout(20000),headers:{'User-Agent':'JR-Aprova-readonly-smoke/1.0'}});
+            const body=await res.text();
+            console.log(JSON.stringify({label,status:res.status,finalHost:new URL(res.url).host,bytes:body.length,redirect:res.headers.get('location')}));
+            assert.ok(accept.includes(res.status),label+' unexpected HTTP status '+res.status);
+            return {res,body};
+          }
+          (async()=>{
+            const landing=await get('SEMUSA landing','https://semusa-sesau-app.vercel.app/');
+            assert.match(landing.body, /name="area" value="terapiaocupacional"/,'Landing production missing Terapia Ocupacional');
+            assert.match(landing.body,/\/api\/checkout/,'Landing production missing checkout route');
+            const geral=await get('Projeto 1','https://sesau-certo.vercel.app/');
+            assert.match(geral.body,/terapiaocupacional/,'Projeto 1 does not show new area');
+            const especificas=await get('Projeto 2','https://especificas-premium.vercel.app/');
+            assert.match(especificas.body,/terapiaocupacional/,'Projeto 2 does not show new area');
+            const unauthorized=await get('Projeto 2 access without session','https://especificas-premium.vercel.app/api/access?area=terapiaocupacional',{accept:[200,401,403]});
+            assert.ok(!/"allowed"\s*:\s*true/.test(unauthorized.body),'Anonymous authorization was granted');
+            const entry=await get('Projeto 1 study entry without session','https://sesau-certo.vercel.app/api/study-entry',{accept:[301,302,303,307,308],redirect:'manual'});
+            assert.ok(entry.res.headers.get('location'),'No redirect for anonymous user');
+            console.log('LIVE READ-ONLY SMOKE: PASS. No checkout/order/payment/real purchase was made.');
+          })().catch(e=>{console.error('LIVE READ-ONLY SMOKE FAILED:',e.message);process.exitCode=1;});
+          NODE
