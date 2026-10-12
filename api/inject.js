@@ -14,6 +14,7 @@ const { insertMotorista } = require('../lib/motorista');
 const { insertServicosGerais } = require('../lib/servicos-gerais');
 const { insertPediatria } = require('../lib/pediatria');
 const { insertTerapiaOcupacional } = require('../lib/terapiaocupacional');
+const { insertPedagogiaIbgp } = require('../lib/pedagogia-ibgp');
 const JR_AREA_VERIFY_URL = 'https://sesau-certo.vercel.app/api/verify-area-ticket';
 const JR_HEALTH_AREAS = new Set([
   'radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio',
@@ -1142,7 +1143,7 @@ module.exports = async function handler(req, res) {
     res.statusCode = 200;
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.setHeader('cache-control', 'no-store, max-age=0, must-revalidate');
-    res.end(enrichFarmacia(applyCatalogNormalization(applyCardLayout(html))));
+    res.end(insertPedagogiaIbgp(enrichFarmacia(applyCatalogNormalization(applyCardLayout(html)))));
   } catch (error) {
     res.statusCode = 500;
     res.setHeader('content-type', 'text/plain; charset=utf-8');
