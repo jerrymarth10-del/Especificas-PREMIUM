@@ -995,17 +995,17 @@ module.exports = async function handler(req, res) {
     attempt=attempt||0;var controller=new AbortController();var timer=setTimeout(function(){controller.abort();},20000);
     return fetch(url,Object.assign({},opts,{signal:controller.signal})).then(function(r){if(r.status>=500||r.status===429)throw Error('temporary');return r.json();}).catch(function(e){if(attempt>=2)throw e;return new Promise(function(resolve){setTimeout(resolve,350*(attempt+1));}).then(function(){return request(url,opts,attempt+1);});}).finally(function(){clearTimeout(timer);});
   }
-  function show(area){if(area==='terapiaocupacional'&&document.getElementById('area-terapiaocupacional')?.dataset.jrAuthorized!=='true'){location.replace(location.pathname+'?area=terapiaocupacional');return;}clearNotice();if(allowed.indexOf(area)<0)allowed.push(area);if(typeof window.closeGate==='function')window.closeGate();window.showArea(area);}
+  function show(area){clearNotice();if(allowed.indexOf(area)<0)allowed.push(area);if(typeof window.closeGate==='function')window.closeGate();window.showArea(area);}
   function askServer(area){
     if(health.indexOf(area)<0)return original&&original(area);
     if(claiming)return;
     if(allowed.indexOf(area)>=0)return show(area);
     return request('/api/access?area='+encodeURIComponent(area),{cache:'no-store',credentials:'same-origin'}).then(function(data){
       if(data&&data.allowed&&data.area===area)return show(area);
-      if(data&&data.purchased)return notice(function(){askServer(area);},false);
-      if(area==='terapiaocupacional')return notice(function(){askServer(area);},false);
+      // A failed/expired payment cookie must never block legacy password access.
+      // Confirmed paid tickets remain verified by /api/verify-area-ticket.
       clearNotice();return original&&original(area);
-    }).catch(function(){notice(function(){askServer(area);},false);});
+    }).catch(function(){clearNotice();return original&&original(area);});
   }
   window.openGate=askServer;window.openGate.__jrPurchase=true;
   function openRequested(){var area=new URLSearchParams(location.search).get('area')||'';if(health.indexOf(area)>=0)askServer(area);}
