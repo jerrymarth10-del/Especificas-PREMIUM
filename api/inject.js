@@ -988,7 +988,7 @@ module.exports = async function handler(req, res) {
     var box=document.createElement('div');box.style.cssText='max-width:440px;padding:28px;border-radius:18px;background:#13273c';
     var title=document.createElement('h2');title.textContent=pending?'Abrindo seu preparatório…':'Vamos recuperar seu acesso';box.appendChild(title);
     var text=document.createElement('p');text.textContent=pending?'Estamos confirmando a liberação da sua compra.':'Não foi possível confirmar sua liberação agora. Tente novamente ou recupere o acesso com os dados usados na compra.';box.appendChild(text);
-    if(!pending){var b=document.createElement('button');b.textContent='Tentar novamente';b.onclick=retry;box.appendChild(b);var a=document.createElement('a');a.href='https://semusa-sesau-app.vercel.app/';a.textContent='Recuperar acesso';a.style.cssText='display:block;margin-top:20px;color:#8dd5ff';box.appendChild(a);}
+    if(!pending){var b=document.createElement('button');b.textContent='Tentar novamente';b.onclick=retry;box.appendChild(b);var a=document.createElement('a');a.href='https://semusa-sesau-app.vercel.app/';a.textContent='Recuperar acesso';a.style.cssText='display:block;margin-top:20px;color:#8dd5ff';box.appendChild(a);var manual=document.createElement('button');manual.textContent='Entrar com a senha do bloco';manual.style.cssText='display:block;margin-top:20px';manual.onclick=function(){claiming=false;history.replaceState(null,'',location.pathname+location.search);clearNotice();var area=new URLSearchParams(location.search).get('area')||'';if(health.indexOf(area)>=0&&original)original(area);};box.appendChild(manual);}
     el.appendChild(box);document.body.appendChild(el);
   }
   function request(url,opts,attempt){
