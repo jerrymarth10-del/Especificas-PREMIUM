@@ -15,11 +15,13 @@ const { insertServicosGerais } = require('../lib/servicos-gerais');
 const { insertPediatria } = require('../lib/pediatria');
 const { insertTerapiaOcupacional } = require('../lib/terapiaocupacional');
 const { insertCuidadorSocial } = require('../lib/cuidador-social');
+const { insertSecretariaEscolar } = require('../lib/secretaria-escolar');
+const { hasManualSecretariaEscolar } = require('../lib/secretaria-escolar-access');
 const { insertPedagogiaIbgp } = require('../lib/pedagogia-ibgp');
 const JR_AREA_VERIFY_URL = 'https://sesau-certo.vercel.app/api/verify-area-ticket';
 const JR_HEALTH_AREAS = new Set([
   'radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio',
-  'nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','prf','penal','motorista','servicosgerais','clinico','pediatria','terapiaocupacional','cuidadorsocial'
+  'nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','prf','penal','motorista','servicosgerais','clinico','pediatria','terapiaocupacional','cuidadorsocial','secretariaescolar'
 ]);
 
 function jrReadCookies(req){
@@ -977,10 +979,11 @@ module.exports = async function handler(req, res) {
     const jrPurchasedAreas = await jrPurchasedAreasFromRequest(req);
     html = insertTerapiaOcupacional(html, jrPurchasedAreas.includes('terapiaocupacional'));
     html = insertCuidadorSocial(html, jrPurchasedAreas.includes('cuidadorsocial'));
+    html = insertSecretariaEscolar(html, jrPurchasedAreas.includes('secretariaescolar') || hasManualSecretariaEscolar(req));
     if (!html.includes('id="jr-purchased-area-access-v1"')) {
       const safeAreas = JSON.stringify(jrPurchasedAreas).replace(/</g, '\\u003c');
       const areaAccessScript = '<script id="jr-purchased-area-access-v1">window.__JR_PURCHASED_AREAS=' + safeAreas + ';' + String.raw`(function(){
-  var health=['radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio','nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','prf','penal','motorista','servicosgerais','clinico','pediatria','terapiaocupacional','cuidadorsocial'];
+  var health=['radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio','nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','prf','penal','motorista','servicosgerais','clinico','pediatria','terapiaocupacional','cuidadorsocial','secretariaescolar'];
   var allowed=Array.isArray(window.__JR_PURCHASED_AREAS)?window.__JR_PURCHASED_AREAS:[];
   var original=window.openGate,claiming=String(location.hash||'').indexOf('#jr_area_ticket=')===0;
   function clearNotice(){var el=document.getElementById('jr-purchase-notice');if(el)el.remove();}
@@ -997,7 +1000,7 @@ module.exports = async function handler(req, res) {
     attempt=attempt||0;var controller=new AbortController();var timer=setTimeout(function(){controller.abort();},20000);
     return fetch(url,Object.assign({},opts,{signal:controller.signal})).then(function(r){if(r.status>=500||r.status===429)throw Error('temporary');return r.json();}).catch(function(e){if(attempt>=2)throw e;return new Promise(function(resolve){setTimeout(resolve,350*(attempt+1));}).then(function(){return request(url,opts,attempt+1);});}).finally(function(){clearTimeout(timer);});
   }
-  function show(area){clearNotice();if(allowed.indexOf(area)<0)allowed.push(area);if(typeof window.closeGate==='function')window.closeGate();window.showArea(area);var section=document.getElementById('area-'+area);if(section&&!section.querySelector('.jr-paid-install-link')){var wrap=document.createElement('div');wrap.className='jr-paid-install-link';wrap.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:13px 16px;margin:12px 0;border:1px solid #79c8b5;border-radius:12px;background:#102c38;color:#e9fff4;font:700 14px/1.5 system-ui';var label=document.createElement('span');label.textContent='Seu cargo foi liberado! Instale o JR A Prova para abrir seus estudos pelo ícone.';var link=document.createElement('a');link.textContent='📲 Instalar aplicativo';link.href='https://sesau-certo.vercel.app/api/pwa-home';link.style.cssText='display:inline-block;padding:10px 14px;border-radius:8px;background:#58d5ad;color:#06241b;text-decoration:none;font-weight:800';wrap.append(label,link);section.prepend(wrap);}}
+  function show(area){clearNotice();if(allowed.indexOf(area)<0)allowed.push(area);if(area==='secretariaescolar'&&!document.getElementById('area-secretariaescolar')){location.replace(location.pathname+location.search);return;}if(typeof window.closeGate==='function')window.closeGate();window.showArea(area);var section=document.getElementById('area-'+area);if(section&&!section.querySelector('.jr-paid-install-link')){var wrap=document.createElement('div');wrap.className='jr-paid-install-link';wrap.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:13px 16px;margin:12px 0;border:1px solid #79c8b5;border-radius:12px;background:#102c38;color:#e9fff4;font:700 14px/1.5 system-ui';var label=document.createElement('span');label.textContent='Seu cargo foi liberado! Instale o JR A Prova para abrir seus estudos pelo ícone.';var link=document.createElement('a');link.textContent='📲 Instalar aplicativo';link.href='https://sesau-certo.vercel.app/api/pwa-home';link.style.cssText='display:inline-block;padding:10px 14px;border-radius:8px;background:#58d5ad;color:#06241b;text-decoration:none;font-weight:800';wrap.append(label,link);section.prepend(wrap);}}
   function askServer(area){
     if(health.indexOf(area)<0)return original&&original(area);
     if(claiming)return;
