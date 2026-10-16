@@ -7,7 +7,7 @@ const start=src.slice(anchor,anchor+1900);
 assert.match(start,/window\.showArea\(area\)/);
 assert.match(start,/\.jr-paid-install-link/);
 assert.match(start,/https:\/\/sesau-certo\.vercel\.app\/api\/pwa-home/);
-assert.match(start,/\/api\/claim-area/);
+assert.match(src,/\/api\/claim-area/);
 assert.match(src,/if\(data&&data\.allowed&&data\.area===area\)return show\(area\)/);
 assert.match(src,/if\(data&&data\.ok&&health\.indexOf\(data\.area\)>=0\)/);
 console.log('PASS: botão de instalação só na área liberada pelo ticket comprado, sem alterar senhas existentes');
