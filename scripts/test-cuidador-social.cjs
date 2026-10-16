@@ -14,4 +14,7 @@ const page=insertCuidadorSocial(stub);
 assert.equal((page.match(/id="area-cuidadorsocial"/g)||[]).length,1);
 assert.equal((page.match(/data-jr-card="cuidadorsocial"/g)||[]).length,1);
 assert.equal(insertCuidadorSocial(page),page,'Injeção deve ser idempotente');
+assert.match(bundle.area,/SEMUSA • Porto Velho • CUIDADOR SOCIAL/);
+assert.doesNotMatch(bundle.area,/SEMUSA • Porto Velho • TERAPIA OCUPACIONAL/);
+assert.match(bundle.card,/data:image\/svg\+xml;base64,/);
 console.log('OK: Cuidador Social Projeto 2');
