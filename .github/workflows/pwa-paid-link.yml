@@ -1,0 +1,17 @@
+name: PWA compra — convite Projeto 2
+on:
+  push:
+    branches: [feat/pwa-aluno-compra-20261016]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/test-pwa-paid.cjs
