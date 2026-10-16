@@ -1,3 +1,4 @@
+const {handleManualUnlock} = require('../lib/secretaria-escolar-access');
 const VERIFY_URL = "https://sesau-certo.vercel.app/api/verify-area-ticket";
 const HEALTH_AREAS = new Set([
   "radiologia","enfermagem","tecnico","fisioterapia","farmaceutico","laboratorio",
@@ -43,6 +44,7 @@ module.exports=async function handler(req,res){
   res.setHeader("Pragma","no-cache");
   res.setHeader("Referrer-Policy","no-referrer");
   res.setHeader("X-Content-Type-Options","nosniff");
+  if(req.method==="POST" && String(req.query?.manual||"")==="secretariaescolar") return handleManualUnlock(req,res);
   if(req.method!=="GET"){
     res.setHeader("Allow","GET");
     return res.status(405).json({allowed:false});
