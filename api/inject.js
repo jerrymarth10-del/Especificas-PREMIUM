@@ -14,6 +14,7 @@ const { insertMotorista } = require('../lib/motorista');
 const { insertServicosGerais } = require('../lib/servicos-gerais');
 const { insertPediatria } = require('../lib/pediatria');
 const { insertTerapiaOcupacional } = require('../lib/terapiaocupacional');
+const { insertCuidadorSocial } = require('../lib/cuidador-social');
 const { insertPedagogiaIbgp } = require('../lib/pedagogia-ibgp');
 const JR_AREA_VERIFY_URL = 'https://sesau-certo.vercel.app/api/verify-area-ticket';
 const JR_HEALTH_AREAS = new Set([
@@ -975,6 +976,7 @@ module.exports = async function handler(req, res) {
     html = insertPediatria(html);
     const jrPurchasedAreas = await jrPurchasedAreasFromRequest(req);
     html = insertTerapiaOcupacional(html, jrPurchasedAreas.includes('terapiaocupacional'));
+    html = insertCuidadorSocial(html, jrPurchasedAreas.includes('cuidadorsocial'));
     if (!html.includes('id="jr-purchased-area-access-v1"')) {
       const safeAreas = JSON.stringify(jrPurchasedAreas).replace(/</g, '\\u003c');
       const areaAccessScript = '<script id="jr-purchased-area-access-v1">window.__JR_PURCHASED_AREAS=' + safeAreas + ';' + String.raw`(function(){
