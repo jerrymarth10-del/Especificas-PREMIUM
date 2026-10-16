@@ -1,0 +1,107 @@
+{
+  "verifiedAt": "2026-10-16",
+  "notes": "Aulas públicas: verifique duração e disponibilidade antes de apresentar como aulas curtas. Provas alternativas identificadas; não são da IBGP.",
+  "lessons": [
+    {
+      "group": "Estatuto da Criança e do Adolescente",
+      "video": "GBc-DEEAUO0",
+      "title": "ECA • Artigos 1º a 18 e proteção integral",
+      "source": "Cíntia Brunelli"
+    },
+    {
+      "group": "Estatuto da Criança e do Adolescente",
+      "video": "OYYk-DhaoD0",
+      "title": "ECA • Resumo atualizado e comentado",
+      "source": "Aula pública de legislação"
+    },
+    {
+      "group": "Estatuto da Criança e do Adolescente",
+      "video": "Kne1pcVi3Jo",
+      "title": "ECA • Proteção integral e prioridade absoluta",
+      "source": "Professor Online"
+    },
+    {
+      "group": "Estatuto da Criança e do Adolescente",
+      "video": "zg1edxwluvI",
+      "title": "ECA • Questões de concursos comentadas",
+      "source": "Professor Victor Soares"
+    },
+    {
+      "group": "Estatuto da Criança e do Adolescente",
+      "video": "TWcaC0RF8sA",
+      "title": "ECA • Como responder questões atualizadas",
+      "source": "Professora Késsia Montezuma"
+    },
+    {
+      "group": "Estatuto da Criança e do Adolescente",
+      "video": "oQmr7Ymh008",
+      "title": "ECA 2026 • Estudo direcionado a concursos",
+      "source": "Prof. Joel Oliveira"
+    },
+    {
+      "group": "Assistência Social e SUAS",
+      "video": "UoVQGIa2YU0",
+      "title": "Sistema Único de Assistência Social • LOAS e PNAS",
+      "source": "Gran Cursos Saúde"
+    },
+    {
+      "group": "Assistência Social e SUAS",
+      "video": "KSSuVjv4TXc",
+      "title": "SUAS e LOAS • Política de assistência social",
+      "source": "Assistente Social Concurseira"
+    },
+    {
+      "group": "Assistência Social e SUAS",
+      "video": "lhIwgrhBBpA",
+      "title": "LOAS • Princípios e diretrizes",
+      "source": "Rebeca Rocha"
+    },
+    {
+      "group": "Assistência Social e SUAS",
+      "video": "9wNmbqW0-AE",
+      "title": "Assistência Social • Revisão de questões",
+      "source": "Prof. Luis Dudu"
+    },
+    {
+      "group": "Assistência Social e SUAS",
+      "video": "TmsH6G8ph7w",
+      "title": "Atuação socioassistencial • Rede SUAS",
+      "source": "Professora Carla Oliveira"
+    },
+    {
+      "group": "Direitos e proteção de pessoas vulneráveis",
+      "video": "CfO_g8NvGO0",
+      "title": "Direitos da Pessoa Idosa • Estatuto e garantias",
+      "source": "ConcurSeja"
+    },
+    {
+      "group": "Direitos e proteção de pessoas vulneráveis",
+      "video": "NWBxDted_0E",
+      "title": "Lei Orgânica da Assistência Social • Revisão esquematizada",
+      "source": "Estratégia Concursos"
+    }
+  ],
+  "exams": [
+    {
+      "board": "Instituto Consulplan",
+      "title": "Cuidador Social • Câmara de Miracema/RJ • 2024",
+      "url": "https://www.pciconcursos.com.br/provas/download/cuidador-social-camara-de-miracema-rj-instituto-consulplan-2024",
+      "examFile": "cuidador-social.pdf",
+      "answerFile": "gabarito.pdf"
+    },
+    {
+      "board": "FEPESE",
+      "title": "Cuidador Social • Prefeitura de Chapecó/SC • 2023",
+      "url": "https://www.pciconcursos.com.br/provas/download/cuidador-social-prefeitura-chapeco-sc-fepese-2023",
+      "examFile": "cuidador-social.pdf",
+      "answerFile": "gabarito.pdf"
+    },
+    {
+      "board": "IBFC",
+      "title": "Cuidador Social em Saúde • Prefeitura de Cuiabá/MT • 2023",
+      "url": "https://www.pciconcursos.com.br/provas/download/agente-de-saude-cuidador-social-em-saude-prefeitura-cuiaba-mt-sms-ibfc-2023",
+      "examFile": "agente-de-saude-cuidador-social-em-saude.pdf",
+      "answerFile": "gabarito-oficial.pdf"
+    }
+  ]
+}
