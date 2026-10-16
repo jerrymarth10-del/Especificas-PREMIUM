@@ -1,0 +1,17 @@
+const assert=require('node:assert/strict');
+const {buildCuidadorSocial,insertCuidadorSocial}=require('../lib/cuidador-social');
+const {lessons,exams}=require('../lib/cuidador-social-conteudo.json');
+assert.equal(lessons.length,13,'Esperadas 13 aulas temáticas');
+assert.ok(exams.length>=1);
+assert.ok(new Set(lessons.map(x=>x.video)).size===lessons.length);
+const bundle=buildCuidadorSocial();
+assert.match(bundle.card,/data-jr-card="cuidadorsocial"/);
+assert.match(bundle.script,/CUIDADOR2026/);
+assert.match(bundle.area,/id="area-cuidadorsocial"/);
+assert.match(bundle.area,/Provas anteriores • outras bancas/);
+const stub='<html><head></head><body><main><article class="card"><button onclick="openGate(\'psicologiasemusa\')">Acessar</button></article></main><footer class="footer"></footer></body></html>';
+const page=insertCuidadorSocial(stub);
+assert.equal((page.match(/id="area-cuidadorsocial"/g)||[]).length,1);
+assert.equal((page.match(/data-jr-card="cuidadorsocial"/g)||[]).length,1);
+assert.equal(insertCuidadorSocial(page),page,'Injeção deve ser idempotente');
+console.log('OK: Cuidador Social Projeto 2');
