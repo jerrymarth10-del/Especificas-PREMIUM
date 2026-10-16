@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "src": "^/lib/cuidador-social(?:-conteudo|-art)?\\.(?:js|json)$",
+      "dest": "/api/access"
+    },
+    {
       "src": "^/lib/terapiaocupacional(?:-conteudo)?\\.(?:js|json)$",
       "dest": "/api/access"
     },

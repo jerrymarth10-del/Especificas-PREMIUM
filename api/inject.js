@@ -14,11 +14,12 @@ const { insertMotorista } = require('../lib/motorista');
 const { insertServicosGerais } = require('../lib/servicos-gerais');
 const { insertPediatria } = require('../lib/pediatria');
 const { insertTerapiaOcupacional } = require('../lib/terapiaocupacional');
+const { insertCuidadorSocial } = require('../lib/cuidador-social');
 const { insertPedagogiaIbgp } = require('../lib/pedagogia-ibgp');
 const JR_AREA_VERIFY_URL = 'https://sesau-certo.vercel.app/api/verify-area-ticket';
 const JR_HEALTH_AREAS = new Set([
   'radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio',
-  'nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','prf','penal','motorista','servicosgerais','clinico','pediatria','terapiaocupacional'
+  'nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','prf','penal','motorista','servicosgerais','clinico','pediatria','terapiaocupacional','cuidadorsocial'
 ]);
 
 function jrReadCookies(req){
@@ -975,10 +976,11 @@ module.exports = async function handler(req, res) {
     html = insertPediatria(html);
     const jrPurchasedAreas = await jrPurchasedAreasFromRequest(req);
     html = insertTerapiaOcupacional(html, jrPurchasedAreas.includes('terapiaocupacional'));
+    html = insertCuidadorSocial(html, jrPurchasedAreas.includes('cuidadorsocial'));
     if (!html.includes('id="jr-purchased-area-access-v1"')) {
       const safeAreas = JSON.stringify(jrPurchasedAreas).replace(/</g, '\\u003c');
       const areaAccessScript = '<script id="jr-purchased-area-access-v1">window.__JR_PURCHASED_AREAS=' + safeAreas + ';' + String.raw`(function(){
-  var health=['radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio','nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','prf','penal','motorista','servicosgerais','clinico','pediatria','terapiaocupacional'];
+  var health=['radiologia','enfermagem','tecnico','fisioterapia','farmaceutico','laboratorio','nutricao','biomedicina','odontologia','psicologia','psicologiasemusa','acsfiscal','assistentesocial','endemias','administrativo','prf','penal','motorista','servicosgerais','clinico','pediatria','terapiaocupacional','cuidadorsocial'];
   var allowed=Array.isArray(window.__JR_PURCHASED_AREAS)?window.__JR_PURCHASED_AREAS:[];
   var original=window.openGate,claiming=String(location.hash||'').indexOf('#jr_area_ticket=')===0;
   function clearNotice(){var el=document.getElementById('jr-purchase-notice');if(el)el.remove();}
