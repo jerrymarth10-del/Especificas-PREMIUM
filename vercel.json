@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "src": "^/lib/secretaria-escolar(?:-conteudo|-art|-access)?\\.(?:js|json)$",
+      "dest": "/api/access"
+    },
+    {
       "src": "^/lib/cuidador-social(?:-conteudo|-art)?\\.(?:js|json)$",
       "dest": "/api/access"
     },
