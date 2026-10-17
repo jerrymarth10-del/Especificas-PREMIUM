@@ -1148,7 +1148,18 @@ module.exports = async function handler(req, res) {
     res.statusCode = 200;
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.setHeader('cache-control', 'no-store, max-age=0, must-revalidate');
-    res.end(insertPedagogiaIbgp(enrichFarmacia(applyCatalogNormalization(applyCardLayout(html)))));
+    // Assemble the page without allowing a presentation-only helper to take down paid access.
+    // Keep purchase tickets, manual passwords, and all area routing unchanged.
+    let renderedHtml = html;
+    try {
+      renderedHtml = applyCardLayout(renderedHtml);
+    } catch (layoutError) {
+      console.error('JR card layout failed; serving original study page:', layoutError);
+    }
+    renderedHtml = applyCatalogNormalization(renderedHtml);
+    renderedHtml = enrichFarmacia(renderedHtml);
+    renderedHtml = insertPedagogiaIbgp(renderedHtml);
+    res.end(renderedHtml);
   } catch (error) {
     res.statusCode = 500;
     res.setHeader('content-type', 'text/plain; charset=utf-8');
