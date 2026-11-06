@@ -1,0 +1,117 @@
+{
+  "lessons": [
+    {
+      "video": "hjLq-gA5vsg",
+      "title": "IBADE — Questões de informática • Aula 01",
+      "group": "1 • Conheça a banca IBADE — revisão básica",
+      "source": "Léo Matos"
+    },
+    {
+      "video": "K-sYdw771uA",
+      "title": "IBADE — Questões comentadas de informática básica",
+      "group": "1 • Conheça a banca IBADE — revisão básica",
+      "source": "Informática para Concurso Público"
+    },
+    {
+      "video": "UHawIbAQlbg",
+      "title": "IBADE / SEDUC-RO — Revisão de informática • Aula 02",
+      "group": "1 • Conheça a banca IBADE — revisão básica",
+      "source": "Prof Édson Alves"
+    },
+    {
+      "video": "GO0s1tdAQ1g",
+      "title": "Malwares e backup",
+      "group": "2 • Base de informática — acervo da plataforma",
+      "source": "Professor Danilo Vilanova | Informática Concursos"
+    },
+    {
+      "video": "qXjVD6-MSBU",
+      "title": "Backup e criptografia",
+      "group": "2 • Base de informática — acervo da plataforma",
+      "source": "Estratégia Concursos"
+    },
+    {
+      "video": "msKqJpMU9hs",
+      "title": "Backup para concursos",
+      "group": "2 • Base de informática — acervo da plataforma",
+      "source": "Imperador da Informática | Prof Túlio Queiroz "
+    },
+    {
+      "video": "EAOUdZe4dEU",
+      "title": "Segurança da informação — Backup",
+      "group": "2 • Base de informática — acervo da plataforma",
+      "source": "Imperador da Informática | Prof Túlio Queiroz "
+    },
+    {
+      "video": "plpWaoABlaQ",
+      "title": "Aplicativos de segurança e backup",
+      "group": "2 • Base de informática — acervo da plataforma",
+      "source": "Júnior Chaves"
+    },
+    {
+      "video": "cYqTVCrED_s",
+      "title": "Revisão geral de informática em uma hora",
+      "group": "2 • Base de informática — acervo da plataforma",
+      "source": "Prof. Marcelo Narciso"
+    },
+    {
+      "video": "jayDV_olU_Y",
+      "title": "Redes de computadores — fundamentos",
+      "group": "3 • Redes e sistemas operacionais",
+      "source": "Matérias para concursos"
+    },
+    {
+      "video": "2oVnr53VB00",
+      "title": "Linux — conceitos, comandos e permissões",
+      "group": "3 • Redes e sistemas operacionais",
+      "source": "Professor Marcos Gouvea"
+    },
+    {
+      "video": "gSy0E4pMx3E",
+      "title": "Banco de dados — conceitos iniciais",
+      "group": "4 • Banco de dados e engenharia de software",
+      "source": "Daniel Maia"
+    },
+    {
+      "video": "WNICUFe4K1g",
+      "title": "Introdução à engenharia de software",
+      "group": "4 • Banco de dados e engenharia de software",
+      "source": "Juliana Saraiva — UFPB"
+    },
+    {
+      "video": "sAYrajGEM6A",
+      "title": "COBIT 2019 — Gestão e governança de TI • Parte 1",
+      "group": "5 • Governança e gestão de serviços",
+      "source": "TEC Concursos • Gabriel Pacheco"
+    },
+    {
+      "video": "w6FrKfcmmoM",
+      "title": "ITIL 4 — Conceitos fundamentais",
+      "group": "5 • Governança e gestão de serviços",
+      "source": "Trainning Cursos • Luciano Cavalheiro"
+    }
+  ],
+  "exams": [
+    {
+      "title": "PRODEST/ES • 2024 — Analista de TI / Desenvolvimento de Sistemas",
+      "board": "IBADE",
+      "url": "https://www.pciconcursos.com.br/provas/download/analista-de-tecnologia-da-informacao-desenvolvimento-de-sistemas-prodest-es-ibade-2024",
+      "examFile": "analista-de-tecnologia-da-informacao-desenvolvimento-de-sistemas.pdf",
+      "answerFile": "gabarito-preliminar.pdf"
+    },
+    {
+      "title": "PRODEST/ES • 2024 — Analista de TI / Infraestrutura de TIC",
+      "board": "IBADE",
+      "url": "https://www.pciconcursos.com.br/provas/download/analista-de-tecnologia-da-informacao-infraestrutura-de-tic-prodest-es-ibade-2024",
+      "examFile": "analista-de-tecnologia-da-informacao-infraestrutura-de-tic.pdf",
+      "answerFile": "gabarito-preliminar.pdf"
+    },
+    {
+      "title": "IPERON/RO • 2017 — Técnico em Tecnologia da Informação",
+      "board": "IBADE",
+      "url": "https://www.pciconcursos.com.br/provas/download/tecnico-em-tecnologia-da-informacao-iperon-ro-ibade-2017",
+      "examFile": "tecnico-em-tecnologia-da-informacao.pdf",
+      "answerFile": "gabarito.pdf"
+    }
+  ]
+}

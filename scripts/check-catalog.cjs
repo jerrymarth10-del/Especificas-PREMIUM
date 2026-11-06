@@ -13,9 +13,9 @@ async function render(cookie='') {
 (async()=>{
  const html=await render();
  const cards=Array.from(html.matchAll(/<article\b[^>]*class="[^"]*\bcard\b[^>]*>[\s\S]*?<\/article>/g),m=>m[0]);
- assert.equal(cards.length,30,'Unexpected catalog size');
+ assert.equal(cards.length,31,'Unexpected catalog size');
  const keys=cards.map(c=>c.match(/data-jr-card="([^"]+)"/)?.[1]);
- assert.equal(new Set(keys).size,30,'Missing/duplicate card identifiers');
+ assert.equal(new Set(keys).size,31,'Missing/duplicate card identifiers');
  for(const card of cards){assert.match(card,/<img\b[^>]*src="data:image\/(jpeg|png|svg\+xml);base64,/,'Card missing embedded artwork');assert.equal((card.match(/class="card-btn"/g)||[]).length,1,'Card must have exactly one access button');}
  for(const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)){if(!/application\/ld\+json/.test(m[1]))new vm.Script(m[2]);}
  assert.ok(!html.includes("key==='penal'"),'Police artwork must not be forcibly replaced');

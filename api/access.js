@@ -2,7 +2,7 @@ const {handleManualUnlock} = require('../lib/secretaria-escolar-access');
 const VERIFY_URL = "https://sesau-certo.vercel.app/api/verify-area-ticket";
 const HEALTH_AREAS = new Set([
   "radiologia","enfermagem","tecnico","fisioterapia","farmaceutico","laboratorio",
-  "nutricao","biomedicina","odontologia","psicologia","psicologiasemusa","acsfiscal","assistentesocial","endemias","administrativo","prf","penal","motorista","servicosgerais","clinico","pediatria","terapiaocupacional","cuidadorsocial","secretariaescolar"
+  "nutricao","biomedicina","odontologia","psicologia","psicologiasemusa","acsfiscal","assistentesocial","endemias","administrativo","prf","penal","motorista","servicosgerais","clinico","pediatria","terapiaocupacional","cuidadorsocial","secretariaescolar","ipamti"
 ]);
 
 function readCookies(req){

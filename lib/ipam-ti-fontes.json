@@ -1,0 +1,156 @@
+{
+  "checkedAt": "2026-11-06",
+  "scope": "TI IPAM A13",
+  "reuse": "6 vídeos distintos do bloco Informática do Projeto 1, após deduplicação; 2 PDFs existentes",
+  "lessons": [
+    {
+      "video": "hjLq-gA5vsg",
+      "title": "IBADE — Questões de informática • Aula 01",
+      "group": "1 • Conheça a banca IBADE — revisão básica",
+      "source": "Léo Matos",
+      "url": "https://www.youtube.com/watch?v=hjLq-gA5vsg",
+      "validation": "YouTube oEmbed: título e autor disponíveis"
+    },
+    {
+      "video": "K-sYdw771uA",
+      "title": "IBADE — Questões comentadas de informática básica",
+      "group": "1 • Conheça a banca IBADE — revisão básica",
+      "source": "Informática para Concurso Público",
+      "url": "https://www.youtube.com/watch?v=K-sYdw771uA",
+      "validation": "YouTube oEmbed: título e autor disponíveis"
+    },
+    {
+      "video": "UHawIbAQlbg",
+      "title": "IBADE / SEDUC-RO — Revisão de informática • Aula 02",
+      "group": "1 • Conheça a banca IBADE — revisão básica",
+      "source": "Prof Édson Alves",
+      "url": "https://www.youtube.com/watch?v=UHawIbAQlbg",
+      "validation": "YouTube oEmbed: título e autor disponíveis"
+    },
+    {
+      "video": "GO0s1tdAQ1g",
+      "title": "Malwares e backup",
+      "group": "2 • Base de informática — acervo da plataforma",
+      "source": "Professor Danilo Vilanova | Informática Concursos",
+      "url": "https://www.youtube.com/watch?v=GO0s1tdAQ1g",
+      "validation": "YouTube oEmbed: título e autor disponíveis"
+    },
+    {
+      "video": "qXjVD6-MSBU",
+      "title": "Backup e criptografia",
+      "group": "2 • Base de informática — acervo da plataforma",
+      "source": "Estratégia Concursos",
+      "url": "https://www.youtube.com/watch?v=qXjVD6-MSBU",
+      "validation": "YouTube oEmbed: título e autor disponíveis"
+    },
+    {
+      "video": "msKqJpMU9hs",
+      "title": "Backup para concursos",
+      "group": "2 • Base de informática — acervo da plataforma",
+      "source": "Imperador da Informática | Prof Túlio Queiroz ",
+      "url": "https://www.youtube.com/watch?v=msKqJpMU9hs",
+      "validation": "YouTube oEmbed: título e autor disponíveis"
+    },
+    {
+      "video": "EAOUdZe4dEU",
+      "title": "Segurança da informação — Backup",
+      "group": "2 • Base de informática — acervo da plataforma",
+      "source": "Imperador da Informática | Prof Túlio Queiroz ",
+      "url": "https://www.youtube.com/watch?v=EAOUdZe4dEU",
+      "validation": "YouTube oEmbed: título e autor disponíveis"
+    },
+    {
+      "video": "plpWaoABlaQ",
+      "title": "Aplicativos de segurança e backup",
+      "group": "2 • Base de informática — acervo da plataforma",
+      "source": "Júnior Chaves",
+      "url": "https://www.youtube.com/watch?v=plpWaoABlaQ",
+      "validation": "YouTube oEmbed: título e autor disponíveis"
+    },
+    {
+      "video": "cYqTVCrED_s",
+      "title": "Revisão geral de informática em uma hora",
+      "group": "2 • Base de informática — acervo da plataforma",
+      "source": "Prof. Marcelo Narciso",
+      "url": "https://www.youtube.com/watch?v=cYqTVCrED_s",
+      "validation": "YouTube oEmbed: título e autor disponíveis"
+    },
+    {
+      "video": "jayDV_olU_Y",
+      "title": "Redes de computadores — fundamentos",
+      "group": "3 • Redes e sistemas operacionais",
+      "source": "Matérias para concursos",
+      "url": "https://www.youtube.com/watch?v=jayDV_olU_Y",
+      "validation": "YouTube oEmbed: título e autor disponíveis"
+    },
+    {
+      "video": "2oVnr53VB00",
+      "title": "Linux — conceitos, comandos e permissões",
+      "group": "3 • Redes e sistemas operacionais",
+      "source": "Professor Marcos Gouvea",
+      "url": "https://www.youtube.com/watch?v=2oVnr53VB00",
+      "validation": "YouTube oEmbed: título e autor disponíveis"
+    },
+    {
+      "video": "gSy0E4pMx3E",
+      "title": "Banco de dados — conceitos iniciais",
+      "group": "4 • Banco de dados e engenharia de software",
+      "source": "Daniel Maia",
+      "url": "https://www.youtube.com/watch?v=gSy0E4pMx3E",
+      "validation": "YouTube oEmbed: título e autor disponíveis"
+    },
+    {
+      "video": "WNICUFe4K1g",
+      "title": "Introdução à engenharia de software",
+      "group": "4 • Banco de dados e engenharia de software",
+      "source": "Juliana Saraiva — UFPB",
+      "url": "https://www.youtube.com/watch?v=WNICUFe4K1g",
+      "validation": "YouTube oEmbed: título e autor disponíveis"
+    },
+    {
+      "video": "sAYrajGEM6A",
+      "title": "COBIT 2019 — Gestão e governança de TI • Parte 1",
+      "group": "5 • Governança e gestão de serviços",
+      "source": "TEC Concursos • Gabriel Pacheco",
+      "url": "https://www.youtube.com/watch?v=sAYrajGEM6A",
+      "validation": "YouTube oEmbed: título e autor disponíveis"
+    },
+    {
+      "video": "w6FrKfcmmoM",
+      "title": "ITIL 4 — Conceitos fundamentais",
+      "group": "5 • Governança e gestão de serviços",
+      "source": "Trainning Cursos • Luciano Cavalheiro",
+      "url": "https://www.youtube.com/watch?v=w6FrKfcmmoM",
+      "validation": "YouTube oEmbed: título e autor disponíveis"
+    }
+  ],
+  "exams": [
+    {
+      "title": "PRODEST/ES • 2024 — Analista de TI / Desenvolvimento de Sistemas",
+      "board": "IBADE",
+      "url": "https://www.pciconcursos.com.br/provas/download/analista-de-tecnologia-da-informacao-desenvolvimento-de-sistemas-prodest-es-ibade-2024",
+      "examFile": "analista-de-tecnologia-da-informacao-desenvolvimento-de-sistemas.pdf",
+      "answerFile": "gabarito-preliminar.pdf"
+    },
+    {
+      "title": "PRODEST/ES • 2024 — Analista de TI / Infraestrutura de TIC",
+      "board": "IBADE",
+      "url": "https://www.pciconcursos.com.br/provas/download/analista-de-tecnologia-da-informacao-infraestrutura-de-tic-prodest-es-ibade-2024",
+      "examFile": "analista-de-tecnologia-da-informacao-infraestrutura-de-tic.pdf",
+      "answerFile": "gabarito-preliminar.pdf"
+    },
+    {
+      "title": "IPERON/RO • 2017 — Técnico em Tecnologia da Informação",
+      "board": "IBADE",
+      "url": "https://www.pciconcursos.com.br/provas/download/tecnico-em-tecnologia-da-informacao-iperon-ro-ibade-2017",
+      "examFile": "tecnico-em-tecnologia-da-informacao.pdf",
+      "answerFile": "gabarito.pdf"
+    }
+  ],
+  "limitations": [
+    "Aulas direcionadas ao IBADE são revisão de informática básica; específicas TI complementares por assunto.",
+    "PCI exige verificação para visualizar PDFs. Os dois gabaritos PRODEST no PCI são preliminares.",
+    "Não constitui cobertura integral do edital A13.",
+    "Novo bloco usa entrada manual; checkout IPAM não foi criado neste trabalho."
+  ]
+}
